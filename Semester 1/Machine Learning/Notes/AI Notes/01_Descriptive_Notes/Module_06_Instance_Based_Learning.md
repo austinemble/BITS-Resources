@@ -38,8 +38,8 @@ Query Point x_q ───[ Distance Metric d(x_q, xᵢ) ]───────�
 
 ## 2. The $k$-Nearest Neighbors ($k$-NN) Algorithm
 
-![Lecture k-NN Visual](../assets/M06_knn_decision_boundaries.jpg)
-*Figure 6.1: Metric space distance evaluation, Voronoi tessellation, and $k$-NN decision boundary mechanics as presented in lecture.*
+![Data Matrix and Dissimilarity Matrix — Foundation of Instance-Based Learning](../assets/M06_knn_dissimilarity_matrix.jpg)
+*Figure 6.1: Data Matrix (n×p) vs Dissimilarity Matrix (triangular) — foundation of instance-based learning distance metrics (Oct 11 session).*
 
 ### 2.1 Formal Formulation
 Given training dataset $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^N \subset \mathbb{R}^d \times \mathcal{Y}$ and a distance metric $d: \mathbb{R}^d \times \mathbb{R}^d \to \mathbb{R}_{\ge 0}$:

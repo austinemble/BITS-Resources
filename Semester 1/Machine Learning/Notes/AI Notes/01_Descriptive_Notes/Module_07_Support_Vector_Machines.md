@@ -112,8 +112,8 @@ $$y_i (\mathbf{w}^T \mathbf{x}_i + b) \ge 1 - \xi_i, \quad \xi_i \ge 0$$
 - $0 < \xi_i \le 1$: Correctly classified but falls inside the margin.
 - $\xi_i > 1$: Misclassified point.
 
-![Lecture SVM Visual](../assets/M07_svm_margin_hyperplane.jpg)
-*Figure 7.1: Maximum margin hyperplane, slack variables $\xi_i$, and support vector boundary as presented in lecture.*
+![SVM Optimization Formulation — Maximize 2/‖w‖, Primal QP](../assets/M07_svm_optimization_margin.jpg)
+*Figure 7.1: SVM Optimization — Maximize 2/‖w‖, Minimize ½wᵀw subject to yᵢ(w·xᵢ+b)≥1 (primal QP formulation, Oct 25 session).*
 
 #### The Soft-Margin Primal Objective:
 $$\min_{\mathbf{w}, b, \boldsymbol{\xi}} \frac{1}{2} \|\mathbf{w}\|_2^2 + C \sum_{i=1}^N \xi_i$$

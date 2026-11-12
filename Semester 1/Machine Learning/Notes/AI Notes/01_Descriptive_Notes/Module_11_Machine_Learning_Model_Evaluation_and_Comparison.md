@@ -65,8 +65,8 @@ In **$K$-Fold Cross-Validation**:
 
 ## 3. Confusion Matrix & Classification Metrics
 
-![Lecture Evaluation Visual](../assets/M11_confusion_matrix_roc_curve.jpg)
-*Figure 11.1: The Binary Confusion Matrix, ROC-AUC curve, and sensitivity-specificity trade-off as presented in lecture.*
+![Confusion Matrix Whiteboard — Accuracy, Recall, Precision Formulas](../assets/M11_confusion_matrix_whiteboard.jpg)
+*Figure 11.1: Confusion Matrix whiteboard — TP/FP/FN/TN quadrants, Accuracy=(TP+TN)/(TP+FN+FP+TN), Recall=TP/(TP+FN), Precision=TP/(TP+FP) (Aug 30 session).*
 
 For binary classification with Positive ($P$, $y=1$) and Negative ($N$, $y=0$):
 

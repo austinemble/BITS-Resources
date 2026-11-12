@@ -67,8 +67,8 @@ The OLS prediction vector $\hat{\mathbf{y}} = \mathbf{\Phi}\mathbf{w}_{\text{OLS
 
 When feature dimension $M$ is large ($M > 10^4$), computing matrix inversion $(\mathbf{\Phi}^T\mathbf{\Phi})^{-1}$ requires $\mathcal{O}(M^3)$ operations and becomes computationally intractable. Iterative gradient descent optimizes $\mathbf{w}$ via first-order loss surface descent:
 
-![Lecture Gradient Descent Visual](../assets/M03_linear_regression_gradient_descent.jpg)
-*Figure 3.1: Convex quadratic loss surface, gradient vectors, and parameter trajectories as presented in lecture.*
+![Regularization Whiteboard — L1 (Lasso) vs L2 (Ridge)](../assets/M03_regularization_lasso_ridge.jpg)
+*Figure 3.1: Regularization whiteboard — L1 Lasso (sparse solution), L2 Ridge, λ as the regularization control knob; J(θ)+λR(θ) penalty formulation (Aug 23 session).*
 
 $$\mathbf{w}^{(t+1)} = \mathbf{w}^{(t)} - \eta \nabla_{\mathbf{w}} \mathcal{L}(\mathbf{w}^{(t)})$$
 

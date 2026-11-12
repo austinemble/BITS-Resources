@@ -106,8 +106,8 @@ Let $X$ and $Y$ be random variables.
 
 ## 3. The End-to-End Machine Learning Data Pipeline
 
-![Lecture Data Pipeline Visual](../assets/M02_ml_workflow_data_pipeline.jpg)
-*Figure 2.1: End-to-end data preprocessing, train-validation-test split, and feature transformation pipeline as presented in lecture.*
+![Discrete vs Continuous Attributes Lecture Slide](../assets/M02_data_types_attributes.jpg)
+*Figure 2.1: Discrete vs Continuous Attributes slide — foundation of data preprocessing in ML (Aug 09 session).*
 
 ### 3.1 Data Preprocessing & Cleaning
 1. **Handling Missing Values**:

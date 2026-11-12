@@ -104,8 +104,8 @@ $$v_{\text{BayesOptimal}} = \arg\max_{v_j \in V} \sum_{h_i \in \mathcal{H}} P(v_
 
 ## 3. The Naïve Bayes Classifier
 
-![Lecture Naive Bayes Visual](../assets/M08_naive_bayes_architecture.jpg)
-*Figure 8.1: Bayesian network topology, conditional independence assumption, and posterior class computation as presented in lecture.*
+![Bayes Optimal Classifier Worked Example](../assets/M08_bayes_optimal_classifier.jpg)
+*Figure 8.1: Bayes Optimal Classifier worked example: evaluating $\operatorname{argmax}_{v_j} \sum_{h_i} P(v_j \mid h_i) P(h_i \mid D)$ across hypotheses $h_1, h_2, h_3$ as presented in lecture (Nov 01 session).*
 
 ### 3.1 The Conditional Independence Assumption
 

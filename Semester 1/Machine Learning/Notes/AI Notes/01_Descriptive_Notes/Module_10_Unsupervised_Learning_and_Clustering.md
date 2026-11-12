@@ -29,7 +29,7 @@ Unlabelled Observations x ∈ ℝᵈ
 ## 2. The $k$-Means Clustering Algorithm
 
 ![Lecture Clustering Visual](../assets/M10_kmeans_clustering_iterations.jpg)
-*Figure 10.1: $k$-Means centroid repositioning, Voronoi tessellation, and EM soft responsibility mechanics as presented in lecture.*
+*Figure 10.1: Four iterations of the $k$-Means clustering algorithm on sample 2D data demonstrating centroid movement and convergence to cluster centers (Reference Book R2: Tan, Steinbach & Kumar, Introduction to Data Mining).*
 
 ### 2.1 Formal Formulation & Objective Function
 

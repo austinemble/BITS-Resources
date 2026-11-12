@@ -125,8 +125,8 @@ Designing a production-grade machine learning system requires a disciplined sequ
 └────────────────────────────────────────────────────────┘
 ```
 
-![Lecture Architecture Visual](../assets/M01_design_learning_system.jpg)
-*Figure 1.1: Formal learning system architecture and feedback optimization cycle as presented in lecture.*
+![ML Taxonomy — Types of Machine Learning](../assets/M01_ml_taxonomy_whiteboard.jpg)
+*Figure 1.1: ML Taxonomy whiteboard — Supervised (Labelled), Unsupervised, Semi-Supervised, and Reinforcement Learning as drawn by Prof. Pritee Narendra Raole.*
 
 ### 3.1 The Complete Checkers Learning Architecture (Mitchell Model)
 The complete operational system comprises four interconnected modules:

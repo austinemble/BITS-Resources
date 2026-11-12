@@ -47,3 +47,4 @@ env/
 # Google Drive sync temporary metadata
 .tmp.drivedownload/
 .tmp.driveupload/
+

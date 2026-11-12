@@ -37,8 +37,8 @@ Decision trees possess unique pedagogical and industrial advantages:
 
 ## 2. Theoretical Motivation & Information-Theoretic Criteria
 
-![Lecture Decision Tree Visual](../assets/M05_decision_tree_structure.jpg)
-*Figure 5.1: Hierarchical recursive binary splitting and entropy reduction mechanics as presented in lecture.*
+![Gini Index CART Derivation on Defaulted Loan Dataset](../assets/M05_decision_tree_gini_index.jpg)
+*Figure 5.1: Gini Index CART calculation on defaulted loan dataset — Gini(D)=0.42, pure node derivation (Oct 04 session).*
 
 ### 2.1 Shannon Entropy
 Entropy quantifies the average uncertainty, impurity, or information content contained within a sample set $S$. For a discrete random variable with $C$ classes and empirical class proportions $p_i = \frac{|S_i|}{|S|}$:

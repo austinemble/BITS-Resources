@@ -78,8 +78,8 @@ As Vladimir Vapnik formulated: *"If you possess a restricted amount of data, sol
 
 ## 3. Logistic Regression Formulation
 
-![Lecture Sigmoid Visual](../assets/M04_logistic_regression_sigmoid.jpg)
-*Figure 4.1: The Sigmoid activation link function $\sigma(z)$ and decision boundary geometry as presented in lecture.*
+![Logistic Regression Introduction Whiteboard](../assets/M04_logistic_regression_whiteboard.jpg)
+*Figure 4.1: Logistic Regression introduction — Y categorical values (Fraud/NotFraud, Pass/Fail), Binary, Multi-class and Ordinal classification types (Aug 23 session).*
 
 ### 3.1 The Log-Odds and the Sigmoid Function
 

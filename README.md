@@ -90,3 +90,4 @@ streamlit run streamlit_app.py
 To maintain a high-speed, lightweight Git tree:
 - **Strictly Excluded**: All raw recorded video containers (`*.mp4`, `*.mkv`, `*.avi`, `*.mov`) and raw meeting dump directories (`Inbox/`, `Videos/`) are excluded via `.gitignore`.
 - **Preserved in Git**: All converted transcripts (`.md`), descriptive notes, textbook PDFs, handwritten tablet notes, assignment notebooks, and lecture keyframe assets.
+
