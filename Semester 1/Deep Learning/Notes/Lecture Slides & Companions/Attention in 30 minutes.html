@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Attention in 30 minutes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#eff5f4; --surface:#ffffff; --ink:#14262a; --muted:#51696d; --line:#cadbd9; --grid:rgba(20,120,120,.07);
+  --accent:#0f766e; --accent-ink:#ffffff; --good:#15803d; --bad:#b91c1c; --warn-bg:#fff4dc; --warn-line:#e8b44a;
+  --neg:#ea580c; --cA:#0f766e; --cB:#7c3aed; --cC:#d97706;
+  --code-bg:#0f1d20; --code-ink:#d9efec;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0b1517; --surface:#13222a; --ink:#e6f1f0; --muted:#9db6b8; --line:#28404a; --grid:rgba(100,200,200,.06);
+    --accent:#5eead4; --accent-ink:#0b1517; --good:#4ade80; --bad:#f87171; --warn-bg:#2b2412; --warn-line:#8a6a1f;
+    --neg:#fb923c; --cA:#5eead4; --cB:#c4a1ff; --cC:#fbbf24;
+    --code-bg:#091214; --code-ink:#d9efec;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0b1517; --surface:#13222a; --ink:#e6f1f0; --muted:#9db6b8; --line:#28404a; --grid:rgba(100,200,200,.06);
+  --accent:#5eead4; --accent-ink:#0b1517; --good:#4ade80; --bad:#f87171; --warn-bg:#2b2412; --warn-line:#8a6a1f;
+  --neg:#fb923c; --cA:#5eead4; --cB:#c4a1ff; --cC:#fbbf24;
+  --code-bg:#091214; --code-ink:#d9efec;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 110px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{
+  margin:0;background-color:var(--bg);color:var(--ink);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16.5px;line-height:1.6;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+h1,h2,h3{font-family:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;line-height:1.15;margin:0}
+h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.7rem;font-weight:800;letter-spacing:-.01em;margin-bottom:.4rem}
+h3{font-size:1.1rem;font-weight:600;margin:1.4rem 0 .4rem}
+p{margin:.5rem 0;max-width:68ch}
+a{color:var(--accent)}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.9em}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar-in{max-width:980px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.bar-title{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.05rem;margin-right:auto}
+.clock{font-family:"IBM Plex Mono",monospace;font-size:1.15rem;font-weight:500;min-width:4.4ch;text-align:right}
+.btn{font:inherit;font-size:.9rem;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:.4rem .8rem;border-radius:8px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.pills{max-width:980px;margin:0 auto;padding:0 1rem .55rem;display:flex;gap:.4rem;overflow-x:auto}
+.pill{flex:0 0 auto;text-decoration:none;color:var(--muted);font-size:.85rem;font-weight:500;padding:.25rem .65rem;border:1px solid var(--line);border-radius:999px;background:var(--surface);white-space:nowrap}
+.pill[aria-current="step"]{color:var(--accent-ink);background:var(--accent);border-color:var(--accent)}
+
+main{max-width:980px;margin:0 auto;padding:0 1rem 4rem}
+.hero{padding:3rem 0 2rem}
+.hero p{font-size:1.15rem;color:var(--muted)}
+.block{display:grid;grid-template-columns:6rem minmax(0,1fr);gap:1.5rem;padding:2.2rem 0;border-top:1px solid var(--line)}
+.rail{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.9rem;line-height:1;color:var(--accent)}
+.rail small{display:block;font-family:"IBM Plex Sans",sans-serif;font-weight:500;font-size:.8rem;color:var(--muted);margin-top:.25rem}
+@media (max-width:700px){.block{grid-template-columns:1fr;gap:.4rem}.rail{font-size:1.4rem}.rail small{display:inline;margin-left:.4rem}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1rem;margin:.8rem 0}
+.lead{color:var(--muted);font-size:1.05rem}
+canvas{width:100%;display:block;border-radius:8px;border:1px solid var(--line);background:var(--bg)}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem 1.2rem;margin:.8rem 0}
+.ctl label{display:flex;justify-content:space-between;font-size:.88rem;font-weight:500}
+.ctl input[type=range]{width:100%;accent-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.5rem 0}
+.chip{display:inline-flex;align-items:center;gap:.4rem;font:inherit;font-size:.86rem;font-weight:500;color:var(--ink);border:1.5px solid var(--line);border-radius:999px;padding:.2rem .7rem;cursor:pointer;background:var(--surface)}
+.chip .dot{width:.7rem;height:.7rem;border-radius:50%;background:var(--col,var(--accent))}
+.chip[aria-pressed="true"]{border-color:var(--col,var(--accent));background:color-mix(in srgb,var(--col,var(--accent)) 18%,var(--surface))}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.5rem 0}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:.82rem}
+.scroll{overflow-x:auto}
+.out{min-height:1.6em;font-weight:500}
+.note{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:.7rem .9rem;margin:.8rem 0;font-size:.95rem}
+.formula{font-family:"IBM Plex Mono",monospace;font-size:.88rem;line-height:1.75}
+.steps{list-style:none;margin:.8rem 0;padding:0;counter-reset:s}
+.steps li{counter-increment:s;display:grid;grid-template-columns:2.2rem 1fr;gap:.6rem;padding:.5rem 0;border-bottom:1px dashed var(--line)}
+.steps li::before{content:counter(s);font-family:"Bricolage Grotesque",sans-serif;font-weight:800;color:var(--accent);font-size:1.2rem;text-align:center}
+details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.15rem .9rem;margin:.45rem 0}
+summary{cursor:pointer;font-weight:600;padding:.55rem 0}
+details[open] summary{border-bottom:1px solid var(--line);margin-bottom:.4rem}
+details p{margin:.4rem 0 .7rem}
+.wo{display:grid;grid-template-columns:5.5rem 1fr;gap:.2rem .9rem;padding:.7rem 0;border-bottom:1px dashed var(--line)}
+.wo b{font-weight:600}
+@media (max-width:600px){.wo{grid-template-columns:1fr}}
+.pers{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.7rem;margin:1rem 0}
+.pers div{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--col,var(--accent));border-radius:8px;padding:.6rem .8rem;font-size:.93rem}
+.pers b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:1.02rem}
+
+/* labs */
+#bcv{aspect-ratio:10/4.6}
+#pad{aspect-ratio:6/5;touch-action:none;cursor:crosshair;max-width:560px}
+#alc{aspect-ratio:10/6;max-width:620px}
+#exc{aspect-ratio:1/1;max-width:520px}
+#pec{aspect-ratio:10/4}
+#pesim{height:160px;margin-top:.7rem}
+#pefr{height:150px;margin-top:.7rem}
+#costc{height:240px}
+.bars{display:grid;gap:.5rem;margin:.6rem 0}
+.bar-row{display:grid;grid-template-columns:11rem 1fr 4.5rem;gap:.6rem;align-items:center;font-size:.9rem}
+.bar-track{height:.9rem;background:var(--bg);border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;background:var(--col,var(--accent));width:0}
+@media (max-width:600px){.bar-row{grid-template-columns:1fr 5rem}.bar-row .bar-track{grid-column:1/3}}
+.verdict{font-weight:600}.v-good{color:var(--good)}.v-bad{color:var(--bad)}
+
+/* flashcards, quiz */
+.card{width:100%;min-height:150px;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:1.2rem 1.3rem;cursor:pointer}
+.card .q{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:1.2rem}
+.card .a{font-size:1rem}
+.card.flip{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+.card .hint{display:block;margin-top:.8rem;color:var(--muted);font-size:.82rem}
+.qz{margin:1rem 0;padding:1rem;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.qz p.qt{font-weight:600;margin-top:0}
+.opts{display:grid;gap:.4rem}
+.opt{font:inherit;text-align:left;padding:.5rem .75rem;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--surface))}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--surface))}
+.why{margin-top:.6rem;font-size:.93rem;color:var(--muted)}
+.score{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.3rem}
+.five{background:var(--surface);border:2px solid var(--accent);border-radius:14px;padding:1.2rem 1.4rem;margin-top:2rem}
+.five ol{margin:.5rem 0 0;padding-left:1.3rem}
+.five li{margin:.35rem 0}
+footer{color:var(--muted);font-size:.85rem;padding-top:1.5rem;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <span class="bar-title">Attention in 30 minutes</span>
+    <span class="clock" id="clock">30:00</span>
+    <button class="btn primary" id="tstart">Start the clock</button>
+    <button class="btn" id="treset" aria-label="Reset the clock">Reset</button>
+  </div>
+  <nav class="pills" aria-label="Session blocks" id="pills">
+    <a class="pill" href="#bottle">0–4 Bottleneck</a>
+    <a class="pill" href="#qkv">4–9 Query · key · value</a>
+    <a class="pill" href="#bahd">9–13 Bahdanau</a>
+    <a class="pill" href="#types">13–19 Self-attention lab</a>
+    <a class="pill" href="#pos">19–23 Position &amp; cost</a>
+    <a class="pill" href="#watchouts">23–26 Deck watch-outs</a>
+    <a class="pill" href="#selftest">26–30 Self-test</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <h1>Attention: let the model look back at what matters</h1>
+  <p>Study notes for Module 8 of the BITS Pilani Deep Neural Network deck, rebuilt as a 30-minute session with live labs. You squeeze a sequence into one vector and watch it break, then drag a query around and watch weights shift, then wire up three tiny attention heads by hand. Everything below computes in your browser.</p>
+</section>
+
+<!-- BLOCK 1 -->
+<section class="block" id="bottle">
+  <div class="rail">0–4<small>minutes</small></div>
+  <div>
+    <h2>The bottleneck: one vector for everything</h2>
+    <p class="lead">An encoder-decoder squeezes the input into a single context vector c = h<sub>T</sub>. How much can one vector of d numbers actually carry?</p>
+    <div class="panel">
+      <div class="chips" id="dchips" role="group" aria-label="Context vector size"></div>
+      <canvas id="bcv" aria-label="Recovery accuracy against sequence length for a fixed vector and for attention"></canvas>
+      <div class="controls"><div class="ctl"><label for="nitems">Items in the sequence, n <span id="nitemsV">12</span></label><input type="range" id="nitems" min="1" max="40" step="1" value="12"></div></div>
+      <div class="out" id="bread"></div>
+    </div>
+    <p><b>Toy model:</b> each token is a random unit vector in d dimensions. The fixed context is the sum of the n token vectors; the decoder tries to name which n of 100 possible tokens were present by their dot product with c. Attention instead keeps all n vectors and looks the right one up. The fixed vector degrades once n passes a fraction of d, because the items interfere with each other (superposition). Attention never degrades this way, but pays for it in memory: n × d numbers instead of d.</p>
+
+    <h3>Encoder-decoder in four lines</h3>
+    <div class="panel formula">encoder:&nbsp; h<sub>t</sub> = φ(W<sub>hh</sub> h<sub>t−1</sub> + W<sub>hx</sub> x<sub>t</sub> + b),&nbsp; context c = h<sub>T</sub><br>decoder:&nbsp; s<sub>0</sub> = c,&nbsp; s<sub>t</sub> = φ(W s<sub>t−1</sub> + W′ y<sub>t−1</sub> + b′)<br>output:&nbsp; P(y<sub>t</sub> | y<sub>&lt;t</sub>, c) = softmax(W<sub>o</sub> s<sub>t</sub> + b<sub>o</sub>)</div>
+    <p>This solves the T ≠ T′ problem (a 10-word question can have a 1-word answer), but all information must pass through c. Training uses <b>teacher forcing</b> (feed the true previous token); inference feeds the model’s own previous prediction, so errors compound. That mismatch is <b>exposure bias</b>.</p>
+    <div class="note">The fix, in one sentence: don’t make the decoder rely on one c. Let it build a fresh context c<sub>t</sub> at every step, as a weighted sum over all encoder states. That is attention.</div>
+  </div>
+</section>
+
+<!-- BLOCK 2 -->
+<section class="block" id="qkv">
+  <div class="rail">4–9<small>minutes</small></div>
+  <div>
+    <h2>Query, key, value, by hand</h2>
+    <p class="lead">Attention is a soft database lookup. The query asks, the keys advertise, the values are what you get back, blended by how well query and key match.</p>
+    <ol class="steps">
+      <li><div><b>Score:</b> e<sub>i</sub> = score(q, k<sub>i</sub>) for every key.</div></li>
+      <li><div><b>Normalise:</b> α<sub>i</sub> = softmax(e)<sub>i</sub>, so the weights are positive and sum to 1.</div></li>
+      <li><div><b>Blend:</b> c = Σ α<sub>i</sub> v<sub>i</sub>. A weighted pool: max pooling picks one, average pooling weighs equally, attention weighs by relevance to the query.</div></li>
+    </ol>
+
+    <h3>Lab A: drag the query</h3>
+    <p>This is the deck’s stock example: keys k₁ = (0.5, 0.3), k₂ = (0.9, 0.7), k₃ = (0.4, 0.2), values equal to the keys, and the query starts at (0.8, 0.6). Click or drag on the pad to move the query.</p>
+    <div class="panel">
+      <canvas id="pad" aria-label="Pad showing the query, three keys and the resulting context vector"></canvas>
+      <div class="row"><label class="chip" style="cursor:pointer"><input type="checkbox" id="scl"> scale scores by 1/√d<sub>k</sub> (d<sub>k</sub> = 2)</label></div>
+      <div class="scroll"><table><thead><tr><th>Key</th><th>Position</th><th>Score e = q·k</th><th>Weight α</th></tr></thead><tbody id="ptab"></tbody></table></div>
+      <div class="out mono" id="pread"></div>
+    </div>
+    <p>With the starting query the scores are 0.58, 1.14 and 0.44, so softmax gives <b>0.28, 0.48, 0.24</b>. The slide prints 0.21, 0.62, 0.17, which is what you would get from scores twice as large. See the watch-outs.</p>
+
+    <h3>Lab B: why divide by √d<sub>k</sub></h3>
+    <p>Random query against 10 random keys, components with zero mean and unit variance. Raw dot products have variance d, so as d grows the softmax collapses onto one key and its gradient vanishes.</p>
+    <div class="panel">
+      <div class="controls"><div class="ctl"><label for="dk">Key dimension d<sub>k</sub> <span id="dkV">64</span></label><input type="range" id="dk" min="1" max="10" step="1" value="6"></div></div>
+      <div class="bars" id="satbars"></div>
+      <div class="out" id="satread"></div>
+    </div>
+    <p>The bars show the biggest attention weight (the uniform baseline for 10 keys is 0.10) and “gradient health” Σα(1−α), which is the size of the softmax Jacobian: near 0.9 is healthy, near 0 means the softmax is saturated and learns almost nothing. Scaling by 1/√d<sub>k</sub> restores variance 1 at any dimension.</p>
+
+    <h3>Scoring functions</h3>
+    <div class="panel scroll"><table>
+      <thead><tr><th>Name</th><th>score(q, k)</th><th>Parameters</th><th>Notes</th></tr></thead>
+      <tbody class="formula">
+        <tr><td>Dot product</td><td>qᵀk</td><td>none</td><td>needs d<sub>q</sub> = d<sub>k</sub>; one matrix multiply</td></tr>
+        <tr><td>Scaled dot</td><td>qᵀk / √d<sub>k</sub></td><td>none</td><td>Transformer default</td></tr>
+        <tr><td>Additive (Bahdanau)</td><td>vᵀ tanh(W<sub>q</sub>q + W<sub>k</sub>k)</td><td>W<sub>q</sub>, W<sub>k</sub>, v</td><td>d<sub>q</sub> ≠ d<sub>k</sub> allowed; nonlinear; slower</td></tr>
+        <tr><td>Multiplicative (Luong)</td><td>qᵀW k</td><td>W</td><td>bilinear; handles d<sub>q</sub> ≠ d<sub>k</sub></td></tr>
+      </tbody>
+    </table></div>
+    <p class="formula">Attention(Q, K, V) = softmax(QKᵀ / √d<sub>k</sub>) V&nbsp;&nbsp;&nbsp; (Q: m×d, K: n×d, V: n×d<sub>v</sub>) cost O(mnd)</p>
+  </div>
+</section>
+
+<!-- BLOCK 3 -->
+<section class="block" id="bahd">
+  <div class="rail">9–13<small>minutes</small></div>
+  <div>
+    <h2>Bahdanau attention in a translation</h2>
+    <p class="lead">The 2014 breakthrough: at every decoder step t, score every encoder state against the previous decoder state, softmax, and take a weighted sum.</p>
+    <ol class="steps">
+      <li><div><b>Alignment scores:</b> e<sub>t,i</sub> = vᵀ tanh(W<sub>s</sub> s<sub>t−1</sub> + W<sub>h</sub> h<sub>i</sub>)</div></li>
+      <li><div><b>Weights:</b> α<sub>t,i</sub> = softmax over i of e<sub>t,i</sub></div></li>
+      <li><div><b>Context:</b> c<sub>t</sub> = Σ<sub>i</sub> α<sub>t,i</sub> h<sub>i</sub> (h<sub>i</sub> comes from a bidirectional RNN: [forward; backward], so each position sees both sides)</div></li>
+      <li><div><b>Decoder update:</b> s<sub>t</sub> = RNN([y<sub>t−1</sub>; c<sub>t</sub>], s<sub>t−1</sub>)</div></li>
+      <li><div><b>Output:</b> P(y<sub>t</sub> | y<sub>&lt;t</sub>, x) = softmax(W<sub>o</sub>[s<sub>t</sub>; c<sub>t</sub>])</div></li>
+    </ol>
+
+    <h3>Lab C: read an alignment matrix</h3>
+    <p>Hindi → English, with the weights from slides 43 and 51 (the remaining mass is filled in by hand). Pick a target word to see which source words it attends to and the context vector it receives, using toy 2-d encoder states.</p>
+    <div class="panel">
+      <div class="chips" id="alchips" role="group" aria-label="Target word"></div>
+      <canvas id="alc" aria-label="Alignment heat map from Hindi source words to English target words"></canvas>
+      <div class="out mono" id="alread"></div>
+    </div>
+    <p>Notice the matrix is <b>not a diagonal</b>: Hindi puts the verb last, so “is” attends to the final word <i>hai</i>, and “very good” attends to <i>bahut achchhi</i> in the middle. Handling reordering like this is the reason attention helps translation.</p>
+
+    <h3>Training and inference</h3>
+    <p>Training: teacher forcing, cross-entropy L = −Σ log P(y*<sub>t</sub> | y*<sub>&lt;t</sub>, x), Adam with warmup and decay, dropout on states and attention weights. Inference: greedy (argmax each step) or beam search (keep the top k hypotheses, k ≈ 5), recompute a fresh c<sub>t</sub> each step, stop at an end token. Attention costs O(T × T′).</p>
+  </div>
+</section>
+
+<!-- BLOCK 4 -->
+<section class="block" id="types">
+  <div class="rail">13–19<small>minutes</small></div>
+  <div>
+    <h2>Self-attention, masks and heads</h2>
+    <p class="lead">When queries, keys and values all come from the same sequence, every token can look at every other token directly.</p>
+    <div class="panel scroll"><table>
+      <thead><tr><th>Type</th><th>Queries from</th><th>Keys and values from</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td>Self-attention</td><td>sequence X</td><td>the same X</td><td>relations inside a sequence (BERT encoder)</td></tr>
+        <tr><td>Cross-attention</td><td>sequence A (decoder)</td><td>sequence B (encoder)</td><td>alignment between sequences (translation)</td></tr>
+        <tr><td>Masked (causal)</td><td>X</td><td>X, with future positions blocked</td><td>left-to-right generation (GPT)</td></tr>
+        <tr><td>Multi-head</td><td colspan="2">h parallel copies with their own projections, concatenated</td><td>several kinds of relation at once; combines with any row above</td></tr>
+      </tbody>
+    </table></div>
+    <p class="formula">Q = XW<sup>Q</sup>,&nbsp; K = XW<sup>K</sup>,&nbsp; V = XW<sup>V</sup>&nbsp;&nbsp;·&nbsp;&nbsp;mask: add −∞ where j &gt; i before the softmax&nbsp;&nbsp;·&nbsp;&nbsp;MultiHead = Concat(head₁…head<sub>h</sub>) W<sup>O</sup>,&nbsp; d<sub>k</sub> = d<sub>model</sub>/h (512/8 = 64)</p>
+
+    <h3>Lab D: three hand-wired heads</h3>
+    <p>Real heads learn their projections. Here I wired three by hand so you can see what “different heads, different relations” means. The sentence is the deck’s own: <i>The customer complained because he received wrong order.</i> All three run the genuine formula softmax(QKᵀ/√d<sub>k</sub>) with d<sub>k</sub> = 2.</p>
+    <div class="panel">
+      <div class="chips" id="hchips" role="group" aria-label="Head"></div>
+      <div class="chips" id="tchips" role="group" aria-label="Options"></div>
+      <canvas id="exc" aria-label="Attention heat map, queries as rows and keys as columns"></canvas>
+      <div class="scroll"><table><thead><tr><th>Query word</th><th>Strongest key</th><th>Weight</th></tr></thead><tbody id="extab"></tbody></table></div>
+      <div class="out mono" id="exread"></div>
+    </div>
+    <div class="pers">
+      <div style="--col:var(--cA)"><b>Head A: coreference</b>Pronouns look for animate nouns, so <i>he</i> → <i>customer</i>. Rows with nothing to find park their weight on the first word, a habit real models also show (“attention sink”).</div>
+      <div style="--col:var(--cB)"><b>Head B: previous word</b>Uses only position. The query is the sinusoidal encoding of position i−1, the key is the encoding of position j, so their dot product peaks at j = i−1. This is the deck’s “PE(pos+k) is a linear function of PE(pos)” property at work.</div>
+      <div style="--col:var(--cC)"><b>Head C: verb → who</b>Verbs look for the people in the sentence: <i>complained</i> and <i>received</i> look at <i>customer</i> (and at <i>he</i> when the mask allows).</div>
+    </div>
+    <h3>Things to try</h3>
+    <p><b>Causal mask on:</b> the matrix goes lower-triangular; each word sees only itself and the past. <b>Positional encoding off:</b> head B collapses to uniform weights, because it has no position to read. <b>Shuffle on, positional encoding off:</b> the patterns of heads A and C simply permute with the words, and the check line reports 0.0000. That is permutation <i>equivariance</i>. Turn positional encoding on and the check fails, because position now matters.</p>
+
+    <h3>Which one when</h3>
+    <p>Self-attention: contextual representations, long-range dependencies. Cross-attention: align two sequences (decoder to encoder). Masked: anything generated one token at a time, including time-series forecasting without peeking at the future. Multi-head: essentially every Transformer.</p>
+  </div>
+</section>
+
+<!-- BLOCK 5 -->
+<section class="block" id="pos">
+  <div class="rail">19–23<small>minutes</small></div>
+  <div>
+    <h2>Position, and what attention costs</h2>
+    <p class="lead">Self-attention has no sense of order, so position must be injected: x̃<sub>i</sub> = x<sub>i</sub> + p<sub>i</sub>.</p>
+    <p class="formula">PE(pos, 2i) = sin(pos / 10000<sup>2i/d</sup>)&nbsp;&nbsp;&nbsp; PE(pos, 2i+1) = cos(pos / 10000<sup>2i/d</sup>)&nbsp;&nbsp;&nbsp; ω<sub>i</sub> = 1/10000<sup>2i/d</sup></p>
+
+    <h3>Lab E: the sinusoidal code</h3>
+    <div class="panel">
+      <div class="controls">
+        <div class="ctl"><label for="dm">d<sub>model</sub> <span id="dmV">64</span></label><input type="range" id="dm" min="16" max="128" step="16" value="64"></div>
+        <div class="ctl"><label for="pp">Reference position p <span id="ppV">20</span></label><input type="range" id="pp" min="0" max="99" step="1" value="20"></div>
+        <div class="ctl"><label for="kk">Offset k for the shift check <span id="kkV">5</span></label><input type="range" id="kk" min="1" max="30" step="1" value="5"></div>
+      </div>
+      <canvas id="pec" aria-label="Heat map of sinusoidal positional encodings, positions as rows and dimensions as columns"></canvas>
+      <canvas id="pesim" aria-label="Similarity between the reference position and every other position"></canvas>
+      <canvas id="pefr" aria-label="Wavelength of each dimension pair on a log scale"></canvas>
+      <div class="out mono" id="peread"></div>
+    </div>
+    <p><b>Heat map:</b> rows are positions, columns are dimensions. The left columns flicker fast, the right columns barely change. <b>Similarity plot:</b> PE(p)·PE(q) is highest at q = p and falls off with distance, so nearby positions look alike. <b>Wavelength plot:</b> the first pair (i = 0) has ω = 1, the fastest oscillation; the last has the slowest. This is the reverse of what slide 64 says. <b>Shift check:</b> rotating each sine/cosine pair by kω<sub>i</sub> maps PE(pos) exactly onto PE(pos+k), for every pos, so “look k back” is a fixed linear map the model can learn.</p>
+    <p><b>Learned vs sinusoidal:</b> BERT and GPT-2 learn one vector per position (flexible, but capped at the training length). Sinusoidal codes can be computed for any position, though models rarely extrapolate well beyond lengths they trained on.</p>
+
+    <h3>Lab F: cost of looking at everything</h3>
+    <div class="panel">
+      <div class="controls">
+        <div class="ctl"><label for="cn">Sequence length n <span id="cnV">2,000</span></label><input type="range" id="cn" min="10" max="100000" step="1" value="57530"></div>
+        <div class="ctl"><label for="cd">Model width d <span id="cdV">512</span></label><input type="range" id="cd" min="6" max="11" step="1" value="9"></div>
+      </div>
+      <canvas id="costc" aria-label="Operations against sequence length for CNN, RNN and self-attention"></canvas>
+      <div class="out mono" id="costread"></div>
+    </div>
+    <div class="panel scroll"><table>
+      <thead><tr><th>Layer</th><th>Cost per layer</th><th>Path between two positions</th><th>Parallel?</th></tr></thead>
+      <tbody>
+        <tr><td>CNN (kernel k)</td><td class="mono">O(k·n·d²)</td><td class="mono">O(n/k), or O(log n) if dilated</td><td>yes</td></tr>
+        <tr><td>RNN</td><td class="mono">O(n·d²)</td><td class="mono">O(n)</td><td>no, strictly sequential</td></tr>
+        <tr><td>Self-attention</td><td class="mono">O(n²·d)</td><td class="mono">O(1)</td><td>yes</td></tr>
+      </tbody>
+    </table></div>
+    <p>Self-attention is cheaper than an RNN layer while n &lt; d, and costlier beyond that. Its real price is the n × n attention matrix, so memory grows quadratically with length.</p>
+
+    <h3>Beyond the slides (tap to open)</h3>
+    <details><summary>The derivation behind √d<sub>k</sub></summary>
+      <p>If the components of q and k are independent with mean 0 and variance 1, then q·k = Σ q<sub>j</sub>k<sub>j</sub> has mean 0 and variance d<sub>k</sub>. Dividing by √d<sub>k</sub> gives variance 1 regardless of dimension. Lab B measures exactly this effect.</p>
+    </details>
+    <details><summary>A Transformer block, end to end</summary>
+      <p>Multi-head self-attention, then add the input back (residual) and layer-normalise, then a position-wise feed-forward network, then residual and layer norm again. Dropout appears on the attention weights and on the sublayer outputs. This is where Module 11’s layer norm and dropout live.</p>
+    </details>
+    <details><summary>KV cache, and multi-query attention</summary>
+      <p>At inference an autoregressive model does not recompute keys and values for old tokens: it caches them, so each new token costs O(n·d) instead of O(n²·d). The cache is large, so multi-query and grouped-query attention share one set of keys and values across several query heads to shrink it.</p>
+    </details>
+    <details><summary>Relative positions: RoPE and ALiBi</summary>
+      <p>Rotary embeddings (RoPE) rotate q and k by position-dependent angles so that q·k depends only on the offset i−j, the same idea as Head B and the shift check, built into the score. ALiBi adds a penalty proportional to distance directly to the scores. Both extrapolate to longer sequences better than absolute codes.</p>
+    </details>
+    <details><summary>Beating the n² memory wall</summary>
+      <p>FlashAttention computes exact attention in tiles so the full n × n matrix never sits in slow memory: same answer, far less memory traffic. Approximate alternatives restrict who may attend to whom (sliding windows, sparse patterns) or replace the softmax with a kernel (linear attention) to get O(n).</p>
+    </details>
+    <details><summary>Is attention an explanation?</summary>
+      <p>Heat maps are tempting, but high weight does not always mean high influence on the output: different weight patterns can give the same prediction (Jain &amp; Wallace, 2019). Treat attention maps as hints, not proof of reasoning.</p>
+    </details>
+    <details><summary>Softmax temperature</summary>
+      <p>Dividing scores by a temperature τ before the softmax sharpens (τ &lt; 1) or flattens (τ &gt; 1) the weights. The 1/√d<sub>k</sub> in scaled dot-product attention is a fixed temperature chosen to keep the softmax out of saturation.</p>
+    </details>
+    <details><summary>Why “Attention Is All You Need” mattered</summary>
+      <p>Dropping the recurrence removed the sequential bottleneck: all positions train in parallel on GPUs and any two positions are one hop apart. The price was O(n²) cost and the need for explicit positions. Today’s language, vision (ViT), speech and multimodal models are mostly stacks of these blocks.</p>
+    </details>
+  </div>
+</section>
+
+<!-- BLOCK 6 -->
+<section class="block" id="watchouts">
+  <div class="rail">23–26<small>minutes</small></div>
+  <div>
+    <h2>Deck watch-outs</h2>
+    <p class="lead">I recomputed the deck’s numeric examples (the gold-price context 6,261 and the dot-product scores check out) and compared its claims with the papers. These are worth fixing in your own notes.</p>
+    <div class="wo"><b>Slide 32</b><div>Softmax of the scores [0.58, 1.14, 0.44] is [0.276, 0.484, 0.240], not [0.21, 0.62, 0.17]. The printed values correspond to roughly doubled scores. Lab A shows the correct numbers.</div></div>
+    <div class="wo"><b>Slide 62</b><div>“Attention(X) = Attention(PX)” is not right as written. Self-attention is permutation-<i>equivariant</i>: Attention(PX) = P·Attention(X), so the output rows are reordered along with the inputs. It is invariant only after a pooling step. The conclusion (word order must be injected) still stands; Lab D’s check line demonstrates it.</div></div>
+    <div class="wo"><b>Slide 64</b><div>“Lower dimensions = lower frequency” is reversed. With ω<sub>i</sub> = 1/10000^(2i/d), dimension pair i = 0 has the <i>highest</i> frequency (ω = 1, wavelength 2π), and the last pairs have the lowest (wavelengths in the tens of thousands). Lab E plots it.</div></div>
+    <div class="wo"><b>Slide 53</b><div>“The token at position 5 can only attend to positions 1–4” contradicts the mask formula on the same slide, which allows j ≤ i. A token may attend to itself, so position 5 sees positions 1–5.</div></div>
+    <div class="wo"><b>Slide 22</b><div>“Secondary attention on ‘capital’ (α₄ = 0.15)”: the 0.15 belongs to the last token, α₈ (“national capital”). α₄ = 0.03 is the first “capital”, in “financial capital”.</div></div>
+    <div class="wo"><b>Slide 12</b><div>The degradation beyond about 30 tokens is attributed to Sutskever et al. (2014), whose LSTM actually coped well with long sentences (they reversed the source order to help). The length-degradation finding is from Cho et al. (2014), and Bahdanau et al. show it for their no-attention baseline.</div></div>
+    <div class="wo"><b>Slide 43</b><div>“Strong diagonal pattern” is not true for Hindi → English: Hindi is verb-final, so “is” aligns with the last word and “very good” with words in the middle. Off-diagonal alignment is exactly what attention captures (Lab C).</div></div>
+    <div class="wo"><b>Slide 47</b><div>Multi-head is listed as a fourth “type” beside self, cross and masked, but it is orthogonal: self, cross and masked attention can each be multi-head.</div></div>
+    <div class="wo"><b>Slide 60</b><div>The CNN path length O(log n) assumes dilated or hierarchical convolutions; a plain stack of kernel-k layers gives O(n/k).</div></div>
+    <div class="wo"><b>Slides 37, 61, 63</b><div>“3–5× faster”, “10–100× faster training” and “generalises to any sequence length” are rules of thumb. Speed-ups depend on hardware and length; sinusoidal codes can be <i>evaluated</i> at any position, but models seldom extrapolate to unseen lengths well.</div></div>
+  </div>
+</section>
+
+<!-- BLOCK 7 -->
+<section class="block" id="selftest">
+  <div class="rail">26–30<small>minutes</small></div>
+  <div>
+    <h2>Self-test</h2>
+    <p class="lead">Flashcards first (answer out loud), then eight questions.</p>
+    <h3>Flashcards</h3>
+    <button class="card" id="card" aria-live="polite"></button>
+    <div class="row">
+      <button class="btn" id="cprev">Previous</button>
+      <button class="btn" id="cnext">Next</button>
+      <button class="btn" id="cshuf">Shuffle</button>
+      <span class="mono" id="ccount" style="color:var(--muted)"></span>
+    </div>
+    <h3>Quiz</h3>
+    <div id="quiz"></div>
+    <p class="score" id="score"></p>
+    <h3>Teach-back challenge</h3>
+    <p>Set a 60-second timer and explain, without notes, why a Transformer needs positional encoding even though it can attend to every token directly.</p>
+    <div class="five">
+      <h3 style="margin-top:0">If you remember only five lines</h3>
+      <ol>
+        <li>A fixed context vector is a bottleneck; attention builds a new context c<sub>t</sub> = Σ α<sub>i</sub> v<sub>i</sub> at every step.</li>
+        <li>Weights come from softmax(score(q, k)); scale dot products by 1/√d<sub>k</sub> so the softmax doesn’t saturate.</li>
+        <li>Self (same sequence), cross (decoder to encoder), masked (no future), multi-head (parallel patterns).</li>
+        <li>Attention is order-blind (permutation-equivariant), so add positional encodings.</li>
+        <li>O(1) paths and full parallelism, paid for with O(n²) time and memory.</li>
+      </ol>
+    </div>
+    <footer>Source: BITS Pilani WILP, Deep Neural Network, Module 8 (Attention Mechanism). Additions draw on Bahdanau et al. (2014), Luong et al. (2015), Vaswani et al. (2017), Sutskever et al. (2014), Cho et al. (2014), Su et al. (RoPE), Press et al. (ALiBi), Dao et al. (FlashAttention), Jain &amp; Wallace (2019).</footer>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)};
+var css=function(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()};
+function fit(c){var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;c.width=Math.max(1,Math.round(r.width*d));c.height=Math.max(1,Math.round(r.height*d));var x=c.getContext("2d");x.setTransform(d,0,0,d,0,0);return {x:x,w:r.width,h:r.height}}
+function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function gauss(r){var u=0,v;while(u===0)u=r();v=r();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v)}
+function softmax(a){var m=Math.max.apply(null,a),e=a.map(function(v){return Math.exp(v-m)}),s=e.reduce(function(p,q){return p+q},0);return e.map(function(v){return v/s})}
+function fnum(v,dp){return v.toFixed(dp===undefined?3:dp)}
+function toggles(box,items,get,set,after,multi){
+  box.innerHTML="";items.forEach(function(it){
+    var b=document.createElement("button");b.type="button";b.className="chip";b.style.setProperty("--col",it.col||"var(--accent)");
+    b.innerHTML=(it.col?'<span class="dot"></span>':"")+it.name;
+    function on(){return multi?get(it.id):get()===it.id}
+    b.setAttribute("aria-pressed",on()?"true":"false");
+    b.addEventListener("click",function(){
+      if(multi){set(it.id)}else{set(it.id)}
+      Array.prototype.forEach.call(box.children,function(k,i){var o=multi?get(items[i].id):get()===items[i].id;k.setAttribute("aria-pressed",o?"true":"false")});after()});
+    box.appendChild(b)});
+}
+function heat(x,ox,oy,cw,ch,M,color){ // M: rows of 0..1
+  for(var i=0;i<M.length;i++)for(var j=0;j<M[i].length;j++){x.globalAlpha=Math.max(0.03,Math.min(1,M[i][j]));x.fillStyle=color;x.fillRect(ox+j*cw,oy+i*ch,cw-1,ch-1)}x.globalAlpha=1}
+
+/* ===== LAB 1: bottleneck ===== */
+var BD=16,BN=12,BCACHE={};
+function bottleneckSets(d){
+  if(BCACHE[d])return BCACHE[d];
+  var r=mulberry(100+d),sets=[],V=100,T=24;
+  for(var t=0;t<T;t++){var E=[];for(var v=0;v<V;v++){var x=[],nn=0;for(var i=0;i<d;i++){var g=gauss(r);x.push(g);nn+=g*g}nn=Math.sqrt(nn);E.push(x.map(function(a){return a/nn}))}sets.push(E)}
+  BCACHE[d]=sets;return sets;
+}
+function bottleneckAcc(d,n){
+  var sets=bottleneckSets(d),r=mulberry(7+n),tot=0;
+  sets.forEach(function(E){
+    var idx=[];while(idx.length<n){var k=Math.floor(r()*E.length);if(idx.indexOf(k)<0)idx.push(k)}
+    var c=new Array(d).fill(0);idx.forEach(function(k){for(var i=0;i<d;i++)c[i]+=E[k][i]});
+    var sc=E.map(function(x,k){var s=0;for(var i=0;i<d;i++)s+=x[i]*c[i];return [k,s]});sc.sort(function(a,b){return b[1]-a[1]});
+    var hit=0;for(var q=0;q<n;q++)if(idx.indexOf(sc[q][0])>=0)hit++;tot+=hit/n});
+  return tot/sets.length;
+}
+function drawBottle(){
+  var c=$("#bcv"),F=fit(c),x=F.x,w=F.w,h=F.h,line=css("--line"),muted=css("--muted"),acc=css("--accent"),ink=css("--ink"),neg=css("--neg");x.clearRect(0,0,w,h);
+  var ml=40,mb=22,mt=10,mr=10,pw=w-ml-mr,ph=h-mt-mb,X=function(n){return ml+(n-1)/39*pw},Y=function(v){return mt+(1-v)*ph};
+  x.font="11px 'IBM Plex Mono',monospace";x.fillStyle=muted;x.strokeStyle=line;x.lineWidth=1;
+  [0,0.25,0.5,0.75,1].forEach(function(v){var y=Y(v);x.beginPath();x.moveTo(ml,y);x.lineTo(w-mr,y);x.stroke();x.fillText(v.toFixed(2),4,y+4)});
+  [1,10,20,30,40].forEach(function(n){x.fillText(String(n),X(n)-6,h-6)});
+  x.strokeStyle=acc;x.lineWidth=2.6;x.beginPath();x.moveTo(X(1),Y(1));x.lineTo(X(40),Y(1));x.stroke();
+  x.setLineDash([4,4]);x.strokeStyle=muted;x.lineWidth=1.5;x.beginPath();x.moveTo(X(1),Y(1/100));x.lineTo(X(40),Y(40/100));x.stroke();x.setLineDash([]);
+  var pts=[];for(var n=1;n<=40;n++)pts.push([n,bottleneckAcc(BD,n)]);
+  x.strokeStyle=neg;x.lineWidth=2.6;x.beginPath();pts.forEach(function(p,i){var X1=X(p[0]),Y1=Y(p[1]);if(i===0)x.moveTo(X1,Y1);else x.lineTo(X1,Y1)});x.stroke();
+  x.setLineDash([2,3]);x.strokeStyle=ink;x.lineWidth=1;x.beginPath();x.moveTo(X(BN),mt);x.lineTo(X(BN),mt+ph);x.stroke();x.setLineDash([]);
+  var a=pts[BN-1][1];x.fillStyle=neg;x.beginPath();x.arc(X(BN),Y(a),5,0,Math.PI*2);x.fill();
+  x.fillStyle=acc;x.fillText("attention: 100%",ml+8,Y(1)+14);x.fillStyle=neg;x.fillText("fixed vector, d = "+BD,ml+8,mt+ph-8);x.fillStyle=muted;x.fillText("chance level",X(30),Y(0.3)-6);
+  $("#bread").textContent="n = "+BN+": the "+BD+"-number context recovers "+Math.round(a*100)+"% of the items (chance ≈ "+BN+"%). Attention recovers 100%, storing "+(BN*BD)+" numbers instead of "+BD+".";
+}
+toggles($("#dchips"),[8,16,32,64].map(function(d){return {id:d,name:"d = "+d}}),function(){return BD},function(v){BD=v},drawBottle);
+$("#nitems").addEventListener("input",function(e){BN=parseInt(e.target.value,10);$("#nitemsV").textContent=BN;drawBottle()});
+
+/* ===== LAB A: query pad ===== */
+var KEYS=[[0.5,0.3],[0.9,0.7],[0.4,0.2]],Q=[0.8,0.6],SCALE=false;
+function padCompute(){var e=KEYS.map(function(k){return Q[0]*k[0]+Q[1]*k[1]});if(SCALE)e=e.map(function(v){return v/Math.sqrt(2)});var a=softmax(e);var c=[0,0];a.forEach(function(w,i){c[0]+=w*KEYS[i][0];c[1]+=w*KEYS[i][1]});return {e:e,a:a,c:c}}
+function drawPad(){
+  var c=$("#pad"),F=fit(c),x=F.x,w=F.w,h=F.h,line=css("--line"),muted=css("--muted"),acc=css("--accent"),ink=css("--ink"),neg=css("--neg");x.clearRect(0,0,w,h);
+  var R=padCompute(),px=function(a){return 30+a/1.2*(w-45)},py=function(b){return h-26-b/1.0*(h-40)};
+  x.strokeStyle=line;x.lineWidth=1;x.beginPath();x.moveTo(px(0),py(0));x.lineTo(px(1.2),py(0));x.moveTo(px(0),py(0));x.lineTo(px(0),py(1));x.stroke();
+  x.fillStyle=muted;x.font="11px 'IBM Plex Mono',monospace";[0,0.5,1].forEach(function(v){x.fillText(v.toFixed(1),px(v)-8,h-10);x.fillText(v.toFixed(1),4,py(v)+4)});
+  KEYS.forEach(function(k,i){x.strokeStyle=acc;x.lineWidth=1+R.a[i]*12;x.globalAlpha=0.35+0.65*R.a[i];x.beginPath();x.moveTo(px(Q[0]),py(Q[1]));x.lineTo(px(k[0]),py(k[1]));x.stroke();x.globalAlpha=1});
+  KEYS.forEach(function(k,i){var rad=6+R.a[i]*22;x.fillStyle=acc;x.globalAlpha=0.25;x.beginPath();x.arc(px(k[0]),py(k[1]),rad,0,Math.PI*2);x.fill();x.globalAlpha=1;x.beginPath();x.arc(px(k[0]),py(k[1]),5,0,Math.PI*2);x.fill();x.fillStyle=ink;x.font="12px 'IBM Plex Sans',sans-serif";x.fillText("k"+(i+1)+"  α="+fnum(R.a[i],2),px(k[0])+9,py(k[1])-9)});
+  x.fillStyle=neg;x.beginPath();x.moveTo(px(R.c[0]),py(R.c[1])-9);for(var s=1;s<10;s++){var ang=-Math.PI/2+s*Math.PI/5,rr=(s%2?4:9);x.lineTo(px(R.c[0])+rr*Math.cos(ang),py(R.c[1])+rr*Math.sin(ang))}x.closePath();x.fill();
+  x.fillText("context c",px(R.c[0])+10,py(R.c[1])+16);
+  x.fillStyle=ink;x.beginPath();x.arc(px(Q[0]),py(Q[1]),7,0,Math.PI*2);x.fill();x.fillStyle=muted;x.fillText("query q",px(Q[0])+10,py(Q[1])+4);
+  var h2="";KEYS.forEach(function(k,i){h2+="<tr><td>k"+(i+1)+'</td><td class="mono">('+k[0]+", "+k[1]+')</td><td class="mono">'+fnum(R.e[i],2)+'</td><td class="mono"><b>'+fnum(R.a[i],3)+"</b></td></tr>"});$("#ptab").innerHTML=h2;
+  $("#pread").textContent="q = ("+fnum(Q[0],2)+", "+fnum(Q[1],2)+")   →   c = Σ α·k = ("+fnum(R.c[0],3)+", "+fnum(R.c[1],3)+")";
+}
+(function(){var c=$("#pad"),down=false;
+  function set(ev){var r=c.getBoundingClientRect(),px=(ev.clientX-r.left)/r.width*r.width,py=(ev.clientY-r.top);var w=r.width,h=r.height;var qx=(px-30)/(w-45)*1.2,qy=(h-26-py)/(h-40)*1.0;Q=[Math.max(0,Math.min(1.2,qx)),Math.max(0,Math.min(1,qy))];drawPad()}
+  c.addEventListener("pointerdown",function(e){down=true;c.setPointerCapture(e.pointerId);set(e)});
+  c.addEventListener("pointermove",function(e){if(down)set(e)});
+  c.addEventListener("pointerup",function(){down=false});
+  $("#scl").addEventListener("change",function(e){SCALE=e.target.checked;drawPad()});
+})();
+
+/* ===== LAB B: scaling ===== */
+function satStats(d,scale){
+  var r=mulberry(9),mx=0,jac=0,T=150,N=10;
+  for(var t=0;t<T;t++){var q=[];for(var i=0;i<d;i++)q.push(gauss(r));var sc=[];for(var k=0;k<N;k++){var s=0;for(var i2=0;i2<d;i2++)s+=q[i2]*gauss(r);sc.push(scale?s/Math.sqrt(d):s)}var a=softmax(sc);mx+=Math.max.apply(null,a);jac+=a.reduce(function(p,v){return p+v*(1-v)},0)}
+  return {mx:mx/T,jac:jac/T};
+}
+function drawSat(){
+  var d=Math.pow(2,parseInt($("#dk").value,10));$("#dkV").textContent=d;
+  var u=satStats(d,false),s=satStats(d,true);
+  var rows=[["Largest weight, raw scores",u.mx,"--neg"],["Largest weight, scaled by 1/√d",s.mx,"--accent"],["Gradient health Σα(1−α), raw",u.jac,"--neg"],["Gradient health Σα(1−α), scaled",s.jac,"--accent"]];
+  $("#satbars").innerHTML=rows.map(function(r){return '<div class="bar-row"><span>'+r[0]+'</span><div class="bar-track"><div class="bar-fill" style="--col:var('+r[2]+');width:'+Math.round(r[1]*100)+'%"></div></div><span class="mono">'+fnum(r[1],3)+"</span></div>"}).join("");
+  $("#satread").textContent="d = "+d+": raw dot products have standard deviation ≈ "+fnum(Math.sqrt(d),1)+"; after scaling it is ≈ 1. "+(u.jac<0.3?"The raw softmax is saturated, so gradients all but vanish.":"At this size the raw softmax is still usable.");
+}
+$("#dk").addEventListener("input",drawSat);
+
+/* ===== LAB C: Bahdanau alignment ===== */
+var SRC=["yah","kitaab","bahut","achchhi","hai"],TGT=["This","book","is","very","good"],H=[[1,0],[0,1],[0.5,0.5],[-0.5,0.8],[0.2,-0.6]],AL=[[0.85,0.07,0.02,0.03,0.03],[0.05,0.82,0.05,0.04,0.04],[0.04,0.04,0.05,0.12,0.75],[0.03,0.04,0.78,0.10,0.05],[0.02,0.04,0.10,0.78,0.06]],AT=0;
+function drawAlign(){
+  var c=$("#alc"),F=fit(c),x=F.x,w=F.w,h=F.h,ink=css("--ink"),muted=css("--muted"),acc=css("--accent"),line=css("--line");x.clearRect(0,0,w,h);
+  var ml=60,mt=34,cw=(w-ml-10)/5,ch=(h-mt-10)/5;
+  x.font="13px 'IBM Plex Sans',sans-serif";x.fillStyle=muted;SRC.forEach(function(s,j){x.fillText(s,ml+j*cw+4,mt-10)});x.fillText("source (Hindi) →",ml,14);
+  TGT.forEach(function(t,i){x.fillStyle=i===AT?acc:ink;x.font=(i===AT?"600 ":"")+"13px 'IBM Plex Sans',sans-serif";x.fillText(t,6,mt+i*ch+ch/2+4)});
+  heat(x,ml,mt,cw,ch,AL,acc);
+  x.fillStyle=ink;x.font="12px 'IBM Plex Mono',monospace";AL.forEach(function(r,i){r.forEach(function(v,j){if(v>=0.1){x.fillStyle=v>0.5?css("--accent-ink"):ink;x.fillText(v.toFixed(2),ml+j*cw+cw/2-14,mt+i*ch+ch/2+4)}})});
+  x.strokeStyle=acc;x.lineWidth=2.5;x.strokeRect(ml-1,mt+AT*ch-1,cw*5+1,ch+1);
+  var a=AL[AT],cx=0,cy=0,parts=[];a.forEach(function(v,i){cx+=v*H[i][0];cy+=v*H[i][1]});
+  var top=a.indexOf(Math.max.apply(null,a));
+  $("#alread").textContent="Decoder step “"+TGT[AT]+"”: strongest source word “"+SRC[top]+"” (α = "+a[top].toFixed(2)+").  c = Σ α·h = ["+cx.toFixed(2)+", "+cy.toFixed(2)+"]  (toy encoder states h₁…h₅)";
+}
+toggles($("#alchips"),TGT.map(function(t,i){return {id:i,name:t}}),function(){return AT},function(v){AT=v},drawAlign);
+
+/* ===== LAB D: hand-wired heads ===== */
+var SENT=["The","customer","complained","because","he","received","wrong","order"];
+var FEAT={The:[0,0,0,0,1],customer:[1,0,0,0,0],complained:[0,0,0,1,0],because:[0,0,0,0,1],he:[0,0,1,0,0],received:[0,0,0,1,0],wrong:[0,0,0,0,1],order:[0,1,0,0,0]};
+var PERM=[3,6,0,7,2,5,1,4],OM=0.6,GA=8,SINK=2,GBPOS=24;
+var EX={head:"A",pe:true,mask:false,shuf:false};
+function heads(order,pe,mask){
+  var n=order.length,out=[[],[],[]];
+  for(var h=0;h<3;h++)for(var i=0;i<n;i++){var sc=[];
+    for(var j=0;j<n;j++){var fi=FEAT[order[i]],fj=FEAT[order[j]],first=(pe&&j===0)?1:0,s;
+      if(h===0)s=(GA*fi[2]*fj[0]+SINK*first)/Math.sqrt(2);
+      else if(h===2)s=(GA*fi[3]*(fj[0]+fj[2])+SINK*first)/Math.sqrt(2);
+      else{var qc=pe?Math.cos(OM*(i-1)):0,qs=pe?Math.sin(OM*(i-1)):0,kc=pe?Math.cos(OM*j):0,ks=pe?Math.sin(OM*j):0;s=GBPOS*(qc*kc+qs*ks)/Math.sqrt(2)}
+      if(mask&&j>i)s=-Infinity;sc.push(s)}
+    out[h].push(softmax(sc))}
+  return out;
+}
+function drawEx(){
+  var order=EX.shuf?PERM.map(function(p){return SENT[p]}):SENT,A=heads(order,EX.pe,EX.mask),idx=EX.head==="A"?[0]:EX.head==="B"?[1]:EX.head==="C"?[2]:[0,1,2];
+  var M=order.map(function(_,i){return order.map(function(_2,j){var s=0;idx.forEach(function(h){s+=A[h][i][j]});return s/idx.length})});
+  var c=$("#exc"),F=fit(c),x=F.x,w=F.w,h=F.h,ink=css("--ink"),muted=css("--muted"),line=css("--line");x.clearRect(0,0,w,h);
+  var col=EX.head==="A"?css("--cA"):EX.head==="B"?css("--cB"):EX.head==="C"?css("--cC"):css("--ink"),n=order.length,ml=82,mt=76,cw=(w-ml-8)/n,ch=(h-mt-8)/n;
+  x.font="12px 'IBM Plex Sans',sans-serif";x.fillStyle=muted;x.fillText("keys →",ml,12);
+  order.forEach(function(t,j){x.save();x.translate(ml+j*cw+cw/2+4,mt-6);x.rotate(-Math.PI/3);x.fillStyle=ink;x.fillText(t,0,0);x.restore()});
+  order.forEach(function(t,i){x.fillStyle=ink;x.fillText(t,6,mt+i*ch+ch/2+4)});x.fillStyle=muted;x.fillText("queries ↓",6,mt-20);
+  x.strokeStyle=line;x.lineWidth=1;x.strokeRect(ml-0.5,mt-0.5,cw*n,ch*n);heat(x,ml,mt,cw,ch,M,col);
+  if(EX.mask){x.fillStyle=muted;for(var i=0;i<n;i++)for(var j=i+1;j<n;j++){x.fillText("×",ml+j*cw+cw/2-3,mt+i*ch+ch/2+4)}}
+  var rows="";M.forEach(function(r,i){var j=r.indexOf(Math.max.apply(null,r));rows+="<tr><td>"+order[i]+"</td><td>"+order[j]+'</td><td class="mono">'+fnum(r[j],2)+"</td></tr>"});$("#extab").innerHTML=rows;
+  var o0=heads(SENT,EX.pe,false),o1=heads(PERM.map(function(p){return SENT[p]}),EX.pe,false),d=[0,0,0];
+  for(var hh=0;hh<3;hh++)for(var a=0;a<8;a++)for(var b=0;b<8;b++)d[hh]=Math.max(d[hh],Math.abs(o1[hh][a][b]-o0[hh][PERM[a]][PERM[b]]));
+  $("#exread").textContent="Equivariance check, max |A(shuffled) − P·A·Pᵀ|:  head A "+fnum(d[0],4)+"  ·  head B "+fnum(d[1],4)+"  ·  head C "+fnum(d[2],4)+(EX.pe?"   (position breaks the symmetry)":"   (no position, so permuting the words just permutes the pattern)");
+}
+toggles($("#hchips"),[{id:"A",name:"Head A: coreference",col:"var(--cA)"},{id:"B",name:"Head B: previous word",col:"var(--cB)"},{id:"C",name:"Head C: verb → who",col:"var(--cC)"},{id:"ALL",name:"All heads (average)"}],function(){return EX.head},function(v){EX.head=v},drawEx);
+toggles($("#tchips"),[{id:"pe",name:"Positional encoding"},{id:"mask",name:"Causal mask"},{id:"shuf",name:"Shuffle the words"}],function(id){return EX[id]},function(id){EX[id]=!EX[id]},drawEx,true);
+
+/* ===== LAB E: positional encoding ===== */
+var PE={d:64,p:20,k:5};
+function peVec(pos,d){var v=[];for(var i=0;i<d/2;i++){var w=1/Math.pow(10000,2*i/d);v.push(Math.sin(pos*w),Math.cos(pos*w))}return v}
+function drawPE(){
+  var d=PE.d,line=css("--line"),muted=css("--muted"),acc=css("--accent"),neg=css("--neg"),ink=css("--ink");
+  var c=$("#pec"),F=fit(c),x=F.x,w=F.w,h=F.h;x.clearRect(0,0,w,h);var P=50,cw=w/d,ch=h/P;
+  for(var p=0;p<P;p++){var v=peVec(p,d);for(var j=0;j<d;j++){x.globalAlpha=Math.min(1,Math.abs(v[j]));x.fillStyle=v[j]>=0?acc:neg;x.fillRect(j*cw,p*ch,cw+0.5,ch+0.5)}}x.globalAlpha=1;
+  x.fillStyle=ink;x.font="11px 'IBM Plex Sans',sans-serif";x.fillText("positions 0–49 ↓    dimensions 0–"+(d-1)+" →",6,12);
+  // similarity
+  var S=$("#pesim"),G=fit(S),sx=G.x,sw=G.w,sh=G.h;sx.clearRect(0,0,sw,sh);var ml=36,mb=18,mt=8,mr=8,pw=sw-ml-mr,ph=sh-mt-mb;
+  var X=function(q){return ml+q/99*pw},Y=function(v){return mt+(1-(v+0.5)/1.5)*ph};
+  sx.font="11px 'IBM Plex Mono',monospace";sx.fillStyle=muted;sx.strokeStyle=line;sx.lineWidth=1;[-0.5,0,0.5,1].forEach(function(v){var y=Y(v);sx.beginPath();sx.moveTo(ml,y);sx.lineTo(sw-mr,y);sx.stroke();sx.fillText(v.toFixed(1),2,y+4)});
+  [0,25,50,75,99].forEach(function(q){sx.fillText(String(q),X(q)-6,sh-4)});
+  var vp=peVec(PE.p,d);sx.strokeStyle=acc;sx.lineWidth=2.2;sx.beginPath();for(var q=0;q<100;q++){var vq=peVec(q,d),s=0;for(var j2=0;j2<d;j2++)s+=vp[j2]*vq[j2];s/=d/2;if(q===0)sx.moveTo(X(q),Y(s));else sx.lineTo(X(q),Y(s))}sx.stroke();
+  sx.fillStyle=ink;sx.fillText("similarity PE(p)·PE(q)/(d/2) for p = "+PE.p+", plotted over q",ml+8,mt+10);
+  // wavelength
+  var Fq=$("#pefr"),Hh=fit(Fq),fx=Hh.x,fw=Hh.w,fh=Hh.h;fx.clearRect(0,0,fw,fh);var ml2=44,mb2=18,mt2=8,mr2=8,pw2=fw-ml2-mr2,ph2=fh-mt2-mb2,pairs=d/2;
+  var Y2=function(l){return mt2+(1-(l-0)/(5))*ph2},X2=function(i){return ml2+i/(pairs-1)*pw2};
+  fx.font="11px 'IBM Plex Mono',monospace";fx.fillStyle=muted;fx.strokeStyle=line;[0,1,2,3,4,5].forEach(function(l){var y=Y2(l);fx.beginPath();fx.moveTo(ml2,y);fx.lineTo(fw-mr2,y);fx.stroke();fx.fillText("1e"+l,2,y+4)});
+  fx.fillText("pair index i →",fw-90,fh-4);fx.strokeStyle=neg;fx.lineWidth=2.2;fx.beginPath();
+  var lam=[];for(var i=0;i<pairs;i++){var wv=1/Math.pow(10000,2*i/d),wl=2*Math.PI/wv;lam.push(wl);var yy=Y2(Math.min(5,Math.max(0,Math.log10(wl))));if(i===0)fx.moveTo(X2(i),yy);else fx.lineTo(X2(i),yy)}fx.stroke();
+  fx.fillStyle=ink;fx.fillText("wavelength of each sin/cos pair (positions per cycle, log scale)",ml2+8,mt2+10);
+  // shift check
+  var err=0,pos=PE.p,k=PE.k,a=peVec(pos,d),b=peVec(pos+k,d);for(var i3=0;i3<pairs;i3++){var wv2=1/Math.pow(10000,2*i3/d),cs=Math.cos(k*wv2),sn=Math.sin(k*wv2),s0=a[2*i3],c0=a[2*i3+1];var s1=s0*cs+c0*sn,c1=c0*cs-s0*sn;err=Math.max(err,Math.abs(s1-b[2*i3]),Math.abs(c1-b[2*i3+1]))}
+  $("#peread").textContent="Pair 0: wavelength "+lam[0].toFixed(2)+" positions · last pair: wavelength "+Math.round(lam[pairs-1]).toLocaleString("en-US")+" positions.  Shift check, max |R(kω)·PE("+pos+") − PE("+(pos+k)+")| = "+err.toExponential(1);
+}
+$("#dm").addEventListener("input",function(e){PE.d=parseInt(e.target.value,10);$("#dmV").textContent=PE.d;drawPE()});
+$("#pp").addEventListener("input",function(e){PE.p=parseInt(e.target.value,10);$("#ppV").textContent=PE.p;drawPE()});
+$("#kk").addEventListener("input",function(e){PE.k=parseInt(e.target.value,10);$("#kkV").textContent=PE.k;drawPE()});
+
+/* ===== LAB F: cost ===== */
+var COST={n:2000,de:9};
+function nFromSlider(v){return Math.round(Math.pow(10,1+4*(v-10)/(100000-10)))}
+function drawCost(){
+  var d=Math.pow(2,COST.de),n=COST.n;$("#cdV").textContent=d;$("#cnV").textContent=n.toLocaleString("en-US");
+  var c=$("#costc"),F=fit(c),x=F.x,w=F.w,h=F.h,line=css("--line"),muted=css("--muted"),ink=css("--ink"),acc=css("--accent"),neg=css("--neg"),cb=css("--cB");x.clearRect(0,0,w,h);
+  var ml=48,mb=22,mt=10,mr=10,pw=w-ml-mr,ph=h-mt-mb,lo=4,hi=18;
+  var X=function(nn){return ml+(Math.log10(nn)-1)/4*pw},Y=function(v){return mt+(1-(Math.log10(v)-lo)/(hi-lo))*ph};
+  x.font="11px 'IBM Plex Mono',monospace";x.fillStyle=muted;x.strokeStyle=line;x.lineWidth=1;
+  [4,8,12,16].forEach(function(l){var y=Y(Math.pow(10,l));x.beginPath();x.moveTo(ml,y);x.lineTo(w-mr,y);x.stroke();x.fillText("1e"+l,2,y+4)});
+  [1,2,3,4,5].forEach(function(l){x.fillText("1e"+l,X(Math.pow(10,l))-12,h-6)});
+  var fns=[["RNN  n·d²",function(nn){return nn*d*d},neg],["CNN  k·n·d²",function(nn){return 3*nn*d*d},cb],["Self-attention  n²·d",function(nn){return nn*nn*d},acc]];
+  fns.forEach(function(f){x.strokeStyle=f[2];x.lineWidth=2.4;x.beginPath();for(var l=1;l<=5.001;l+=0.05){var nn=Math.pow(10,l),X1=X(nn),Y1=Y(f[1](nn));if(l===1)x.moveTo(X1,Y1);else x.lineTo(X1,Y1)}x.stroke()});
+  x.setLineDash([3,3]);x.strokeStyle=ink;x.beginPath();x.moveTo(X(n),mt);x.lineTo(X(n),mt+ph);x.stroke();x.beginPath();x.moveTo(X(d),mt);x.lineTo(X(d),mt+ph);x.strokeStyle=muted;x.stroke();x.setLineDash([]);
+  x.fillStyle=muted;x.fillText("n = d",Math.min(X(d)+4,w-50),mt+12);
+  var yl=10;fns.forEach(function(f){x.fillStyle=f[2];x.fillText(f[0],ml+10,mt+yl+14);yl+=14});
+  var mem=n*n*2,mu=mem>=1e9?(mem/1e9).toFixed(2)+" GB":mem>=1e6?(mem/1e6).toFixed(1)+" MB":(mem/1e3).toFixed(1)+" KB";
+  $("#costread").textContent="n = "+n.toLocaleString("en-US")+", d = "+d+":  attention/RNN cost ratio = n/d = "+(n/d).toFixed(2)+(n<d?"  (attention cheaper)":"  (attention costlier)")+".  One fp16 attention matrix (one head, one layer): "+mu+".";
+}
+$("#cn").addEventListener("input",function(e){COST.n=nFromSlider(parseInt(e.target.value,10));drawCost()});
+$("#cd").addEventListener("input",function(e){COST.de=parseInt(e.target.value,10);drawCost()});
+
+/* ===== flashcards ===== */
+var CARDS=[
+ ["What is the context bottleneck?","In a plain encoder-decoder all input information must pass through one fixed-size vector c = h_T, so long inputs lose detail and every part is weighted equally."],
+ ["Teacher forcing and exposure bias?","Training feeds the true previous token; inference feeds the model’s own prediction. The model never practised recovering from its own errors, so mistakes compound."],
+ ["Attention in one formula?","c = Σ αᵢ vᵢ with α = softmax(score(q, kᵢ)): a weighted sum of values, weighted by query–key relevance."],
+ ["Roles of query, key, value?","Query: what I’m looking for (decoder state). Key: what each item advertises for matching. Value: the content retrieved. Often keys and values are the same encoder states."],
+ ["Why scale by 1/√d_k?","If q and k have unit-variance components, q·k has variance d_k. Large scores saturate the softmax and kill gradients; dividing by √d_k restores variance 1."],
+ ["Additive vs dot-product scoring?","Additive: vᵀtanh(W_q q + W_k k), has parameters, allows d_q ≠ d_k, nonlinear but slower. Dot-product: qᵀk, parameter-free, one matrix multiply, needs equal dimensions."],
+ ["Bahdanau steps?","Score e_{t,i} = vᵀtanh(W_s s_{t−1} + W_h h_i); softmax to α; context c_t = Σ α h_i; update s_t from [y_{t−1}; c_t]; output from [s_t; c_t]."],
+ ["Why a bidirectional encoder?","Each hᵢ = [forward; backward] sees both past and future words, so the keys carry context from both sides."],
+ ["Self- vs cross-attention?","Self: Q, K, V all from one sequence. Cross: Q from one sequence (decoder), K and V from another (encoder)."],
+ ["How does a causal mask work?","Add −∞ to scores where j > i before the softmax, so those weights become 0. Token i sees positions ≤ i, including itself."],
+ ["Why multi-head?","Different heads, with their own W^Q, W^K, W^V, can capture different relations (syntax, coreference, locality). Outputs are concatenated and multiplied by W^O. d_k = d_model/h."],
+ ["Is self-attention permutation-invariant?","Not exactly: it is permutation-equivariant, Attention(PX) = P·Attention(X). Either way it has no sense of word order, so positions must be added."],
+ ["Sinusoidal encoding formulas?","PE(pos,2i) = sin(pos/10000^{2i/d}), PE(pos,2i+1) = cos(pos/10000^{2i/d}). Low i = fast oscillation, high i = slow."],
+ ["Why does the sinusoidal code help with relative position?","PE(pos+k) is a fixed rotation of PE(pos) for each sin/cos pair, so “attend k steps back” is a linear map the model can learn."],
+ ["CNN vs RNN vs self-attention path length?","CNN O(n/k) (or O(log n) dilated); RNN O(n); self-attention O(1). Cost per layer: k·n·d², n·d², n²·d."],
+ ["The price of self-attention?","O(n²) time and memory for the attention matrix, so long sequences are expensive; mitigations include FlashAttention, sparse or windowed attention, and linear attention."]
+];
+var ci=0,flipped=false;
+function showCard(){var c=$("#card"),d=CARDS[ci];c.className="card"+(flipped?" flip":"");c.innerHTML=flipped?'<div class="a">'+d[1]+'</div><span class="hint">Tap to see the question</span>':'<div class="q">'+d[0]+'</div><span class="hint">Tap to reveal the answer</span>';$("#ccount").textContent=(ci+1)+" / "+CARDS.length}
+$("#card").addEventListener("click",function(){flipped=!flipped;showCard()});
+$("#cnext").addEventListener("click",function(){ci=(ci+1)%CARDS.length;flipped=false;showCard()});
+$("#cprev").addEventListener("click",function(){ci=(ci-1+CARDS.length)%CARDS.length;flipped=false;showCard()});
+$("#cshuf").addEventListener("click",function(){for(var i=CARDS.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=CARDS[i];CARDS[i]=CARDS[j];CARDS[j]=t}ci=0;flipped=false;showCard()});
+
+/* ===== quiz ===== */
+var QS=[
+ {q:"Scores e = [0.58, 1.14, 0.44]. What is the attention weight on the second key?",o:["0.48","0.62","0.34","0.25"],a:0,w:"exp(1.14) = 3.13 out of 1.79 + 3.13 + 1.55 = 6.47, so α₂ ≈ 0.484. The slide’s 0.62 would need scores about twice as large."},
+ {q:"Why divide the dot product by √d_k?",o:["It keeps the variance of the scores near 1 so the softmax doesn’t saturate","It makes queries and keys the same dimension","It removes the need for softmax","It makes attention linear in sequence length"],a:0,w:"For unit-variance components, var(q·k) = d_k. Without scaling, large d_k pushes the softmax toward one-hot and gradients vanish."},
+ {q:"With a causal mask, which positions can the token at position 5 attend to?",o:["1 to 5 (including itself)","1 to 4 only","1 to 6","All positions"],a:0,w:"The mask allows j ≤ i, so a token sees itself and everything before it."},
+ {q:"Which statement about self-attention and word order is correct?",o:["Outputs are permuted in the same way as the inputs (equivariant), so order must be injected","Outputs are identical for any ordering of the inputs","It encodes order automatically through the softmax","It only fails for sequences longer than 512"],a:0,w:"Attention(PX) = P·Attention(X): shuffling the words shuffles the output rows, and nothing tells the model which order is real. Hence positional encodings."},
+ {q:"In sinusoidal positional encoding, which dimension pair oscillates fastest?",o:["i = 0 (ω = 1)","The last pair","The middle pair","All pairs oscillate equally fast"],a:0,w:"ω_i = 1/10000^{2i/d} is largest at i = 0 (wavelength 2π ≈ 6.3 positions) and shrinks for larger i."},
+ {q:"When must you use additive (Bahdanau) scoring rather than plain dot-product?",o:["When the query and key dimensions differ and you have no projection","When you want fewer parameters","When you need the fastest scoring on GPUs","When there is only one key"],a:0,w:"qᵀk needs equal dimensions. Additive scoring projects both through W_q and W_k into a shared hidden size h first (a Luong bilinear form qᵀWk also works)."},
+ {q:"The sequence length doubles. How does the cost of one self-attention layer change versus one RNN layer?",o:["Attention ×4, RNN ×2","Attention ×2, RNN ×4","Both ×2","Both ×4"],a:0,w:"Self-attention is O(n²·d), so doubling n multiplies the cost by 4; an RNN layer is O(n·d²), so ×2."},
+ {q:"In Bahdanau attention, which decoder state is used to compute the alignment scores for step t?",o:["The previous state s_{t−1}","The current state s_t","The final encoder state h_T","The output y_t"],a:0,w:"e_{t,i} = vᵀtanh(W_s s_{t−1} + W_h h_i). The context c_t is then fed into the update that produces s_t."}
+];
+var correct=0,answered=0;
+function buildQuiz(){var box=$("#quiz");box.innerHTML="";
+  QS.forEach(function(q,qi){var d=document.createElement("div");d.className="qz";d.innerHTML='<p class="qt">'+(qi+1)+". "+q.q+'</p><div class="opts"></div><div class="why" aria-live="polite"></div>';var ob=d.querySelector(".opts");
+    q.o.forEach(function(t,oi){var b=document.createElement("button");b.type="button";b.className="opt";b.textContent=t;
+      b.addEventListener("click",function(){var all=ob.querySelectorAll(".opt");Array.prototype.forEach.call(all,function(k,i){k.disabled=true;if(i===q.a)k.classList.add("right")});
+        answered++;if(oi===q.a){correct++}else{b.classList.add("wrong")}
+        d.querySelector(".why").textContent=(oi===q.a?"Correct. ":"Not quite. ")+q.w;
+        $("#score").textContent="Score: "+correct+" / "+answered+(answered===QS.length?(correct===QS.length?" — clean sweep.":correct>=6?" — solid; revisit the ones you missed.":" — revisit blocks 2 and 4, then retry."):"")});
+      ob.appendChild(b)});box.appendChild(d)})}
+
+/* ===== clock ===== */
+var TOTAL=1800,remaining=TOTAL,ticking=false,iv=null,BLOCKS=[0,4,9,13,19,23,26],pills=document.querySelectorAll("#pills .pill");
+function pad(n){return (n<10?"0":"")+n}
+function clockUpdate(){$("#clock").textContent=pad(Math.floor(remaining/60))+":"+pad(remaining%60);var el=TOTAL-remaining,idx=0;BLOCKS.forEach(function(b,i){if(el>=b*60)idx=i});Array.prototype.forEach.call(pills,function(p,i){if(ticking&&i===idx)p.setAttribute("aria-current","step");else p.removeAttribute("aria-current")})}
+$("#tstart").addEventListener("click",function(){if(ticking){ticking=false;clearInterval(iv);this.textContent="Resume";clockUpdate();return}ticking=true;this.textContent="Pause";iv=setInterval(function(){if(remaining>0){remaining--;clockUpdate()}else{clearInterval(iv);ticking=false;$("#tstart").textContent="Start the clock";$("#clock").textContent="Done"}},1000);clockUpdate()});
+$("#treset").addEventListener("click",function(){clearInterval(iv);ticking=false;remaining=TOTAL;$("#tstart").textContent="Start the clock";clockUpdate()});
+
+/* ===== boot ===== */
+function redrawAll(){drawBottle();drawPad();drawSat();drawAlign();drawEx();drawPE();drawCost()}
+showCard();buildQuiz();clockUpdate();redrawAll();
+if(window.ResizeObserver){var ro=new ResizeObserver(function(){redrawAll()});ro.observe(document.body)}else{window.addEventListener("resize",redrawAll)}
+if(window.matchMedia){var mq=window.matchMedia("(prefers-color-scheme: dark)");if(mq.addEventListener)mq.addEventListener("change",redrawAll)}
+})();
+</script>
+</body>
+</html>

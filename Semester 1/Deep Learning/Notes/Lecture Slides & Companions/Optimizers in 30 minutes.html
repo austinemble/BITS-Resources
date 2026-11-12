@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Optimizers in 30 minutes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#eef3f7; --surface:#ffffff; --ink:#16222e; --muted:#51647a; --line:#cbd7e2; --grid:rgba(52,98,140,.08);
+  --accent:#1d4ed8; --accent-ink:#ffffff; --good:#15803d; --bad:#b91c1c; --warn-bg:#fff4dc; --warn-line:#e8b44a;
+  --c-gd:#64748b; --c-mom:#d97706; --c-nes:#7c3aed; --c-ada:#4d7c0f; --c-rms:#0d9488; --c-adam:#db2777;
+  --code-bg:#0f1b27; --code-ink:#d7e6f5;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1620; --surface:#14212e; --ink:#e6edf4; --muted:#9db0c3; --line:#2a3b4d; --grid:rgba(120,170,220,.07);
+    --accent:#7aa2ff; --accent-ink:#0d1620; --good:#4ade80; --bad:#f87171; --warn-bg:#2b2412; --warn-line:#8a6a1f;
+    --c-gd:#94a3b8; --c-mom:#fbbf24; --c-nes:#a78bfa; --c-ada:#a3e635; --c-rms:#2dd4bf; --c-adam:#f472b6;
+    --code-bg:#0a121a; --code-ink:#d7e6f5;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1620; --surface:#14212e; --ink:#e6edf4; --muted:#9db0c3; --line:#2a3b4d; --grid:rgba(120,170,220,.07);
+  --accent:#7aa2ff; --accent-ink:#0d1620; --good:#4ade80; --bad:#f87171; --warn-bg:#2b2412; --warn-line:#8a6a1f;
+  --c-gd:#94a3b8; --c-mom:#fbbf24; --c-nes:#a78bfa; --c-ada:#a3e635; --c-rms:#2dd4bf; --c-adam:#f472b6;
+  --code-bg:#0a121a; --code-ink:#d7e6f5;
+}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 110px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:inherit}
+body{
+  margin:0;background-color:var(--bg);color:var(--ink);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:16.5px;line-height:1.6;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+h1,h2,h3{font-family:"Bricolage Grotesque","IBM Plex Sans",system-ui,sans-serif;line-height:1.15;margin:0}
+h1{font-size:clamp(2.2rem,6vw,3.6rem);font-weight:800;letter-spacing:-.02em}
+h2{font-size:1.7rem;font-weight:800;letter-spacing:-.01em;margin-bottom:.4rem}
+h3{font-size:1.1rem;font-weight:600;margin:1.4rem 0 .4rem}
+p{margin:.5rem 0;max-width:68ch}
+a{color:var(--accent)}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.9em}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+
+/* header + clock */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;background:var(--surface);border-bottom:1px solid var(--line)}
+.bar-in{max-width:980px;margin:0 auto;padding:.55rem 1rem;display:flex;align-items:center;gap:.8rem;flex-wrap:wrap}
+.bar-title{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.05rem;margin-right:auto}
+.clock{font-family:"IBM Plex Mono",monospace;font-size:1.15rem;font-weight:500;min-width:4.4ch;text-align:right}
+.btn{font:inherit;font-size:.9rem;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:.4rem .8rem;border-radius:8px;cursor:pointer}
+.btn:hover{border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.pills{max-width:980px;margin:0 auto;padding:0 1rem .55rem;display:flex;gap:.4rem;overflow-x:auto}
+.pill{flex:0 0 auto;text-decoration:none;color:var(--muted);font-size:.85rem;font-weight:500;padding:.25rem .65rem;border:1px solid var(--line);border-radius:999px;background:var(--surface);white-space:nowrap}
+.pill[aria-current="step"]{color:var(--accent-ink);background:var(--accent);border-color:var(--accent)}
+
+main{max-width:980px;margin:0 auto;padding:0 1rem 4rem}
+.hero{padding:3rem 0 2rem}
+.hero p{font-size:1.15rem;color:var(--muted)}
+
+.block{display:grid;grid-template-columns:6rem minmax(0,1fr);gap:1.5rem;padding:2.2rem 0;border-top:1px solid var(--line)}
+.rail{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.9rem;line-height:1;color:var(--accent)}
+.rail small{display:block;font-family:"IBM Plex Sans",sans-serif;font-weight:500;font-size:.8rem;color:var(--muted);margin-top:.25rem}
+@media (max-width:700px){.block{grid-template-columns:1fr;gap:.4rem}.rail{font-size:1.4rem}.rail small{display:inline;margin-left:.4rem}}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:1rem}
+.lead{color:var(--muted);font-size:1.05rem}
+canvas{width:100%;display:block}
+#race{aspect-ratio:10/6;border-radius:8px;background:var(--bg);border:1px solid var(--line)}
+#lossplot{height:170px;border-radius:8px;border:1px solid var(--line);background:var(--bg);margin-top:.7rem}
+#schedplot{height:220px;border-radius:8px;border:1px solid var(--line);background:var(--bg)}
+.controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.6rem 1.2rem;margin:.8rem 0}
+.ctl label{display:flex;justify-content:space-between;font-size:.88rem;font-weight:500}
+.ctl input[type=range]{width:100%;accent-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin:.5rem 0}
+.chip{display:inline-flex;align-items:center;gap:.4rem;font-size:.86rem;font-weight:500;border:1.5px solid var(--line);border-radius:999px;padding:.2rem .7rem;cursor:pointer;background:var(--surface);user-select:none}
+.chip input{position:absolute;opacity:0;pointer-events:none}
+.chip .dot{width:.7rem;height:.7rem;border-radius:50%;background:var(--col)}
+.chip:has(input:checked){border-color:var(--col);background:color-mix(in srgb,var(--col) 14%,var(--surface))}
+.chip:has(input:focus-visible){outline:3px solid var(--accent);outline-offset:2px}
+.chip.bet[aria-pressed="true"]{border-color:var(--col);background:color-mix(in srgb,var(--col) 22%,var(--surface))}
+.row{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;margin:.5rem 0}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:.45rem .6rem;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;color:var(--muted);font-size:.82rem}
+.scroll{overflow-x:auto}
+.readout td:first-child{white-space:nowrap}
+.sw{display:inline-block;width:.7rem;height:.7rem;border-radius:50%;margin-right:.4rem;background:var(--col)}
+.out{min-height:1.6em;font-weight:500}
+.note{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:.7rem .9rem;margin:.8rem 0;font-size:.95rem}
+.formula{font-family:"IBM Plex Mono",monospace;font-size:.88rem;line-height:1.7}
+
+.chain{margin:.8rem 0;padding:0;list-style:none;counter-reset:s}
+.chain li{counter-increment:s;display:grid;grid-template-columns:2.2rem 1fr;gap:.6rem;padding:.5rem 0;border-bottom:1px dashed var(--line)}
+.chain li::before{content:counter(s);font-family:"Bricolage Grotesque",sans-serif;font-weight:800;color:var(--accent);font-size:1.2rem;text-align:center}
+.chain b{font-weight:600}
+.pers{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:.7rem;margin:1rem 0}
+.pers div{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--col);border-radius:8px;padding:.6rem .8rem;font-size:.93rem}
+.pers b{display:block;font-family:"Bricolage Grotesque",sans-serif;font-size:1.02rem}
+pre{background:var(--code-bg);color:var(--code-ink);padding:1rem;border-radius:10px;overflow-x:auto;font-size:.82rem;line-height:1.55;margin:.8rem 0}
+details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:.15rem .9rem;margin:.45rem 0}
+summary{cursor:pointer;font-weight:600;padding:.55rem 0}
+details[open] summary{border-bottom:1px solid var(--line);margin-bottom:.4rem}
+details p{margin:.4rem 0 .7rem}
+.wo{display:grid;grid-template-columns:5.5rem 1fr;gap:.2rem .9rem;padding:.7rem 0;border-bottom:1px dashed var(--line)}
+.wo b{font-weight:600}
+@media (max-width:600px){.wo{grid-template-columns:1fr}}
+
+/* flashcards */
+.card{width:100%;min-height:150px;text-align:left;font:inherit;color:var(--ink);background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:1.2rem 1.3rem;cursor:pointer}
+.card .q{font-family:"Bricolage Grotesque",sans-serif;font-weight:600;font-size:1.2rem}
+.card .a{font-size:1rem}
+.card.flip{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,var(--surface))}
+.card .hint{display:block;margin-top:.8rem;color:var(--muted);font-size:.82rem}
+/* quiz */
+.qz{margin:1rem 0;padding:1rem;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+.qz p.qt{font-weight:600;margin-top:0}
+.opts{display:grid;gap:.4rem}
+.opt{font:inherit;text-align:left;padding:.5rem .75rem;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 14%,var(--surface))}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 12%,var(--surface))}
+.why{margin-top:.6rem;font-size:.93rem;color:var(--muted)}
+.score{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.3rem}
+.five{background:var(--surface);border:2px solid var(--accent);border-radius:14px;padding:1.2rem 1.4rem;margin-top:2rem}
+.five ol{margin:.5rem 0 0;padding-left:1.3rem}
+.five li{margin:.35rem 0}
+footer{color:var(--muted);font-size:.85rem;padding-top:1.5rem;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <span class="bar-title">Optimizers in 30 minutes</span>
+    <span class="clock" id="clock" aria-live="off">30:00</span>
+    <button class="btn primary" id="tstart">Start the clock</button>
+    <button class="btn" id="treset" aria-label="Reset the clock">Reset</button>
+  </div>
+  <nav class="pills" aria-label="Session blocks" id="pills">
+    <a class="pill" href="#watch">0–4 Race</a>
+    <a class="pill" href="#meet">4–11 Optimizers</a>
+    <a class="pill" href="#sched">11–16 Schedules</a>
+    <a class="pill" href="#practice">16–22 Practice</a>
+    <a class="pill" href="#watchouts">22–25 Deck watch-outs</a>
+    <a class="pill" href="#selftest">25–30 Self-test</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <h1>Optimizers, from rolling balls to Adam</h1>
+  <p>Study notes for Module 10 of the BITS Pilani Deep Neural Network deck, rebuilt as a 30-minute session. Six blocks, one stopwatch. You watch things move before you read about them, and you finish by testing yourself. Where the slides stop, there are extra ideas; where the slides slip, there are corrections.</p>
+</section>
+
+<!-- BLOCK 1 -->
+<section class="block" id="watch">
+  <div class="rail">0–4<small>minutes</small></div>
+  <div>
+    <h2>Watch the race before you read</h2>
+    <p class="lead">Same bowl as the deck’s toy problem, L = w₁² + k·w₂², starting at (4, 2). Place a bet, then run 30 steps.</p>
+
+    <div class="panel">
+      <div class="row"><b>Your bet for the lowest loss after 30 steps:</b></div>
+      <div class="chips" id="bets"></div>
+      <div class="out" id="pred-out" aria-live="polite"></div>
+
+      <canvas id="race" aria-label="Contour plot of the loss bowl with optimizer trajectories"></canvas>
+      <canvas id="lossplot" aria-label="Log-scale loss against step for each optimizer"></canvas>
+
+      <div class="chips" id="chips" role="group" aria-label="Show optimizers"></div>
+      <div class="controls">
+        <div class="ctl"><label for="eta">Learning rate η <span id="etaV">0.050</span></label><input type="range" id="eta" min="0.005" max="0.3" step="0.005" value="0.05"></div>
+        <div class="ctl"><label for="kk">Stretch k (steepness of w₂) <span id="kV">4</span></label><input type="range" id="kk" min="1" max="40" step="1" value="4"></div>
+      </div>
+      <div class="row">
+        <button class="btn primary" id="run30">Run to step 30</button>
+        <button class="btn" id="run100">Run to step 100</button>
+        <button class="btn" id="step1">+1 step</button>
+        <button class="btn" id="reset">Reset</button>
+      </div>
+      <div class="row">
+        <span class="mono" style="color:var(--muted)">Presets:</span>
+        <button class="btn" data-p="0.05,4">Deck setup</button>
+        <button class="btn" data-p="0.02,40">Narrow canyon (k = 40)</button>
+        <button class="btn" data-p="0.26,4">Blow up GD</button>
+      </div>
+      <div class="scroll"><table class="readout"><thead><tr><th>Optimizer</th><th>Step</th><th>Position (w₁, w₂)</th><th>Loss</th></tr></thead><tbody id="rtab"></tbody></table></div>
+    </div>
+
+    <h3>What to notice</h3>
+    <p><b>1. On the deck’s bowl, plain GD wins.</b> The curvature ratio is only 4, so η = 0.1 is nearly ideal. That is why the slide-29 and slide-34 comparisons look so grim for RMSprop and Adam. Now drag k up to 40 and watch the ranking flip: GD must shrink η below 1/k to stay stable, then crawls along w₁.</p>
+    <p><b>2. GD diverges when η &gt; 1/k.</b> Along w₂ each step multiplies the error by (1 − 2kη). At k = 4 that crosses −1 once η passes 0.25. The “Blow up GD” preset shows it.</p>
+    <p><b>3. Adam and RMSprop move about η per coordinate per step</b>, whatever the gradient size. Near the minimum they wiggle at that scale. That is the real reason adaptive methods need a decaying schedule at the end.</p>
+  </div>
+</section>
+
+<!-- BLOCK 2 -->
+<section class="block" id="meet">
+  <div class="rail">4–11<small>minutes</small></div>
+  <div>
+    <h2>Meet the optimizers</h2>
+    <p class="lead">Every method fixes one complaint about the one before it. If you can recite the complaints, you can rebuild the formulas.</p>
+
+    <ol class="chain">
+      <li><div><b>Batch GD is slow</b> (one update per epoch, all data in memory) → <b>mini-batch SGD</b>: about N/B updates per epoch, GPU-friendly, B ∈ {32…256}.</div></li>
+      <li><div><b>SGD zigzags across ravines</b> → <b>Momentum</b>: keep a velocity, so consistent directions add up and sideways wobble cancels.</div></li>
+      <li><div><b>Momentum overshoots</b> because it reads the slope where it is, not where it is going → <b>Nesterov</b>: peek ahead, then read the slope.</div></li>
+      <li><div><b>One η for every weight</b> → <b>AdaGrad</b>: divide by the square root of the accumulated squared gradients.</div></li>
+      <li><div><b>AdaGrad’s sum never shrinks, so η → 0</b> → <b>RMSprop</b>: use an exponential moving average instead of a sum.</div></li>
+      <li><div><b>RMSprop has no velocity</b> → <b>Adam</b>: add momentum (first moment) and bias correction.</div></li>
+      <li><div><b>L2 penalty gets scaled by the adaptive denominator</b> → <b>AdamW</b>: apply weight decay directly to the weights.</div></li>
+      <li><div><b>A constant η can’t both explore and settle</b> → <b>schedules</b> (next block).</div></li>
+    </ol>
+
+    <h3>Personalities (use these as memory hooks)</h3>
+    <div class="pers">
+      <div style="--col:var(--c-gd)"><b>Gradient descent</b>A hiker who reads the slope under their boots and takes a fixed-size step. Honest, predictable, easily stuck on a ridge.</div>
+      <div style="--col:var(--c-mom)"><b>Momentum</b>A heavy shopping cart. Hard to turn, wonderful downhill, shrugs off small bumps. With β = 0.9 it averages roughly the last 10 gradients.</div>
+      <div style="--col:var(--c-nes)"><b>Nesterov</b>The same cart, but the driver looks ahead and brakes before the dip.</div>
+      <div style="--col:var(--c-ada)"><b>AdaGrad</b>A hiker whose tiredness never resets. Great for rare features early on, but eventually too tired to move.</div>
+      <div style="--col:var(--c-rms)"><b>RMSprop</b>A shock absorber. It senses how rough each direction has been lately and shortens the stride there. It forgets old terrain.</div>
+      <div style="--col:var(--c-adam)"><b>Adam</b>A car with cruise control and shock absorbers: momentum for direction, RMS scaling for stride length, and a warm-up correction so the first few kilometres aren’t off.</div>
+    </div>
+
+    <h3>Update rules on one page</h3>
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>Method</th><th>Update</th><th>Extra memory</th></tr></thead>
+        <tbody class="formula">
+          <tr><td>GD</td><td>θ ← θ − η·g</td><td>none</td></tr>
+          <tr><td>Momentum</td><td>v ← βv + g;&nbsp; θ ← θ − η·v</td><td>1× params</td></tr>
+          <tr><td>Nesterov</td><td>v ← βv + ∇L(θ − ηβv);&nbsp; θ ← θ − η·v</td><td>1×</td></tr>
+          <tr><td>AdaGrad</td><td>s ← s + g²;&nbsp; θ ← θ − η·g / √(s+ε)</td><td>1×</td></tr>
+          <tr><td>RMSprop</td><td>s ← γs + (1−γ)g²;&nbsp; θ ← θ − η·g / √(s+ε)</td><td>1×</td></tr>
+          <tr><td>Adam</td><td>m ← β₁m + (1−β₁)g;&nbsp; v ← β₂v + (1−β₂)g²<br>m̂ = m/(1−β₁ᵗ);&nbsp; v̂ = v/(1−β₂ᵗ)<br>θ ← θ − η·m̂ / (√v̂ + ε)</td><td>2×</td></tr>
+          <tr><td>AdamW</td><td>Adam step, plus a separate decay: θ ← θ − η·(m̂/(√v̂+ε) + λθ)</td><td>2×</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>All the g², √, and divisions are element-wise, so every parameter gets its own effective learning rate.</p>
+
+    <h3>Numbers worth memorising</h3>
+    <p class="mono">β = 0.9 · β₁/β₂ = 0.9/0.999 · ε = 1e-8 · η(Adam) = 1e-3 · η(SGD) = 1e-2 · AdamW λ = 0.01 · clip norm 1–5 · patience 5–10 epochs</p>
+  </div>
+</section>
+
+<!-- BLOCK 3 -->
+<section class="block" id="sched">
+  <div class="rail">11–16<small>minutes</small></div>
+  <div>
+    <h2>Learning rate schedules</h2>
+    <p class="lead">Start bold, finish gentle. Pick a schedule, drag the epoch slider, and read off η.</p>
+    <div class="panel">
+      <div class="chips" id="kinds" role="group" aria-label="Schedule type"></div>
+      <canvas id="schedplot" aria-label="Learning rate against epoch"></canvas>
+      <div class="controls">
+        <div class="ctl"><label for="eta0">Initial η₀ <span id="eta0V">0.100</span></label><input type="range" id="eta0" min="0.01" max="0.5" step="0.01" value="0.1"></div>
+        <div class="ctl" id="knobWrap"><label for="knob"><span id="knobL">Warmup epochs</span> <span id="knobV">5</span></label><input type="range" id="knob" min="1" max="20" step="1" value="5"></div>
+        <div class="ctl"><label for="tEp">Epoch t (of 100) <span id="tV">50</span></label><input type="range" id="tEp" min="0" max="100" step="1" value="50"></div>
+        <div class="ctl"><label><input type="checkbox" id="logy"> Log-scale y axis</label></div>
+      </div>
+      <div class="out mono" id="sread"></div>
+    </div>
+
+    <h3>Quick facts</h3>
+    <p><b>Step decay:</b> η₀·γ^⌊t/S⌋. Simple and readable; the classic CNN choice (÷10 every 30 epochs).</p>
+    <p><b>Exponential:</b> η₀·e^(−λt). Smooth, but rarely the best performer in practice.</p>
+    <p><b>Cosine annealing:</b> ηmin + ½(ηmax − ηmin)(1 + cos(πt/T)). Fast early drop, long gentle tail. Reaches ηmin only at t = T.</p>
+    <p><b>Warmup:</b> ramp linearly for the first few epochs, then decay. Early on, Adam’s v̂ is a noisy estimate and big batches amplify instability, so a full-size η at step 0 can wreck the weights.</p>
+    <p><b>Standard modern recipe:</b> AdamW + warmup + cosine decay + gradient clipping at 1.0. That is what most transformer training runs look like.</p>
+  </div>
+</section>
+
+<!-- BLOCK 4 -->
+<section class="block" id="practice">
+  <div class="rail">16–22<small>minutes</small></div>
+  <div>
+    <h2>Practice: stabilise, debug, stop</h2>
+
+    <h3>Gradient clipping</h3>
+    <p><b>Norm clipping</b> rescales g to length τ when ‖g‖ &gt; τ, so the direction is kept. <b>Value clipping</b> clamps each component, which can bend the direction. Example: g = [30, 40], τ = 5 → ‖g‖ = 50, so g becomes [3, 4].</p>
+
+    <h3>Batch size</h3>
+    <p>Small batches give noisy gradients (a mild regulariser) and many updates. Large batches are GPU-efficient but need a scaled-up η plus warmup. Linear scaling rule: ×k batch → ×k η. Batch 64 at η = 0.05 → batch 512 at η = 0.4.</p>
+
+    <h3>Symptom → first move</h3>
+    <div class="panel scroll">
+      <table>
+        <thead><tr><th>You see</th><th>Likely cause</th><th>Try first</th></tr></thead>
+        <tbody>
+          <tr><td>Loss flat from step 0</td><td>η too small, bad init, or a data bug</td><td>Overfit 10–100 examples; raise η 3–5×</td></tr>
+          <tr><td>Loss zigzags upward</td><td>η too large</td><td>η ÷ 10</td></tr>
+          <tr><td>Loss becomes NaN or Inf</td><td>Exploding gradients</td><td>Clip the norm, lower η, add warmup</td></tr>
+          <tr><td>Train falls, validation rises</td><td>Overfitting</td><td>Early stopping, weight decay, augmentation</td></tr>
+          <tr><td>Plateau mid-training</td><td>Saddle, flat region, or η too low</td><td>Momentum or Adam, schedule, restarts</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Stopping</h3>
+    <p>Set a max-epoch ceiling and add early stopping on validation loss with patience 5–10. Restore the best checkpoint. Saving the best model matters as much as stopping early.</p>
+
+    <h3>One recipe to take away (PyTorch)</h3>
+<pre>opt = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=0.01)
+warm = LinearLR(opt, start_factor=0.01, total_iters=warmup_steps)
+cos  = CosineAnnealingLR(opt, T_max=total_steps - warmup_steps, eta_min=1e-5)
+sched = SequentialLR(opt, schedulers=[warm, cos], milestones=[warmup_steps])
+
+for x, y in loader:
+    loss = F.cross_entropy(model(x), y)
+    opt.zero_grad(set_to_none=True)
+    loss.backward()
+    torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
+    opt.step()
+    sched.step()          # per iteration, not per epoch</pre>
+
+    <h3>Beyond the slides (tap to open)</h3>
+    <details><summary>Why bias correction works</summary>
+      <p>Starting from m₀ = 0, the weights on past gradients in mₜ add up to 1 − β₁ᵗ, not 1, so early moments are too small. Dividing by (1 − β₁ᵗ) restores the scale. At t = 1 you divide by 0.1, which is why the slide turns m = 0.8 into m̂ = 8. By t ≈ 50 the correction is negligible for β₁ but still matters for β₂ = 0.999 (it takes ~1000 steps).</p>
+    </details>
+    <details><summary>Adam’s step is scale-free</summary>
+      <p>When gradients are consistent, m̂/√v̂ ≈ ±1, so each weight moves about η per step no matter how large its gradient is. Slide 34 shows exactly this: both weights drop 0.05 every iteration. It is also why Adam’s loss on the toy problem falls slowly: the step size is capped by η, not helped by the steep gradient.</p>
+    </details>
+    <details><summary>Two momentum conventions</summary>
+      <p>Sum form (slides, PyTorch SGD): v ← βv + g. EMA form: v ← βv + (1−β)g. In sum form the steady-state step is 1/(1−β) = 10× the raw gradient step for β = 0.9, which is why the slide-20 example needed a smaller η than plain GD. When you copy hyperparameters between libraries, check which form is used.</p>
+    </details>
+    <details><summary>Nesterov, written precisely</summary>
+      <p>The lookahead point is θ − ηβv (the slide writes θ − βv, dropping η, to keep the picture simple). Same cost as momentum, one extra gradient position. PyTorch: SGD(..., momentum=0.9, nesterov=True).</p>
+    </details>
+    <details><summary>AMSGrad, Nadam, RAdam, Lion, Adafactor</summary>
+      <p><b>AMSGrad</b> keeps the running max of v so the effective step never grows (fixes a convergence counter-example for Adam). <b>Nadam</b> = Nesterov + Adam. <b>RAdam</b> rectifies the noisy early variance of the adaptive term, an alternative to warmup. <b>Lion</b> uses only the sign of a momentum average, so it keeps one state tensor instead of two. <b>Adafactor</b> factorises v to save memory on very large models.</p>
+    </details>
+    <details><summary>SGD vs Adam: who generalises better?</summary>
+      <p>The deck says SGD+Momentum often wins on vision. A common explanation is that SGD’s noise steers toward flatter minima, and Wilson et al. (2017) reported adaptive methods generalising worse on some tasks. AdamW narrowed the gap, and AdamW dominates language models. Treat it as a tuning-budget question, not a law.</p>
+    </details>
+    <details><summary>Saddles beat local minima in high dimensions</summary>
+      <p>For a point to be a local minimum, every one of millions of directions must curve upward. Random-ish critical points are overwhelmingly saddles (Dauphin et al., 2014). Momentum and minibatch noise are what push you off them. Slide 8 draws a “saddle” on a 1-D curve, but a true saddle needs at least two dimensions.</p>
+    </details>
+    <details><summary>Find η with a range test; try one-cycle</summary>
+      <p><b>LR range test</b> (Leslie Smith): raise η exponentially over a few hundred iterations, plot loss versus η, and pick a value roughly an order of magnitude below where loss starts to blow up. <b>One-cycle</b> ramps up then anneals down within one run and often trains faster. <b>SGDR</b> restarts cosine cycles to hop between basins.</p>
+    </details>
+    <details><summary>Large-batch toolkit</summary>
+      <p>Linear scaling + warmup (Goyal et al., 2017, ImageNet in an hour), then layer-wise methods LARS and LAMB when batches reach tens of thousands. <b>Gradient accumulation</b> emulates a big batch on small memory: sum gradients over several micro-batches, then step once.</p>
+    </details>
+    <details><summary>A peek at second-order methods</summary>
+      <p>Newton’s step θ − H⁻¹g jumps to the minimum of a quadratic in one move and fixes ill-conditioning outright. But H has n² entries, so deep nets use cheap approximations: K-FAC, Shampoo, or L-BFGS for small problems. Adam’s diagonal v is the poor person’s curvature estimate.</p>
+    </details>
+    <details><summary>Weight decay hygiene and mixed precision</summary>
+      <p>Usually exclude biases and normalisation gains from weight decay. With fp16 training, scale the loss to avoid gradient underflow, and unscale before clipping, otherwise your clip threshold is meaningless.</p>
+    </details>
+  </div>
+</section>
+
+<!-- BLOCK 5 -->
+<section class="block" id="watchouts">
+  <div class="rail">22–25<small>minutes</small></div>
+  <div>
+    <h2>Deck watch-outs</h2>
+    <p class="lead">I checked the slide arithmetic. Most is right; these items are worth fixing in your own notes before an exam or review.</p>
+    <div class="wo"><b>Slide 42</b><div>Cosine example says η at epoch 50 is 0.001. It uses cos(π), but at t = 50, T = 100 the angle is π/2 and cos = 0, so <b>η = 0.001 + 0.0495 = 0.0505</b>. The value 0.001 arrives at t = 100.</div></div>
+    <div class="wo"><b>Slide 48</b><div>The table says small batches “can use larger” η, yet the same slide’s linear scaling rule (and slide 57) says <b>larger batches get larger η</b>. Trust the scaling rule.</div></div>
+    <div class="wo"><b>Slides 29, 34</b><div>The “iteration 3” comparison mixes η (GD used 0.1, the others 0.05) on a gentle bowl with condition number 4. It says little about real networks. Use the race above with k = 40 for a fairer picture.</div></div>
+    <div class="wo"><b>Slide 21</b><div>Nesterov lookahead should be θ − ηβv; the slide shows θ − βv.</div></div>
+    <div class="wo"><b>Slide 20</b><div>Column headers read “v₁ ← βv₁ + w₁”; they mean the gradient g₁ (and g₂), not the weights.</div></div>
+    <div class="wo"><b>Slide 8</b><div>The saddle is drawn on a 1-D curve. Saddles only exist in two or more dimensions.</div></div>
+  </div>
+</section>
+
+<!-- BLOCK 6 -->
+<section class="block" id="selftest">
+  <div class="rail">25–30<small>minutes</small></div>
+  <div>
+    <h2>Self-test</h2>
+    <p class="lead">Two minutes of flashcards, then eight questions. Answer out loud before you tap.</p>
+
+    <h3>Flashcards</h3>
+    <button class="card" id="card" aria-live="polite"></button>
+    <div class="row">
+      <button class="btn" id="cprev">Previous</button>
+      <button class="btn" id="cnext">Next</button>
+      <button class="btn" id="cshuf">Shuffle</button>
+      <span class="mono" id="ccount" style="color:var(--muted)"></span>
+    </div>
+
+    <h3>Quiz</h3>
+    <div id="quiz"></div>
+    <p class="score" id="score"></p>
+
+    <h3>Teach-back challenge</h3>
+    <p>Set a 60-second timer and explain, without notes, why Adam’s first step moves every weight by almost exactly η. (Hint: what is m̂/√v̂ at t = 1?)</p>
+
+    <div class="five">
+      <h3 style="margin-top:0">If you remember only five lines</h3>
+      <ol>
+        <li>Momentum remembers direction; RMSprop remembers size; Adam remembers both.</li>
+        <li>Learning rate matters most; tune it before anything else.</li>
+        <li>Adam/AdamW is the default; SGD+momentum when you can afford tuning.</li>
+        <li>Warmup, then cosine decay; clip gradients for RNNs and transformers.</li>
+        <li>Watch curves and gradient norms; stop early; keep the best checkpoint.</li>
+      </ol>
+    </div>
+    <footer>Source: BITS Pilani WILP, Deep Neural Network, Module 10 (Optimizers). Additions draw on Kingma &amp; Ba (Adam), Loshchilov &amp; Hutter (AdamW, SGDR), Smith (LR range test), Goyal et al. (large batches), Dauphin et al. (saddles), Wilson et al. (adaptive methods).</footer>
+  </div>
+</section>
+</main>
+
+<script>
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)};
+var css=function(n){return getComputedStyle(document.documentElement).getPropertyValue(n).trim()};
+var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function fit(c){
+  var r=c.getBoundingClientRect(),d=window.devicePixelRatio||1;
+  c.width=Math.max(1,Math.round(r.width*d));c.height=Math.max(1,Math.round(r.height*d));
+  var x=c.getContext("2d");x.setTransform(d,0,0,d,0,0);
+  return {x:x,w:r.width,h:r.height};
+}
+function fmtLoss(L){if(!isFinite(L))return "∞";if(L<0.01&&L>0)return L.toExponential(1);return L.toFixed(L<10?3:1)}
+
+/* ---------- RACE ---------- */
+var OPT=[
+ {id:"gd",name:"Gradient descent",v:"--c-gd"},
+ {id:"mom",name:"Momentum",v:"--c-mom"},
+ {id:"nes",name:"Nesterov",v:"--c-nes"},
+ {id:"ada",name:"AdaGrad",v:"--c-ada"},
+ {id:"rms",name:"RMSprop",v:"--c-rms"},
+ {id:"adam",name:"Adam",v:"--c-adam"}];
+var vis={gd:true,mom:true,nes:false,ada:false,rms:true,adam:true};
+var eta=0.05,K=4,steps=0,bet=null,revealed=false,timer=null,S={};
+function loss(w){return w[0]*w[0]+K*w[1]*w[1]}
+function grad(w){return [2*w[0],2*K*w[1]]}
+function init(){
+  S={};
+  OPT.forEach(function(o){S[o.id]={w:[4,2],v:[0,0],s:[0,0],m:[0,0],t:0,path:[[4,2]],ls:[loss([4,2])],dead:false}});
+  steps=0;revealed=false;$("#pred-out").textContent="";
+}
+function stepOne(id){
+  var o=S[id];if(o.dead)return;
+  var w=o.w,b=0.9,g;
+  if(id==="nes"){g=grad([w[0]-eta*b*o.v[0],w[1]-eta*b*o.v[1]]);}else{g=grad(w);}
+  o.t++;
+  var nw=[0,0];
+  for(var i=0;i<2;i++){
+    if(id==="gd"){nw[i]=w[i]-eta*g[i];}
+    else if(id==="mom"||id==="nes"){o.v[i]=b*o.v[i]+g[i];nw[i]=w[i]-eta*o.v[i];}
+    else if(id==="ada"){o.s[i]+=g[i]*g[i];nw[i]=w[i]-eta*g[i]/Math.sqrt(o.s[i]+1e-8);}
+    else if(id==="rms"){o.s[i]=0.9*o.s[i]+0.1*g[i]*g[i];nw[i]=w[i]-eta*g[i]/Math.sqrt(o.s[i]+1e-8);}
+    else{
+      o.m[i]=0.9*o.m[i]+0.1*g[i];o.s[i]=0.999*o.s[i]+0.001*g[i]*g[i];
+      var mh=o.m[i]/(1-Math.pow(0.9,o.t)),vh=o.s[i]/(1-Math.pow(0.999,o.t));
+      nw[i]=w[i]-eta*mh/(Math.sqrt(vh)+1e-8);
+    }
+  }
+  o.w=nw;var L=loss(nw);
+  if(!isFinite(L)||L>1e7)o.dead=true;
+  o.path.push(nw.slice());o.ls.push(L);
+}
+function nameOf(id){for(var i=0;i<OPT.length;i++)if(OPT[i].id===id)return OPT[i].name;return id}
+function advance(){
+  OPT.forEach(function(o){stepOne(o.id)});steps++;
+  if(steps===30&&bet&&!revealed){
+    revealed=true;
+    var live=OPT.filter(function(o){return vis[o.id]&&!S[o.id].dead});
+    if(live.length){
+      live.sort(function(a,b){return S[a.id].ls[30]-S[b.id].ls[30]});
+      var win=live[0],ok=(win.id===bet);
+      $("#pred-out").textContent="At step 30 the lowest loss is "+win.name+" ("+fmtLoss(S[win.id].ls[30])+"). You bet "+nameOf(bet)+(ok?": you called it.":". Change k or η and try again.");
+    }else{$("#pred-out").textContent="Everything you were showing diverged. Lower η and retry."}
+  }
+}
+function runTo(n){
+  clearInterval(timer);
+  if(reduce){while(steps<n)advance();drawAll();return}
+  timer=setInterval(function(){if(steps>=n){clearInterval(timer);return}advance();drawAll()},70);
+}
+function drawRace(){
+  var c=$("#race"),f=fit(c),x=f.x,w=f.w,h=f.h;
+  var line=css("--line"),muted=css("--muted"),ink=css("--ink");
+  x.clearRect(0,0,w,h);
+  var px=function(a){return (a+5)/10*w},py=function(b){return h/2-b*h/6};
+  var L0=16+4*K;
+  x.lineWidth=1;x.strokeStyle=line;
+  [0.02,0.05,0.1,0.2,0.35,0.55,0.8,1].forEach(function(fr){
+    var c0=L0*fr;x.beginPath();x.ellipse(px(0),py(0),Math.sqrt(c0)*w/10,Math.sqrt(c0/K)*h/6,0,0,Math.PI*2);x.stroke();
+  });
+  x.setLineDash([4,4]);x.beginPath();x.moveTo(0,py(0));x.lineTo(w,py(0));x.moveTo(px(0),0);x.lineTo(px(0),h);x.stroke();x.setLineDash([]);
+  x.fillStyle=muted;x.font="12px 'IBM Plex Sans',sans-serif";
+  x.fillText("w₁",w-22,py(0)-6);x.fillText("w₂",px(0)+6,14);
+  x.fillStyle=ink;x.beginPath();x.arc(px(0),py(0),4,0,Math.PI*2);x.fill();x.fillText("minimum",px(0)+8,py(0)+16);
+  x.beginPath();x.arc(px(4),py(2),5,0,Math.PI*2);x.strokeStyle=ink;x.lineWidth=2;x.stroke();x.fillText("start (4, 2)",px(4)-70,py(2)-10);
+  OPT.forEach(function(o){
+    if(!vis[o.id])return;var col=css(o.v),P=S[o.id].path;
+    x.strokeStyle=col;x.fillStyle=col;x.lineWidth=1.8;x.beginPath();
+    P.forEach(function(p,i){var X=px(p[0]),Y=py(p[1]);if(i===0)x.moveTo(X,Y);else x.lineTo(X,Y)});x.stroke();
+    P.forEach(function(p,i){if(i%1===0&&Math.abs(p[0])<50&&Math.abs(p[1])<50){x.beginPath();x.arc(px(p[0]),py(p[1]),2,0,Math.PI*2);x.fill()}});
+    var e=P[P.length-1];if(Math.abs(e[0])<50&&Math.abs(e[1])<50){x.beginPath();x.arc(px(e[0]),py(e[1]),5.5,0,Math.PI*2);x.fill()}
+  });
+}
+function drawLoss(){
+  var c=$("#lossplot"),f=fit(c),x=f.x,w=f.w,h=f.h,line=css("--line"),muted=css("--muted");
+  x.clearRect(0,0,w,h);
+  var ml=44,mb=20,mt=8,mr=8,pw=w-ml-mr,ph=h-mt-mb,N=Math.max(30,steps);
+  var X=function(i){return ml+i/N*pw},Y=function(L){var v=Math.log10(Math.min(1e3,Math.max(1e-6,L)));return mt+(3-v)/9*ph};
+  x.font="11px 'IBM Plex Mono',monospace";x.fillStyle=muted;x.strokeStyle=line;x.lineWidth=1;
+  [[-6,"1e-6"],[-3,"1e-3"],[0,"1"],[3,"1e3"]].forEach(function(t){var y=mt+(3-t[0])/9*ph;x.beginPath();x.moveTo(ml,y);x.lineTo(w-mr,y);x.stroke();x.fillText(t[1],4,y+4)});
+  x.fillText("step",w-34,h-5);x.fillText("0",ml,h-5);x.fillText(String(N),w-mr-18-String(N).length*3,h-5);
+  OPT.forEach(function(o){
+    if(!vis[o.id])return;var ls=S[o.id].ls;x.strokeStyle=css(o.v);x.lineWidth=1.8;x.beginPath();
+    ls.forEach(function(L,i){var px=X(i),py=Y(L);if(i===0)x.moveTo(px,py);else x.lineTo(px,py)});x.stroke();
+  });
+}
+function drawTable(){
+  var h="";
+  OPT.forEach(function(o){
+    if(!vis[o.id])return;var s=S[o.id],L=s.ls[s.ls.length-1];
+    h+='<tr><td><span class="sw" style="--col:var('+o.v+')"></span>'+o.name+"</td><td>"+steps+"</td><td class=\"mono\">"+(s.dead?"diverged":"("+s.w[0].toFixed(3)+", "+s.w[1].toFixed(3)+")")+"</td><td class=\"mono\">"+(s.dead?"∞":fmtLoss(L))+"</td></tr>";
+  });
+  $("#rtab").innerHTML=h;
+}
+function drawAll(){drawRace();drawLoss();drawTable()}
+function build(){
+  var chips=$("#chips"),bets=$("#bets");
+  OPT.forEach(function(o){
+    var l=document.createElement("label");l.className="chip";l.style.setProperty("--col","var("+o.v+")");
+    l.innerHTML='<input type="checkbox"'+(vis[o.id]?" checked":"")+'><span class="dot"></span>'+o.name;
+    l.querySelector("input").addEventListener("change",function(e){vis[o.id]=e.target.checked;drawAll()});
+    chips.appendChild(l);
+    var b=document.createElement("button");b.className="chip bet";b.type="button";b.setAttribute("aria-pressed","false");b.style.setProperty("--col","var("+o.v+")");
+    b.innerHTML='<span class="dot"></span>'+o.name;
+    b.addEventListener("click",function(){bet=o.id;revealed=false;Array.prototype.forEach.call(bets.children,function(k){k.setAttribute("aria-pressed","false")});b.setAttribute("aria-pressed","true");
+      $("#pred-out").textContent="Bet placed on "+o.name+". Now run to step 30."});
+    bets.appendChild(b);
+  });
+}
+function resetSim(){clearInterval(timer);init();drawAll()}
+$("#eta").addEventListener("input",function(e){eta=parseFloat(e.target.value);$("#etaV").textContent=eta.toFixed(3);resetSim()});
+$("#kk").addEventListener("input",function(e){K=parseInt(e.target.value,10);$("#kV").textContent=K;resetSim()});
+$("#run30").addEventListener("click",function(){runTo(30)});
+$("#run100").addEventListener("click",function(){runTo(100)});
+$("#step1").addEventListener("click",function(){clearInterval(timer);advance();drawAll()});
+$("#reset").addEventListener("click",resetSim);
+Array.prototype.forEach.call(document.querySelectorAll("[data-p]"),function(b){
+  b.addEventListener("click",function(){
+    var p=b.getAttribute("data-p").split(",");eta=parseFloat(p[0]);K=parseInt(p[1],10);
+    $("#eta").value=eta;$("#etaV").textContent=eta.toFixed(3);$("#kk").value=K;$("#kV").textContent=K;
+    resetSim();runTo(100);
+  });
+});
+
+/* ---------- SCHEDULES ---------- */
+var T=100,ETA_MIN=0.001,kind="wcos",eta0=0.1,tEp=50;
+var KINDS={
+  step:{name:"Step decay",knob:{l:"Step size (epochs)",min:10,max:50,st:1,v:30}},
+  exp:{name:"Exponential",knob:{l:"Decay rate λ",min:0.01,max:0.1,st:0.005,v:0.05}},
+  cos:{name:"Cosine annealing",knob:null},
+  wcos:{name:"Warmup + cosine",knob:{l:"Warmup epochs",min:1,max:20,st:1,v:5}}
+};
+function lr(k,t){
+  var kb=KINDS[k].knob?KINDS[k].knob.v:0;
+  if(k==="step")return eta0*Math.pow(0.1,Math.floor(t/kb));
+  if(k==="exp")return eta0*Math.exp(-kb*t);
+  if(k==="cos")return ETA_MIN+0.5*(eta0-ETA_MIN)*(1+Math.cos(Math.PI*t/T));
+  if(t<=kb)return eta0*t/kb;
+  return ETA_MIN+0.5*(eta0-ETA_MIN)*(1+Math.cos(Math.PI*(t-kb)/(T-kb)));
+}
+function drawSched(){
+  var c=$("#schedplot"),f=fit(c),x=f.x,w=f.w,h=f.h,line=css("--line"),muted=css("--muted"),acc=css("--accent"),ink=css("--ink");
+  var logy=$("#logy").checked;x.clearRect(0,0,w,h);
+  var ml=48,mb=22,mt=10,mr=10,pw=w-ml-mr,ph=h-mt-mb;
+  var lo=Math.log10(1e-5),hi=Math.log10(eta0*1.2);
+  var Y=function(v){if(logy){return mt+(hi-Math.log10(Math.max(1e-5,v)))/(hi-lo)*ph}return mt+(1-v/(eta0*1.1))*ph};
+  var X=function(t){return ml+t/T*pw};
+  x.font="11px 'IBM Plex Mono',monospace";x.fillStyle=muted;x.strokeStyle=line;x.lineWidth=1;
+  var ticks=logy?[1e-5,1e-4,1e-3,1e-2,1e-1].filter(function(v){return v<eta0*1.2}):[0,eta0/2,eta0];
+  ticks.forEach(function(v){var y=Y(v);x.beginPath();x.moveTo(ml,y);x.lineTo(w-mr,y);x.stroke();x.fillText(v>=0.01||v===0?v.toFixed(v===0?0:3):v.toExponential(0),2,y+4)});
+  [0,25,50,75,100].forEach(function(t){x.fillText(String(t),X(t)-6,h-6)});
+  x.strokeStyle=acc;x.lineWidth=2.2;x.beginPath();
+  for(var t=0;t<=T;t++){var xx=X(t),yy=Y(lr(kind,t));if(t===0)x.moveTo(xx,yy);else x.lineTo(xx,yy)}x.stroke();
+  x.setLineDash([4,4]);x.strokeStyle=ink;x.lineWidth=1;x.beginPath();x.moveTo(X(tEp),mt);x.lineTo(X(tEp),mt+ph);x.stroke();x.setLineDash([]);
+  x.fillStyle=ink;x.beginPath();x.arc(X(tEp),Y(lr(kind,tEp)),5,0,Math.PI*2);x.fill();
+  $("#sread").textContent=KINDS[kind].name+": η at epoch "+tEp+" = "+lr(kind,tEp).toFixed(5);
+}
+function setKnob(){
+  var k=KINDS[kind].knob,wrap=$("#knobWrap");
+  if(!k){wrap.style.display="none";return}
+  wrap.style.display="";var s=$("#knob");
+  s.min=k.min;s.max=k.max;s.step=k.st;s.value=k.v;$("#knobL").textContent=k.l;$("#knobV").textContent=k.v;
+}
+(function(){
+  var box=$("#kinds");
+  Object.keys(KINDS).forEach(function(k){
+    var b=document.createElement("button");b.type="button";b.className="chip bet";b.style.setProperty("--col","var(--accent)");
+    b.textContent=KINDS[k].name;b.setAttribute("aria-pressed",k===kind?"true":"false");
+    b.addEventListener("click",function(){kind=k;Array.prototype.forEach.call(box.children,function(c){c.setAttribute("aria-pressed","false")});b.setAttribute("aria-pressed","true");setKnob();drawSched()});
+    box.appendChild(b);
+  });
+})();
+$("#eta0").addEventListener("input",function(e){eta0=parseFloat(e.target.value);$("#eta0V").textContent=eta0.toFixed(3);drawSched()});
+$("#knob").addEventListener("input",function(e){var v=parseFloat(e.target.value);KINDS[kind].knob.v=v;$("#knobV").textContent=v;drawSched()});
+$("#tEp").addEventListener("input",function(e){tEp=parseInt(e.target.value,10);$("#tV").textContent=tEp;drawSched()});
+$("#logy").addEventListener("change",drawSched);
+
+/* ---------- FLASHCARDS ---------- */
+var CARDS=[
+ ["Why do we need iterative optimizers?","Networks have millions to billions of parameters and a non-convex loss, so there is no closed-form minimiser. We follow gradients step by step."],
+ ["Momentum update, and what does β = 0.9 mean?","v ← βv + g; θ ← θ − ηv. About 90% of the previous velocity is kept, which averages roughly the last 10 gradients."],
+ ["Why does momentum need a smaller η than plain GD?","In steady state the sum-form velocity is 1/(1−β) = 10× the gradient, so steps are amplified."],
+ ["What is AdaGrad’s weakness?","s accumulates squared gradients forever, so η/√s shrinks toward 0 and learning stalls."],
+ ["How does RMSprop fix it?","It uses an exponential moving average, s ← γs + (1−γ)g², so old gradients are forgotten and η does not vanish."],
+ ["What is Adam made of, with default hyperparameters?","First moment m (momentum, β₁ = 0.9) and second moment v (RMS scaling, β₂ = 0.999), both bias-corrected. η = 1e-3, ε = 1e-8."],
+ ["Why bias correction in Adam?","m and v start at 0, so early estimates are too small. Dividing by 1 − βᵗ rescales them. At t = 1, m = 0.8 becomes m̂ = 8."],
+ ["How far does each weight move on Adam’s first step?","About η, in the direction opposite to the gradient’s sign, because m̂/√v̂ = g/|g| = ±1 at t = 1."],
+ ["AdamW vs Adam with L2?","L2 puts λθ into the gradient, where it is rescaled by 1/√v̂. AdamW decays weights directly, independent of gradient history."],
+ ["Linear scaling rule?","Multiply the batch size by k, multiply η by k. Pair it with a warmup for large batches."],
+ ["Why use warmup?","A full-size η at step 0 is unstable: adaptive statistics are noisy and large batches amplify errors. Ramp up over 5–10 epochs."],
+ ["Norm clipping vs value clipping?","Norm: rescale g to length τ, direction preserved. Value: clamp each component to [−τ, τ], direction may change."],
+ ["Which tuning order do the slides recommend?","Learning rate first, then batch size, then schedule, then optimizer-specific settings (usually defaults)."],
+ ["Early stopping, exactly?","Track best validation loss; if there is no improvement for p epochs (patience 5–10), stop and restore the best checkpoint."],
+ ["Saddle point vs local minimum?","Both have ∇L = 0. At a saddle some directions curve up and others down. In high dimensions saddles are far more common."]
+];
+var ci=0,flipped=false;
+function showCard(){
+  var c=$("#card"),d=CARDS[ci];
+  c.className="card"+(flipped?" flip":"");
+  c.innerHTML=flipped?'<div class="a">'+d[1]+'</div><span class="hint">Tap to see the question</span>':'<div class="q">'+d[0]+'</div><span class="hint">Tap to reveal the answer</span>';
+  $("#ccount").textContent=(ci+1)+" / "+CARDS.length;
+}
+$("#card").addEventListener("click",function(){flipped=!flipped;showCard()});
+$("#cnext").addEventListener("click",function(){ci=(ci+1)%CARDS.length;flipped=false;showCard()});
+$("#cprev").addEventListener("click",function(){ci=(ci-1+CARDS.length)%CARDS.length;flipped=false;showCard()});
+$("#cshuf").addEventListener("click",function(){
+  for(var i=CARDS.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=CARDS[i];CARDS[i]=CARDS[j];CARDS[j]=t}
+  ci=0;flipped=false;showCard();
+});
+
+/* ---------- QUIZ ---------- */
+var QS=[
+ {q:"Adam, first iteration, gradient g = [8, 16], η = 0.05 (ε negligible). How far does each weight move?",o:["0.05 each","0.4 and 0.8","0.05 and 0.1","0.8 and 1.6"],a:0,w:"After bias correction m̂ = g and √v̂ = |g|, so the ratio is ±1 for every coordinate and each weight moves η = 0.05."},
+ {q:"Cosine annealing with ηmax = 0.1, ηmin = 0.001, T = 100. What is η at epoch 50?",o:["0.001","0.0505","0.05","0.1"],a:1,w:"cos(π·50/100) = cos(π/2) = 0, so η = 0.001 + ½·0.099·1 = 0.0505. The slide’s 0.001 belongs to epoch 100."},
+ {q:"Which change stops AdaGrad’s learning rate from vanishing?",o:["A larger ε","Replace the running sum of g² with an exponential moving average","Add a momentum term","Double the batch size"],a:1,w:"That is RMSprop’s fix: old squared gradients decay, so the denominator can fall again."},
+ {q:"Norm clipping with τ = 5 on g = [30, 40]. What is the result?",o:["[5, 5]","[3, 4]","[30, 40]","[0.6, 0.8]"],a:1,w:"‖g‖ = 50, so g is scaled by 5/50 = 0.1, giving [3, 4]. The direction is unchanged."},
+ {q:"Batch 64 trains well at η = 0.05. Under the linear scaling rule, what η for batch 512?",o:["0.05","0.1","0.4","3.2"],a:2,w:"512/64 = 8, so η × 8 = 0.4, usually with a warmup."},
+ {q:"Why can AdamW generalise better than Adam + L2?",o:["It uses a bigger β₂","L2 shrinkage is rescaled by 1/√v̂ in Adam, but AdamW decays all weights uniformly","It removes the second moment","It needs no learning rate"],a:1,w:"In Adam + L2 the penalty’s gradient is divided by the adaptive denominator, so weights with a large gradient history are decayed less. AdamW decouples it."},
+ {q:"A transformer’s loss turns NaN after a few hundred steps. Best first two moves?",o:["Clip gradient norm and lower η (add warmup)","Increase batch size and drop early stopping","Raise β₁ to 0.99","Switch to value clipping at 100"],a:0,w:"NaN or Inf means exploding gradients. Clipping and a smaller or warmed-up η are the standard fixes."},
+ {q:"With momentum β = 0.9 (sum form), about how many recent gradients does the velocity effectively average?",o:["2","10","100","1000"],a:1,w:"The effective window is 1/(1−β) = 10 steps; the same velocity also magnifies steady steps by about 10×."}
+];
+var correct=0,answered=0;
+function buildQuiz(){
+  var box=$("#quiz");box.innerHTML="";
+  QS.forEach(function(q,qi){
+    var d=document.createElement("div");d.className="qz";
+    var h='<p class="qt">'+(qi+1)+". "+q.q+'</p><div class="opts"></div><div class="why" aria-live="polite"></div>';
+    d.innerHTML=h;var ob=d.querySelector(".opts");
+    q.o.forEach(function(t,oi){
+      var b=document.createElement("button");b.type="button";b.className="opt";b.textContent=t;
+      b.addEventListener("click",function(){
+        var all=ob.querySelectorAll(".opt");Array.prototype.forEach.call(all,function(k,i){k.disabled=true;if(i===q.a)k.classList.add("right")});
+        answered++;if(oi===q.a){correct++}else{b.classList.add("wrong")}
+        d.querySelector(".why").textContent=(oi===q.a?"Correct. ":"Not quite. ")+q.w;
+        $("#score").textContent="Score: "+correct+" / "+answered+(answered===QS.length?(correct===QS.length?" — clean sweep.":correct>=6?" — solid; revisit the ones you missed.":" — reread blocks 2 and 3, then retry."):"");
+      });
+      ob.appendChild(b);
+    });
+    box.appendChild(d);
+  });
+}
+
+/* ---------- 30-minute clock ---------- */
+var TOTAL=1800,remaining=TOTAL,ticking=false,iv=null;
+var BLOCKS=[0,4,11,16,22,25],pills=document.querySelectorAll("#pills .pill");
+function pad(n){return (n<10?"0":"")+n}
+function clockUpdate(){
+  $("#clock").textContent=pad(Math.floor(remaining/60))+":"+pad(remaining%60);
+  var el=TOTAL-remaining,idx=0;BLOCKS.forEach(function(b,i){if(el>=b*60)idx=i});
+  Array.prototype.forEach.call(pills,function(p,i){if(ticking&&i===idx)p.setAttribute("aria-current","step");else p.removeAttribute("aria-current")});
+}
+$("#tstart").addEventListener("click",function(){
+  if(ticking){ticking=false;clearInterval(iv);this.textContent="Resume";clockUpdate();return}
+  ticking=true;this.textContent="Pause";
+  iv=setInterval(function(){
+    if(remaining>0){remaining--;clockUpdate()}else{clearInterval(iv);ticking=false;$("#tstart").textContent="Start the clock";$("#clock").textContent="Done"}
+  },1000);
+  clockUpdate();
+});
+$("#treset").addEventListener("click",function(){clearInterval(iv);ticking=false;remaining=TOTAL;$("#tstart").textContent="Start the clock";clockUpdate()});
+
+/* ---------- boot ---------- */
+build();init();setKnob();showCard();buildQuiz();clockUpdate();
+function redrawAll(){drawAll();drawSched()}
+redrawAll();
+if(window.ResizeObserver){var ro=new ResizeObserver(function(){redrawAll()});ro.observe(document.body)}else{window.addEventListener("resize",redrawAll)}
+if(window.matchMedia){var mq=window.matchMedia("(prefers-color-scheme: dark)");if(mq.addEventListener)mq.addEventListener("change",redrawAll)}
+if(!reduce){setTimeout(function(){runTo(30)},500)}else{runTo(30)}
+})();
+</script>
+</body>
+</html>

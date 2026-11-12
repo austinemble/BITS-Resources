@@ -1,0 +1,49 @@
+# ==============================================================================
+# BITS Resources Repository — .gitignore
+# Strictly ignores raw synced videos, bulky Inbox folders, and OS/Python artifacts
+# ==============================================================================
+
+# Video files (all standard containers)
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.wmv
+*.flv
+*.webm
+*.m4v
+*.mpg
+*.mpeg
+*.3gp
+
+# Video and raw capture folders (recursive across all semesters and courses)
+**/Inbox/
+Inbox/
+**/Videos/
+Videos/
+
+# macOS system metadata
+.DS_Store
+*/.DS_Store
+*/**/.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Python cache & virtual environments
+__pycache__/
+*/__pycache__/
+*/**/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Google Drive sync temporary metadata
+.tmp.drivedownload/
+.tmp.driveupload/

@@ -1,0 +1,32 @@
+# ==============================================================================
+# BITS Pilani AIML ZG565: Machine Learning — Git Ignore Rules
+# ==============================================================================
+
+# Strictly exclude all bulky video recording files
+*.mp4
+*.mkv
+*.avi
+*.mov
+Videos/
+Inbox/
+
+# Temporary / Corrupted files
+Syllabus.docx
+.DS_Store
+._*
+Thumbs.db
+
+# Python & Environment artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.env
+
+# Streamlit local runtime cache
+.streamlit/
+
