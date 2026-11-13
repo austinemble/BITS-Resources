@@ -38,7 +38,7 @@ Decision trees possess unique pedagogical and industrial advantages:
 ## 2. Theoretical Motivation & Information-Theoretic Criteria
 
 ![Gini Index CART Derivation on Defaulted Loan Dataset](../assets/M05_decision_tree_gini_index.jpg)
-*Figure 5.1: Gini Index CART calculation on defaulted loan dataset — Gini(D)=0.42, pure node derivation (Oct 04 session).*
+*Figure 5.1: Gini calculation on the defaulted-loan table, 4 October 2026. Parent impurity is $1-(3/10)^2-(7/10)^2=0.42$. Home Owner = Yes is the pure node (all three rows are non-default, Gini $0$). Home Owner = No is mixed (3 default, 4 non-default), so its Gini is $1-(3/7)^2-(4/7)^2 \approx 0.490$, not zero.*
 
 ### 2.1 Shannon Entropy
 Entropy quantifies the average uncertainty, impurity, or information content contained within a sample set $S$. For a discrete random variable with $C$ classes and empirical class proportions $p_i = \frac{|S_i|}{|S|}$:

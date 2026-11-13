@@ -71,6 +71,9 @@ graph TD
     RL --> MDP["Markov Decision Process<br>(Agent, State, Action, Reward)"]
 ```
 
+![ML Taxonomy — Types of Machine Learning](../assets/M01_ml_taxonomy_whiteboard.jpg)
+*Figure 1.1: Types of machine learning as drawn in lecture — supervised (labelled), unsupervised, semi-supervised, and reinforcement learning, with regression versus classification.*
+
 ### 2.1 Supervised Learning
 The training dataset consists of input-output pairs $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^N$, where $\mathbf{x}_i \in \mathcal{X} \subseteq \mathbb{R}^d$ denotes the feature vector and $y_i \in \mathcal{Y}$ represents the ground-truth supervisor label.
 - **Regression**: The label space is continuous: $\mathcal{Y} \subseteq \mathbb{R}$. The goal is to estimate a continuous mapping function $\hat{f}: \mathbb{R}^d \to \mathbb{R}$ minimizing a distance metric such as Mean Squared Error (MSE).
@@ -124,9 +127,6 @@ Designing a production-grade machine learning system requires a disciplined sequ
 │  - Weight Update: wᵢ ← wᵢ + η (V_train(b) - V̂(b)) xᵢ   │
 └────────────────────────────────────────────────────────┘
 ```
-
-![ML Taxonomy — Types of Machine Learning](../assets/M01_ml_taxonomy_whiteboard.jpg)
-*Figure 1.1: ML Taxonomy whiteboard — Supervised (Labelled), Unsupervised, Semi-Supervised, and Reinforcement Learning as drawn by Prof. Pritee Narendra Raole.*
 
 ### 3.1 The Complete Checkers Learning Architecture (Mitchell Model)
 The complete operational system comprises four interconnected modules:
@@ -203,6 +203,27 @@ An end-to-end machine learning engineering workflow consists of six tightly coup
 │    - Precision, Recall, ROC-AUC, Calibration curves                     │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
+
+---
+
+### 4.1 Challenges in Machine Learning
+
+In the first lecture, Prof. Pritee Narendra Raole framed the subject as having two sides: the methods are powerful, but each one carries issues that have to be anticipated before they appear in a deployed system. The table lists the challenges that recur through this course. Each one is developed in the module shown.
+
+| Challenge | How it shows up | Remedy | Where it is covered |
+| :--- | :--- | :--- | :--- |
+| Insufficient or unrepresentative data | High variance; the model fails on groups missing from the sample | More data, stratified sampling | Module 2 (workflow), Module 11 |
+| Poor data quality | Noise, duplicates, wrong labels, missing values | Provenance audit, imputation, label checks | Module 2, §3.1 |
+| Overfitting and underfitting | Low training error with high test error (overfitting), or high error on both (underfitting) | Regularization, cross-validation, simpler model | Module 3, §2.4; Module 11 |
+| Curse of dimensionality | Distances lose contrast; neighbourhoods become empty | Feature selection, dimensionality reduction | Module 6, §2.6 |
+| Class imbalance | Accuracy looks high while the minority class is missed | Resampling (SMOTE), class weights, precision-recall metrics | Module 2, §3.1; Module 11 |
+| Distribution shift | The model is accurate at training time and degrades after deployment | Time-based splits, monitoring, retraining | Module 1 (this section) |
+| Interpretability, fairness, accountability | Predictions cannot be explained or audited across groups | Explanation methods (SHAP), fairness audits | Module 11 |
+| Computation and memory cost | The matrix inverse costs $\mathcal{O}(M^3)$; $k$-NN inference scans all stored points | Iterative optimizers, approximate neighbour search | Module 3, §2.3; Module 6 |
+
+**Distribution shift in practice.** A fraud model trained on last year's card transactions can perform well on held-out data from that year and still fail once fraudsters adopt a new pattern. A random train/test split hides this problem. A time-ordered split, with the test set drawn from later than the training set, exposes it.
+
+**No Free Lunch.** Wolpert and Macready (1997) showed that, averaged over all possible learning problems, no algorithm outperforms any other. A learner's advantage comes from matching its assumptions to the problem. For this reason the workflow in Section 4 compares candidate models on held-out data rather than assuming one model is best.
 
 ---
 

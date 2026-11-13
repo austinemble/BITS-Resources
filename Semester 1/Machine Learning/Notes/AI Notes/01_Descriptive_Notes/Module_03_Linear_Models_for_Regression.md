@@ -67,13 +67,12 @@ The OLS prediction vector $\hat{\mathbf{y}} = \mathbf{\Phi}\mathbf{w}_{\text{OLS
 
 When feature dimension $M$ is large ($M > 10^4$), computing matrix inversion $(\mathbf{\Phi}^T\mathbf{\Phi})^{-1}$ requires $\mathcal{O}(M^3)$ operations and becomes computationally intractable. Iterative gradient descent optimizes $\mathbf{w}$ via first-order loss surface descent:
 
-![Regularization Whiteboard — L1 (Lasso) vs L2 (Ridge)](../assets/M03_regularization_lasso_ridge.jpg)
-*Figure 3.1: Regularization whiteboard — L1 Lasso (sparse solution), L2 Ridge, λ as the regularization control knob; J(θ)+λR(θ) penalty formulation (Aug 23 session).*
-
 $$\mathbf{w}^{(t+1)} = \mathbf{w}^{(t)} - \eta \nabla_{\mathbf{w}} \mathcal{L}(\mathbf{w}^{(t)})$$
 
 Where:
-$$\nabla_{\mathbf{w}} \mathcal{L}(\mathbf{w}) = -\frac{1}{N} \mathbf{\Phi}^T (\mathbf{y} - \mathbf{\Phi}\mathbf{w}) = \frac{1}{N} \mathbf{\Phi}^T (\hat{\mathbf{y}} - \mathbf{y})$$
+$$\nabla_{\mathbf{w}} \mathcal{L}(\mathbf{w}) = -\mathbf{\Phi}^T (\mathbf{y} - \mathbf{\Phi}\mathbf{w}) = \mathbf{\Phi}^T (\hat{\mathbf{y}} - \mathbf{y})$$
+
+This gradient matches the $\tfrac{1}{2}\|\mathbf{y}-\mathbf{\Phi}\mathbf{w}\|_2^2$ loss defined above. If the objective is instead the mean loss $\tfrac{1}{2N}\|\mathbf{y}-\mathbf{\Phi}\mathbf{w}\|_2^2$, every gradient is divided by $N$. That constant can be absorbed into the learning rate $\eta$.
 
 #### Optimization Paradigms:
 1. **Batch Gradient Descent (BGD)**:
@@ -112,6 +111,9 @@ $$\mathbb{E}[(y - \hat{f}(\mathbf{x}))^2] = \underbrace{(f(\mathbf{x}) - \bar{f}
 
 ### 2.5 Regularized Linear Models: Ridge ($L_2$) and Lasso ($L_1$)
 
+![Regularization Whiteboard — L1 (Lasso) vs L2 (Ridge)](../assets/M03_regularization_lasso_ridge.jpg)
+*Figure 3.1: Regularization as taught on 23 August 2026 — L1 Lasso, L2 Ridge, penalty $J(\theta)+\lambda R(\theta)$, and the scikit-learn relationship $C = 1/\lambda$.*
+
 To control model variance and combat multicollinearity:
 
 #### 1. Ridge Regression ($L_2$ Regularization / Tikhonov Regularization):
@@ -130,7 +132,7 @@ $$\mathbf{w}_{\text{Ridge}} = (\mathbf{\Phi}^T\mathbf{\Phi} + \lambda \mathbf{I}
 #### 2. Lasso Regression ($L_1$ Regularization):
 Penalizes the absolute $L_1$ norm of parameters:
 
-$$\mathcal{L}_{\text{Lasso}}(\mathbf{w}) = \frac{1}{2N} \|\mathbf{y} - \mathbf{\Phi}\mathbf{w}\|_2^2 + \lambda \|\mathbf{w}\|_1 = \frac{1}{2N} \|\mathbf{y} - \mathbf{\Phi}\mathbf{w}\|_2^2 + \lambda \sum_{j=1}^M |w_j|$$
+$$\mathcal{L}_{\text{Lasso}}(\mathbf{w}) = \frac{1}{2} \|\mathbf{y} - \mathbf{\Phi}\mathbf{w}\|_2^2 + \lambda \|\mathbf{w}\|_1 = \frac{1}{2} \|\mathbf{y} - \mathbf{\Phi}\mathbf{w}\|_2^2 + \lambda \sum_{j=1}^M |w_j|$$
 
 Because the absolute value function $|w_j|$ has a non-differentiable kink at $w_j = 0$, the gradient does not exist at zero. Lasso produces **exact feature sparsity** ($w_j = 0$), performing automated feature selection.
 

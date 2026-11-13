@@ -76,6 +76,39 @@ As Vladimir Vapnik formulated: *"If you possess a restricted amount of data, sol
 
 ---
 
+### 2.4 Decision Theory: From Posterior to Decision
+
+Classification has two stages (Bishop, *Pattern Recognition and Machine Learning*, §1.5):
+1. **Inference**: estimate the posterior $P(C_k \mid \mathbf{x})$.
+2. **Decision**: choose a class for each input $\mathbf{x}$.
+
+The decision stage is where the cost of errors enters. In the 30 August 2026 lecture, Prof. Raole used disease screening to make the point: a false negative (a sick patient labelled healthy) and a false positive (a healthy patient flagged for follow-up) carry different consequences. The decision threshold should therefore depend on the application, not default to $0.5$.
+
+**Loss matrix.** $L_{kj}$ is the cost of assigning an input whose true class is $C_k$ to class $C_j$. Correct decisions cost nothing, so $L_{kk} = 0$.
+
+**Minimum expected loss rule.** Assign $\mathbf{x}$ to the class $j$ that minimizes the conditional risk
+$$R_j(\mathbf{x}) = \sum_{k} L_{kj} \, P(C_k \mid \mathbf{x})$$
+Averaging over the data gives $\mathbb{E}[L] = \int R_{j(\mathbf{x})}(\mathbf{x})\, p(\mathbf{x})\, d\mathbf{x}$, and choosing the minimum-risk class at each $\mathbf{x}$ minimizes this integral.
+
+With 0/1 loss ($L_{kj} = 1$ for $k \neq j$), $R_j = 1 - P(C_j \mid \mathbf{x})$. The rule then reduces to picking the most probable class, which is the MAP decision from Module 8.
+
+**Worked example (binary screening).** Classes are Sick ($S$) and Healthy ($H$). Costs: $L_{SH} = 10$ (missed disease), $L_{HS} = 1$ (unnecessary follow-up), and $L_{SS} = L_{HH} = 0$. For a patient with $p = P(S \mid \mathbf{x})$:
+- Predict Healthy: $R_H = L_{SH}\,p = 10p$
+- Predict Sick: $R_S = L_{HS}\,(1-p) = 1-p$
+
+Predict Sick when $1 - p < 10p$, that is, when $p > \tfrac{1}{11} \approx 0.091$. Under these costs the threshold is about 9%, not 50%.
+
+**Three routes to the same decision** (Bishop §1.5.4):
+- **Generative**: model $p(\mathbf{x} \mid C_k)$ and the priors, then apply Bayes' theorem (Naïve Bayes, LDA).
+- **Discriminative**: model $P(C_k \mid \mathbf{x})$ directly, then decide (logistic regression).
+- **Discriminant function**: learn a function $f(\mathbf{x})$ that maps straight to a class label without estimating probabilities (perceptron, SVM).
+
+Moving the threshold trades false negatives against false positives. That movement is the operating point on the ROC curve in Module 11.
+
+**Regression.** Under squared-error loss, the optimal prediction is the conditional mean $\mathbb{E}[y \mid \mathbf{x}]$ (Bishop §1.5.5).
+
+---
+
 ## 3. Logistic Regression Formulation
 
 ![Logistic Regression Introduction Whiteboard](../assets/M04_logistic_regression_whiteboard.jpg)

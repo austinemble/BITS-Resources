@@ -125,6 +125,48 @@ As feature dimension $d \to \infty$, geometric properties in $\mathbb{R}^d$ beco
 
 ---
 
+### 2.7 Radial Basis Functions (RBF)
+
+A radial basis function depends only on the distance from a fixed centre $\mathbf{c}$:
+$$\phi(\mathbf{x}) = \varphi\!\left(\|\mathbf{x} - \mathbf{c}\|_2\right)$$
+The most common choice is the Gaussian:
+$$\varphi(r) = \exp\!\left(-\frac{r^2}{2\sigma^2}\right)$$
+It equals 1 at the centre, decays toward 0 as distance grows, and $\sigma$ sets the width.
+
+In the 18 October 2026 lecture, Prof. Raole introduced RBF as the name for the distance-based similarity weighting used by nearest-neighbour methods. Nearer points receive more weight and distant points receive less. She also noted that the Gaussian kernel used for SVMs in Module 7 is an RBF.
+
+**Where RBFs appear in this module and the next**
+- **Distance-weighted $k$-NN** (§2.4) uses $1/d^2$, a different decay from the Gaussian.
+- **Locally weighted regression** (§2.5) uses a Gaussian kernel centred on the query point, with bandwidth $\tau = \sigma$.
+- **RBF network** (Broomhead and Lowe, 1988):
+$$f(\mathbf{x}) = w_0 + \sum_{j=1}^{K} w_j \, \varphi\!\left(\|\mathbf{x} - \mathbf{c}_j\|_2\right)$$
+The centres $\mathbf{c}_j$ are often chosen with $k$-means (Module 10), and the weights $w_j$ are fitted by least squares.
+- **SVM Gaussian kernel** (Module 7, §2.5): $K(\mathbf{x}, \mathbf{z}) = \exp\!\left(-\gamma \|\mathbf{x} - \mathbf{z}\|_2^2\right)$ with $\gamma = \frac{1}{2\sigma^2}$. This is the RBF with centres placed at the training points.
+
+**Worked example.** Take $\mathbf{x} = (2, 3)^T$, centre $\mathbf{c} = (1, 1)^T$, and $\sigma = 1$.
+- $\|\mathbf{x} - \mathbf{c}\|_2^2 = 1 + 4 = 5$
+- $\varphi = \exp(-5/2) \approx 0.082$
+
+If the centre is moved to $\mathbf{c}' = (2, 3)^T$, then $\varphi = \exp(0) = 1$.
+
+**Bandwidth trade-off.** A small $\sigma$ gives narrow bumps, so each training point influences only its immediate neighbourhood. That is low bias and high variance. A large $\sigma$ gives smooth functions that underfit. This is the same trade-off as in Module 3, §2.4.
+
+```python
+import numpy as np
+
+def gaussian_rbf(X: np.ndarray, centers: np.ndarray, sigma: float) -> np.ndarray:
+    """X: (N, d), centers: (K, d) -> design matrix of shape (N, K)."""
+    d2 = np.sum((X[:, None, :] - centers[None, :, :]) ** 2, axis=-1)
+    return np.exp(-d2 / (2.0 * sigma ** 2))
+
+# Example: one input and one centre from the worked example above
+X = np.array([[2.0, 3.0]])
+C = np.array([[1.0, 1.0]])
+print(gaussian_rbf(X, C, sigma=1.0))  # approx [[0.0821]]
+```
+
+---
+
 ## 3. Vectorized Implementation (From Scratch)
 
 ```python

@@ -100,12 +100,12 @@ $$v_{\text{BayesOptimal}} = \arg\max_{v_j \in V} \sum_{h_i \in \mathcal{H}} P(v_
 
 > **Fundamental Optimality Theorem**: No other classification algorithm using the same hypothesis space and prior knowledge can outperform the Bayes Optimal Classifier on average.
 
+![Bayes Optimal Classifier Worked Example](../assets/M08_bayes_optimal_classifier.jpg)
+*Figure 8.1: Bayes optimal classifier example from 1 November 2026. Posteriors are $P(h_1\mid D)=0.4$, $P(h_2\mid D)=0.3$, $P(h_3\mid D)=0.3$. Only $h_1$ votes positive, so the posterior mass on the negative class is $0.6$ and the Bayes optimal label is negative.*
+
 ---
 
 ## 3. The Naïve Bayes Classifier
-
-![Bayes Optimal Classifier Worked Example](../assets/M08_bayes_optimal_classifier.jpg)
-*Figure 8.1: Bayes Optimal Classifier worked example — argmax over three hypotheses h₁,h₂,h₃ with posterior probabilities P(hᵢ|D) (Nov 01 session).*
 
 ### 3.1 The Conditional Independence Assumption
 
@@ -154,6 +154,40 @@ When features $x_k$ are continuous real values ($x_k \in \mathbb{R}$), we model 
 $$P(x_k \mid v_j) = \frac{1}{\sqrt{2\pi\sigma_{jk}^2}} \exp \left( - \frac{(x_k - \mu_{jk})^2}{2\sigma_{jk}^2} \right)$$
 
 Where $\mu_{jk}$ and $\sigma_{jk}^2$ are the empirical sample mean and variance of feature $k$ computed exclusively over training instances belonging to class $v_j$.
+
+---
+
+### 3.4 Bayesian Linear Regression
+
+> This is a syllabus topic that the lectures did not derive by name. The treatment below is the standard one (Bishop, §3.3). It connects directly to the MAP and ridge results in Sections 2.1 and Module 3, §2.5.
+
+**Model.**
+- Prior over weights: $p(\mathbf{w}) = \mathcal{N}(\mathbf{w} \mid \mathbf{0}, \alpha^{-1}\mathbf{I})$
+- Likelihood: $p(\mathbf{y} \mid \mathbf{\Phi}, \mathbf{w}) = \mathcal{N}(\mathbf{y} \mid \mathbf{\Phi}\mathbf{w}, \beta^{-1}\mathbf{I})$, where the noise precision is $\beta = 1/\sigma^2$.
+
+**Posterior.** Taking the logarithm of prior times likelihood gives, up to a constant,
+$$\ln p(\mathbf{w} \mid \mathcal{D}) = -\frac{\beta}{2}\|\mathbf{y} - \mathbf{\Phi}\mathbf{w}\|_2^2 - \frac{\alpha}{2}\|\mathbf{w}\|_2^2 + \text{const}$$
+This is quadratic in $\mathbf{w}$, so the posterior is Gaussian, $p(\mathbf{w} \mid \mathcal{D}) = \mathcal{N}(\mathbf{w} \mid \mathbf{m}_N, \mathbf{S}_N)$. Completing the square gives
+$$\mathbf{S}_N^{-1} = \alpha\mathbf{I} + \beta\mathbf{\Phi}^T\mathbf{\Phi}, \qquad \mathbf{m}_N = \beta\,\mathbf{S}_N\mathbf{\Phi}^T\mathbf{y}$$
+
+**Link to MAP and ridge.** The mean $\mathbf{m}_N$ is also the posterior mode, so it is the MAP estimate:
+$$\mathbf{m}_N = \left(\mathbf{\Phi}^T\mathbf{\Phi} + \frac{\alpha}{\beta}\mathbf{I}\right)^{-1}\mathbf{\Phi}^T\mathbf{y}$$
+This is ridge regression with $\lambda = \alpha/\beta$. A Gaussian prior on the weights is exactly what turns MAP into ridge.
+
+**Predictive distribution.** For a new input with feature vector $\boldsymbol{\phi}_*$:
+$$p(y_* \mid \mathbf{x}_*, \mathcal{D}) = \mathcal{N}\!\left(y_* \mid \mathbf{m}_N^T\boldsymbol{\phi}_*,\ \sigma_N^2(\mathbf{x}_*)\right), \qquad \sigma_N^2(\mathbf{x}_*) = \frac{1}{\beta} + \boldsymbol{\phi}_*^T\mathbf{S}_N\boldsymbol{\phi}_*$$
+The first term, $1/\beta$, is irreducible noise. The second term is parameter uncertainty. It grows for inputs far from the training data, so the model is honest about what it does not know.
+
+**Worked example.** One training point has $\phi = 1$ and $y = 2$, with $\alpha = \beta = 1$.
+- $\mathbf{S}_N^{-1} = 1 + 1 \cdot 1 \cdot 1 = 2$, so $S_N = 0.5$
+- $m_N = 1 \cdot 0.5 \cdot 1 \cdot 2 = 1.0$
+- MAP check: $(1 + 1)^{-1} \cdot 2 = 1.0$, which matches
+
+Predictions at two inputs:
+- $\phi_* = 1$ (same as the training input): mean $1.0$, variance $1 + 0.5 = 1.5$
+- $\phi_* = 3$ (far from the training input): mean $3.0$, variance $1 + 9(0.5) = 5.5$
+
+The predictive variance grows from 1.5 to 5.5 as the input moves away from the data.
 
 ---
 
