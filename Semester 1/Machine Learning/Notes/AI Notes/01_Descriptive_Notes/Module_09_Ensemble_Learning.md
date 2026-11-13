@@ -55,6 +55,7 @@ $$\text{Var}(\bar{X}) = \frac{1}{M^2} \left[ M \sigma^2 + M(M - 1) \rho \sigma^2
 
 ## 3. Bagging & Random Forests
 
+
 ### 3.1 Bootstrap Aggregation (Bagging) & Out-of-Bag (OOB) Estimation
 Given dataset $\mathcal{D}$ of size $N$, Bagging constructs $M$ bootstrap datasets $\mathcal{D}_1, \dots, \mathcal{D}_M$ by sampling $N$ observations **uniformly at random with replacement**.
 
@@ -84,9 +85,6 @@ Leo Breiman (2001) solved the correlation floor $\rho \sigma^2$ by introducing *
 ## 4. The Boosting Paradigm
 
 ### 4.1 AdaBoost (Adaptive Boosting) Algorithm
-
-![AdaBoost Algorithm Worked Example](../assets/M09_ensemble_bagging_boosting.jpg)
-*Figure 9.1: AdaBoost step-by-step weight update and stump performance calculation $\alpha_m = \frac{1}{2} \ln \left( \frac{1 - \epsilon_m}{\epsilon_m} \right)$ as presented in BITS CS 12 & 13 lecture slides.*
 
 Yoav Freund and Robert Schapire (1997) formulated AdaBoost. Let training data be $\{(\mathbf{x}_i, y_i)\}_{i=1}^N$ with $y_i \in \{-1, +1\}$.
 
