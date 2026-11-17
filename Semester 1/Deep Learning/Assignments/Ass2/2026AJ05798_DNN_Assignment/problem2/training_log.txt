@@ -1,0 +1,33 @@
+Loading Tiny Shakespeare (on-the-fly batches, no full window matrix)...
+vocab=65 train_chars=1003854 val_chars=111540
+LM start notes=shakespeare epochs=8 steps/epoch=200 device=cpu
+  epoch 1/8 train=2.703 val=2.462 sec=35.5
+  epoch 2/8 train=2.348 val=2.245 sec=33.0
+  epoch 3/8 train=2.171 val=2.106 sec=33.7
+  epoch 4/8 train=2.041 val=2.020 sec=32.0
+  epoch 5/8 train=1.940 val=1.960 sec=32.0
+  epoch 6/8 train=1.863 val=1.914 sec=32.3
+  epoch 7/8 train=1.799 val=1.873 sec=31.5
+  epoch 8/8 train=1.746 val=1.837 sec=31.5
+Ablations: heads and no causal mask
+LM start notes=heads=1 epochs=4 steps/epoch=80 device=cpu
+  epoch 1/4 train=2.950 val=2.603 sec=11.3
+  epoch 2/4 train=2.540 val=2.497 sec=11.3
+  epoch 3/4 train=2.444 val=2.384 sec=11.1
+  epoch 4/4 train=2.334 val=2.276 sec=11.2
+LM start notes=heads=4 epochs=4 steps/epoch=80 device=cpu
+  epoch 1/4 train=2.966 val=2.609 sec=13.8
+  epoch 2/4 train=2.549 val=2.499 sec=13.6
+  epoch 3/4 train=2.465 val=2.409 sec=13.6
+  epoch 4/4 train=2.376 val=2.318 sec=13.6
+LM start notes=heads=8 epochs=4 steps/epoch=80 device=cpu
+  epoch 1/4 train=2.942 val=2.614 sec=16.8
+  epoch 2/4 train=2.549 val=2.508 sec=16.7
+  epoch 3/4 train=2.475 val=2.430 sec=16.7
+  epoch 4/4 train=2.395 val=2.342 sec=16.7
+LM start notes=no_causal_mask epochs=4 steps/epoch=80 device=cpu
+  epoch 1/4 train=2.970 val=2.604 sec=13.3
+  epoch 2/4 train=2.549 val=2.506 sec=13.1
+  epoch 3/4 train=2.479 val=2.440 sec=13.1
+  epoch 4/4 train=2.387 val=2.257 sec=13.1
+Problem 2 LM complete

@@ -48,3 +48,8 @@ env/
 .tmp.drivedownload/
 .tmp.driveupload/
 
+
+# Large assignment datasets (>50MB)
+**/Assignments/**/data/har/UCI HAR Dataset/
+**/Assignments/**/data/har/*.zip
+**/Assignments/**/data/har/__MACOSX/

@@ -1,0 +1,24 @@
+Student variant: h=72, seeds=[5798, 5898, 5998], last_digit=8
+Traceback (most recent call last):
+  File "/Volumes/NVME 500/austin/BITS/Resources/Semester 1/Deep Learning/Assignments/Ass2/2026AJ05798_DNN_Assignment/problem1/run_pipeline.py", line 257, in <module>
+    main()
+    ~~~~^^
+  File "/Volumes/NVME 500/austin/BITS/Resources/Semester 1/Deep Learning/Assignments/Ass2/2026AJ05798_DNN_Assignment/problem1/run_pipeline.py", line 251, in main
+    run_gradient_plot()
+    ~~~~~~~~~~~~~~~~~^^
+  File "/Volumes/NVME 500/austin/BITS/Resources/Semester 1/Deep Learning/Assignments/Ass2/2026AJ05798_DNN_Assignment/problem1/run_pipeline.py", line 216, in run_gradient_plot
+    norms_pre = gradient_norms_over_time(untrained, x_tr, y_tr, False, T)
+  File "/Volumes/NVME 500/austin/BITS/Resources/Semester 1/Deep Learning/Assignments/Ass2/2026AJ05798_DNN_Assignment/problem1/training.py", line 226, in gradient_norms_over_time
+    out, h = model.rnn(xt, h.unsqueeze(0))
+             ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1778, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/torch/nn/modules/module.py", line 1789, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/torch/nn/modules/rnn.py", line 717, in forward
+    raise RuntimeError(
+        f"For batched 3-D input, hx should also be 3-D but got {hx.dim()}-D tensor"
+    )
+RuntimeError: For batched 3-D input, hx should also be 3-D but got 4-D tensor
+P1 tail complete
