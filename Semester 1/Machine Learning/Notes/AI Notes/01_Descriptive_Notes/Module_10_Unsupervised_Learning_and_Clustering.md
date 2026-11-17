@@ -2,13 +2,15 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 6); Christopher M. Bishop (R1, Chapter 9); Tan et al. (R2, Chapters 8 & 9)  
-**Primary Teacher Followed**: Prof. Pritee Narendra Raole (Session 13: 2026-11-01)
+**Lecture alignment**: **Autonomous textbook-bridge module** — clustering absent from Sessions 1–13 and all webinars. Synthesized from Bishop R1 Ch. 9 / Tan R2 Ch. 8 per syllabus.
 
 ---
 
 ## 1. Executive Summary & Foundational Definitions
 
 Unsupervised learning addresses the problem of uncovering intrinsic patterns, latent cluster structures, density manifolds, and low-dimensional representations directly from unlabelled feature sets $\mathcal{D} = \{\mathbf{x}_i\}_{i=1}^N \subset \mathbb{R}^d$ without external supervisory teaching signals.
+
+**How to study this module** — no lecture recording exists. Work Lloyd's algorithm and GMM-EM numerics from **Tan R2 Ch. 8** and **Bishop R1 Ch. 9**; align with syllabus learning outcomes.
 
 Clustering is the primary unsupervised task: partitioning $N$ observations into $K$ discrete subsets (clusters) $\mathcal{C} = \{C_1, C_2, \dots, C_K\}$ such that:
 1. **Intra-cluster Homogeneity**: Instances assigned to the same cluster exhibit maximal mutual topological proximity or statistical similarity.
@@ -147,7 +149,7 @@ $$s(i) = \frac{b(i) - a(i)}{\max(a(i), b(i))}$$
 
 ---
 
-## 5. Vectorized Implementation (From Scratch)
+## 5. Implementation note (textbook numerics)
 
 ```python
 import numpy as np

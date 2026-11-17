@@ -2,7 +2,7 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Christopher M. Bishop (R1, Chapter 4); Tan et al. (R2, Chapter 4)  
-**Primary Teacher Followed**: Prof. Pritee Narendra Raole (Sessions 4 & 5: 2026-08-16 & 2026-08-23)
+**Lecture alignment**: Prof. Sharon Christa — Sessions 5–6 (2026-08-23, 2026-08-30).
 
 ---
 
@@ -41,21 +41,11 @@ Where $\mathbf{w}$ is the parameter weight vector and $w_0$ is the bias (or inte
 
 ---
 
-### 2.2 Fisher's Linear Discriminant Analysis (LDA)
+### 2.2 Weight vector orthogonal to the decision boundary (exam proof)
 
-Rather than simply finding a separating hyperplane, Ronald Fisher (1936) formulated linear classification as optimal **dimensionality reduction**: projecting high-dimensional data $\mathbf{x} \in \mathbb{R}^d$ down to a scalar $y = \mathbf{w}^T \mathbf{x}$ such that classes are maximally separated while internal class variance is minimized.
+Decision boundary: $\mathbf{w}^T \mathbf{x} + b = 0$. For any two points $\mathbf{x}_A, \mathbf{x}_B$ on the boundary, $\mathbf{w}^T \mathbf{x}_A + b = 0$ and $\mathbf{w}^T \mathbf{x}_B + b = 0$. Subtracting gives $\mathbf{w}^T(\mathbf{x}_A - \mathbf{x}_B) = 0$, so $\mathbf{w}$ is **perpendicular** to every vector parallel to the boundary plane. Signed distance from origin: $|b|/\|\mathbf{w}\|$.
 
-Let $N_1, N_2$ denote class sample sizes with class mean vectors $\mathbf{m}_1, \mathbf{m}_2 \in \mathbb{R}^d$.
-- **Between-Class Scatter Matrix**:
-  $$\mathbf{S}_B = (\mathbf{m}_1 - \mathbf{m}_2)(\mathbf{m}_1 - \mathbf{m}_2)^T \in \mathbb{R}^{d \times d}$$
-- **Within-Class Scatter Matrix**:
-  $$\mathbf{S}_W = \sum_{i \in \mathcal{C}_1} (\mathbf{x}_i - \mathbf{m}_1)(\mathbf{x}_i - \mathbf{m}_1)^T + \sum_{j \in \mathcal{C}_2} (\mathbf{x}_j - \mathbf{m}_2)(\mathbf{x}_j - \mathbf{m}_2)^T$$
-
-Fisher defined the objective criterion $J(\mathbf{w})$ as the ratio of between-class variance to within-class variance:
-$$J(\mathbf{w}) = \frac{\mathbf{w}^T \mathbf{S}_B \mathbf{w}}{\mathbf{w}^T \mathbf{S}_W \mathbf{w}}$$
-
-Differentiating $J(\mathbf{w})$ with respect to $\mathbf{w}$ and setting to zero yields the generalized eigenvalue problem:
-$$\mathbf{S}_B \mathbf{w} = \lambda \mathbf{S}_W \mathbf{w} \implies \mathbf{w} \propto \mathbf{S}_W^{-1} (\mathbf{m}_1 - \mathbf{m}_2)$$
+> **Textbook supplement (not in BITS lectures 1–13)**: Fisher's LDA ($\mathbf{w} \propto \mathbf{S}_W^{-1}(\mathbf{m}_1 - \mathbf{m}_2)$) — see Bishop R1; omitted from mid-sem focus.
 
 ---
 
@@ -200,7 +190,9 @@ $$\mathcal{L}(\mathbf{W}) = -\sum_{i=1}^N \sum_{k=1}^K y_{ik} \ln \hat{y}_{ik}$$
 
 ---
 
-## 4. Vectorized Implementation (From Scratch)
+## 4. Implementation note
+
+Mid-semester items: logit, sigmoid, one-step GD, confusion metrics — **no coding**. Optional reference:
 
 ```python
 import numpy as np
@@ -274,7 +266,26 @@ if __name__ == "__main__":
 
 ---
 
-## 5. Solved Numerical Example (Exam Pattern)
+## 5. Solved Numerical Examples (Exam Pattern)
+
+### 5.0 Sentiment classification (Session 6)
+
+Weights $w_0=-0.2$, $w_1=1.2$ (positive word count), $w_2=-1.5$ (negative count). Review: $x_1=2$ (“great”, “good”), $x_2=1$ (“terrible”).
+
+$z=-0.2+2.4-1.5=0.70$ → $\hat{y}=\sigma(0.70)\approx 0.668$ → **Positive** at threshold $0.5$.
+
+### 5.1 One-step logistic GD — job offer (Session 6)
+
+$\theta^{(0)}=[0.5,0.5,0.5]$, $\alpha=0.3$, sample $x_1=1.0$, $x_2=0.5$, $y=1$: $z=1.25$, $\hat{y}\approx 0.777$, error $\hat{y}-y=-0.223$. Updates: $\theta_0,\theta_1\to 0.5668$, $\theta_2\to 0.5334$.
+
+### 5.2 Confusion matrix mnemonics & AUC benchmarks
+
+- **First word**: True/False = prediction correct? **Second word**: Positive/Negative = predicted class.  
+- **ROC/AUC**: sweep thresholds high→low; trapezoidal AUC. Guides: $0.5$ random; $0.7$–$0.8$ fair; $0.8$–$0.9$ excellent; $>0.9$ outstanding.
+
+> **SMOTE**: apply only **after** train/test split — never on the full dataset before splitting (data leakage).
+
+### 5.3 Batch gradient step on two samples
 
 **Problem Statement (University Examination Pattern, 6 Marks)**:  
 Given a binary logistic regression model with weight vector $\mathbf{w} = [w_0, w_1, w_2]^T = [-1.0, 0.5, 1.5]^T$ and learning rate $\eta = 0.2$.  

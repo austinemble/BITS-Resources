@@ -2,7 +2,7 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Christopher J.C. Burges (R3: Tutorial on SVM, pp. 1–43); Tan et al. (R2, Chapter 4); Bishop (R1, Chapter 7)  
-**Primary Teacher Followed**: Prof. Pritee Narendra Raole (Sessions 9 & 10: 2026-10-04 & 2026-10-11)
+**Lecture alignment**: Prof. Sharon Christa — **Sessions 11, 11b, 12** (2026-10-18, 2026-10-25). Deck: `ML_ CS 10_SVM_ October 2026.pdf`.
 
 ---
 
@@ -59,6 +59,10 @@ Where $\mathbf{w} \in \mathbb{R}^d$ is the weight vector normal to the hyperplan
 
 Maximizing the margin $\frac{2}{\|\mathbf{w}\|_2}$ is mathematically equivalent to minimizing $\frac{1}{2} \|\mathbf{w}\|_2^2$.
 
+**Lecture margin derivation**: Let $\mathbf{x}^+$ lie on $+1$ boundary and $\mathbf{x}^-$ on $-1$ boundary. Displacement along normal $\mathbf{w}/\|\mathbf{w}\|$ by margin $\gamma$ gives $\mathbf{x}^+ = \mathbf{x}^- + \gamma \mathbf{w}/\|\mathbf{w}\|$. Substituting into $\mathbf{w}^T\mathbf{x}^+ + b = 1$ with $\mathbf{w}^T\mathbf{x}^- + b = -1$ yields $\gamma \|\mathbf{w}\| = 2$.
+
+**Orthogonality**: If $\mathbf{x}_A,\mathbf{x}_B$ lie on $\mathbf{w}^T\mathbf{x}+b=0$, then $\mathbf{w}^T(\mathbf{x}_A-\mathbf{x}_B)=0$ — $\mathbf{w}$ is perpendicular to the hyperplane.
+
 #### The Primal Optimization Problem:
 $$\min_{\mathbf{w}, b} \frac{1}{2} \|\mathbf{w}\|_2^2$$
 $$\text{subject to } y_i (\mathbf{w}^T \mathbf{x}_i + b) \ge 1, \quad \forall i = 1, \dots, N$$
@@ -108,9 +112,17 @@ $$\text{subject to } \alpha_i \ge 0, \ \forall i \quad \text{and} \quad \sum_{i=
 When data contains overlap or noise, no hard-margin hyperplane exists. Corinna Cortes and Vladimir Vapnik (1995) introduced non-negative **slack variables** $\xi_i \ge 0$ allowing margin violations:
 
 $$y_i (\mathbf{w}^T \mathbf{x}_i + b) \ge 1 - \xi_i, \quad \xi_i \ge 0$$
-- $\xi_i = 0$: Correctly classified and outside or on margin.
-- $0 < \xi_i \le 1$: Correctly classified but falls inside the margin.
-- $\xi_i > 1$: Misclassified point.
+
+| Case | Meaning |
+| :--- | :--- |
+| $\xi_i = 0$ | Correct, on or outside margin |
+| $0 < \xi_i < 1$ | Correct, inside margin strip |
+| $\xi_i = 1$ | On decision boundary |
+| $\xi_i > 1$ | Misclassified |
+
+Dual: $0 \le \alpha_i \le C$. Free SVs: $0 < \alpha_i < C$; bounded violations: $\alpha_i = C$.
+
+**Bias from margin SVs** ($0 < \alpha_s < C$): $b = \frac{1}{|S|}\sum_{s\in S}\left(y_s - \sum_m \alpha_m y_m K(\mathbf{x}_m,\mathbf{x}_s)\right)$.
 
 ![SVM Optimization Formulation — Maximize 2/‖w‖, Primal QP](../assets/M07_svm_optimization_margin.jpg)
 *Figure 7.1: SVM Optimization — Maximize 2/‖w‖, Minimize ½wᵀw subject to yᵢ(w·xᵢ+b)≥1 (primal QP formulation, Oct 25 session).*
@@ -153,7 +165,9 @@ $$K(\mathbf{x}, \mathbf{z}) = \langle \boldsymbol{\phi}(\mathbf{x}), \boldsymbol
 
 ---
 
-## 3. Vectorized Implementation: Sequential Minimal Optimization (SMO)
+## 3. Implementation note
+
+Exams emphasize **dual QP on 3–4 points** (§4), not SMO code. Below is optional software reference only.
 
 ```python
 import numpy as np

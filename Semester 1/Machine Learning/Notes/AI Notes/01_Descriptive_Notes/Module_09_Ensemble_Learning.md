@@ -2,7 +2,7 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tan et al. (R2, Chapter 4); Christopher M. Bishop (R1, Chapter 14); Lecture Notes  
-**Primary Teacher Followed**: Prof. Pritee Narendra Raole (Session 12: 2026-10-25)
+**Lecture alignment**: **No regular Session 9–13 lecture** on ensembles. Conceptual + Python walkthrough: **Webinar 2 (2026-10-15)**. Derivations below marked *textbook bridge* where not shown in webinar.
 
 ---
 
@@ -26,7 +26,29 @@ Boosting Paradigm (Sequential, Bias Reduction):
 
 ---
 
+## 1.1 Webinar 2 (2026-10-15) — practical skills tested in lab
+
+| Topic | What to know |
+| :--- | :--- |
+| **Bagging / RF** | Parallel trees on bootstrap samples; variance reduction |
+| **Feature importance (MDI)** | Gini decrease per split; cumulate top features to ~90% mass |
+| **Boosting** | AdaBoost reweights errors; GBM fits pseudo-residuals |
+| **Tuning** | `GridSearchCV` over `n_estimators`, `max_depth` with $k$-fold CV |
+| **Dataset** | Iris multi-class demo |
+
+*Sections 2–4 below are **textbook bridges** (Condorcet, OOB, AdaBoost math) — useful for comprehensive exam, not derived in the webinar.*
+
+### 1.2 Feature importance & tuning (Webinar 2 lab)
+
+1. **Mean Decrease in Impurity (MDI)** — after fitting a random forest, sum Gini decrease per feature across splits; rank features.
+2. **Cumulative importance** — sort features by MDI; keep the smallest set reaching ~**90%** of total importance (reduces overfitting and runtime).
+3. **`GridSearchCV`** — grid over e.g. `n_estimators ∈ {50,100,200}`, `max_depth ∈ {3,5,7}` with 5-fold CV; select hyperparameters on **validation**, not test.
+
+---
+
 ## 2. Theoretical Foundations: Condorcet's Jury Theorem & Variance Shrinkage
+
+*Textbook bridge — not shown in Webinar 2.*
 
 ### 2.1 Condorcet's Jury Theorem (1785)
 Consider a committee of $M$ independent binary classifiers, each possessing individual accuracy $p > 0.5$. The probability that a simple majority vote makes the correct decision is given by the binomial cumulative distribution:
@@ -134,7 +156,9 @@ $$\text{Gain} = \frac{1}{2} \left[ \frac{\left( \sum_{i \in I_L} g_i \right)^2}{
 
 ---
 
-## 5. Vectorized Implementation (From Scratch)
+## 5. Implementation note
+
+Webinar emphasis is **library usage** (scikit-learn RF/GBM + `GridSearchCV`). Below is optional AdaBoost-from-scratch for theory revision.
 
 ```python
 import numpy as np

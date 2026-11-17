@@ -2,7 +2,7 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 5); Christopher M. Bishop (R1, Chapter 1); Tan et al. (R2, Chapter 4)  
-**Primary Teacher Followed**: Prof. Pritee Narendra Raole (Session 13: 2026-11-01)
+**Lecture alignment**: Prof. Sharon Christa — Session 10 slides 67–79 (train/val/test, CV); **Webinar 2 (2026-10-15)** (imbalance, accuracy paradox, macro vs weighted F1).
 
 ---
 
@@ -45,6 +45,18 @@ The dataset $\mathcal{D}$ is partitioned into three disjoint sets:
 - **Training Set (60–70%)**: Used by the numerical optimizer to learn parameter weights $\mathbf{w}$.
 - **Validation Set (15–20%)**: Used to evaluate competing model classes, tune hyperparameters ($\lambda, C, \gamma, \text{depth}$), and trigger early stopping.
 - **Test Set (15–20%)**: Held in strict isolation; evaluated **exactly once** to report unbiased out-of-sample performance.
+
+> **Information leakage (Session 10, slide 71)**: Hyperparameters tuned on the **test** set make reported error optimistically biased. Use **validation** (or CV) for tuning; test set only for final reporting.
+
+### 2.1.1 Accuracy paradox (Webinar 2)
+
+$N=10{,}000$ patients, 300 with cancer. A model with TP=90, FN=210, FP=140, TN=9560 has **accuracy 96.5%** but **recall 30%** (misses 70% of cancers). A constant “healthy” classifier still scores 97% accuracy — **accuracy alone fails on imbalance**; use precision, recall, and $F_1$.
+
+**Precision-first**: invasive follow-up, costly confirmatory tests, spam filters. **Recall-first**: routine cancer screening, epidemic containment, airport security.
+
+**Multi-class F1**: **Macro** F1 averages per-class $F_1$ equally (surfaces minority failure); **Weighted** F1 weights by class support (can mask rare-class errors).
+
+> *Supplementary (not in live lectures)*: McNemar's test, demographic parity, SHAP — see § later in this module.
 
 ---
 
@@ -102,6 +114,13 @@ Class      Neg (ŷ = 0) │ False Negative (FN) │ True Negative (TN)  │
    - $\beta = 2$ ($F_2$): Recall is weighted twice as heavily as precision.
    - $\beta = 0.5$ ($F_{0.5}$): Precision is weighted twice as heavily as recall.
 
+**Multi-class F1 (Webinar 2)**
+
+- **Macro F1**: $F_1^{\text{macro}} = \frac{1}{K}\sum_{c=1}^K F_1^{(c)}$ — each class weighted equally (exposes minority failure).
+- **Weighted F1**: $F_1^{\text{weighted}} = \sum_c \frac{n_c}{N} F_1^{(c)}$ — weighted by class support (can mask rare-class weakness).
+
+**FNR**: $\text{FNR} = \frac{\text{FN}}{\text{FN}+\text{TP}} = 1 - \text{Recall}$.
+
 ---
 
 ### 3.2 Curve Analysis: ROC and Precision-Recall Curves
@@ -125,6 +144,8 @@ Classifiers output continuous confidence scores $s(\mathbf{x}) \in [0, 1]$. Vary
 ---
 
 ## 4. Statistical Hypothesis Testing for Classifier Comparison
+
+> *Supplementary (comprehensive exam / QA bank Q46) — not in Sessions 1–13 or Webinar 2.*
 
 When comparing Classifier $A$ against Classifier $B$, we must determine whether $A$'s higher test accuracy is statistically significant.
 
@@ -151,6 +172,8 @@ If $\chi^2 > 3.841$ (for significance level $\alpha = 0.05$), we reject the null
 
 ## 5. Emerging Requirements: Algorithmic Fairness & Model Interpretability
 
+> *Advanced supplement — not lectured; skim for industry context.*
+
 ### 5.1 Algorithmic Fairness Metrics
 Let $A \in \{0, 1\}$ denote a protected demographic attribute (e.g., gender, race), and let $\hat{Y} \in \{0, 1\}$ denote the model's prediction.
 1. **Demographic Parity (Statistical Parity)**:
@@ -174,7 +197,9 @@ SHAP is the **only** local feature attribution method that provably satisfies th
 
 ---
 
-## 6. Vectorized Implementation (From Scratch)
+## 6. Implementation note
+
+Practice **by-hand** confusion matrices, precision/recall, and ROC point sweeps. Optional helper:
 
 ```python
 import numpy as np

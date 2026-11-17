@@ -1,7 +1,7 @@
 # AIML ZG565: Machine Learning — Comprehensive Examination Question-Answer Bank
 
 **Course**: AIML ZG565 — Machine Learning  
-**Standard**: 50 High-Yield University Examination Questions (15 Easy, 25 Medium, 10 Tough)  
+**Standard**: 58 High-Yield University Examination Questions (15 Easy, 25 Medium, 10 Tough, **8 BITS practice archetypes**)  
 **Marking Scheme**: 6 Marks Each (Point-wise model solutions: 2 Marks Concept, 2 Marks Derivation/Math, 2 Marks Numerical/Insight)  
 **Primary Teacher Followed**: Prof. Pritee Narendra Raole (BITS Pilani WILP)
 
@@ -24,21 +24,16 @@
 
 ---
 
-### Q2. [Easy] Explain the Least Mean Squares (LMS) weight update rule in the context of Mitchell's checkers learning system. (6 Marks)
+### Q2. [Easy] Tukey's IQR rule: detect outliers in $[10, 12, 11, 15, 11, 14, 13, 17, 12, 22, 14, 11]$. (6 Marks)
 
 #### Model Solution (6/6 Marks):
-1. **Core Concept / Formal Definition (2 Marks)**:
-   - The LMS algorithm updates the weight vector $\mathbf{w}$ of a linear evaluation function $\hat{V}(b) = \sum_{j=0}^d w_j x_j$ incrementally to minimize squared error between the model's estimate and the training value $V_{\text{train}}(b)$ provided by the Critic.
-2. **Mathematical Derivation (2 Marks)**:
-   - Let loss on board state $b$ be $\mathcal{L}(b) = \frac{1}{2} (V_{\text{train}}(b) - \hat{V}(b))^2$.
-   - Differentiating with respect to parameter $w_j$:
-     $$\frac{\partial \mathcal{L}}{\partial w_j} = \frac{\partial \mathcal{L}}{\partial \hat{V}(b)} \cdot \frac{\partial \hat{V}(b)}{\partial w_j} = -(V_{\text{train}}(b) - \hat{V}(b)) \cdot x_j$$
-   - Applying gradient descent ($w_j \leftarrow w_j - \eta \frac{\partial \mathcal{L}}{\partial w_j}$):
-     $$w_j \leftarrow w_j + \eta \left( V_{\text{train}}(b) - \hat{V}(b) \right) x_j$$
-3. **Numerical Walkthrough / Insight (2 Marks)**:
-   - If current board prediction is $\hat{V}(b) = 15$, target is $V_{\text{train}}(b) = 25$, learning rate $\eta = 0.1$, and feature $x_1 = 4$:
-     $$\Delta w_1 = 0.1 \times (25 - 15) \times 4 = 0.1 \times 10 \times 4 = +4.0$$
-   - Weight $w_1$ increases by $+4.0$, adjusting the model in the precise direction of the Critic's target.
+1. **Core Concept (2 Marks)**:
+   - Sort data; $Q_1$ = median of lower half, $Q_3$ = median of upper half; $\text{IQR} = Q_3 - Q_1$.
+   - Outlier if $x < Q_1 - 1.5\,\text{IQR}$ or $x > Q_3 + 1.5\,\text{IQR}$ (state **both** bounds).
+2. **Calculation (2 Marks)**:
+   - Sorted: $Q_1 = 11$, $Q_3 = 14.5$, IQR $= 3.5$; bounds $[5.75,\ 19.75]$.
+3. **Answer (2 Marks)**:
+   - Only **22** exceeds $19.75$ → flagged as outlier.
 
 ---
 
@@ -679,7 +674,8 @@
 
 ---
 
-### Q40. [Medium] Numerical: For query point $\mathbf{x}_q = [2, 3]^T$, compute Euclidean distances to: $\mathbf{x}_1=[1, 1]^T (y=0)$, $\mathbf{x}_2=[2, 5]^T (y=1)$, $\mathbf{x}_3=[4, 3]^T (y=1)$. Predict class using 3-NN distance-weighted voting ($w_i = 1/d_i^2$). (6 Marks)
+### Q40. [Medium] Numerical: For query point $\mathbf{x}_q = [2, 3]^T$, compute Euclidean distances to: $\mathbf{x}_1=[1, 1]^T (y=0)$, $\mathbf{x}_2=[2, 5]^T (y=1)$, $\mathbf{x}_3=[4, 3]^T (y=1)$. Predict class using 3-NN distance-weighted voting ($w_i = 1/d_i^2$).  
+*(For the 8-point mixed-type $k=7$ flip + distance-weighted fix, see **Q52** and Module 6 §4.0.)* (6 Marks)
 
 #### Model Solution (6/6 Marks):
 1. **Distance Calculations (2 Marks)**:
@@ -783,6 +779,7 @@ Compute posterior probabilities $P(C_1 \mid \mathbf{x})$ and $P(C_2 \mid \mathbf
    $$\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{90}{90 + 30} = \frac{90}{120} = \mathbf{75.00\%}$$
    $$\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{90}{90 + 10} = \frac{90}{100} = \mathbf{90.00\%}$$
    $$\text{Specificity} = \frac{\text{TN}}{\text{TN} + \text{FP}} = \frac{870}{870 + 30} = \frac{870}{900} \approx \mathbf{96.67\%}$$
+   $$\text{FPR} = 1 - \text{Specificity} = \frac{30}{900} \approx \mathbf{3.33\%}, \quad \text{FNR} = 1 - \text{Recall} = \frac{10}{100} = \mathbf{10.00\%}$$
 3. **$F_1$-Score (2 Marks)**:
    $$F_1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}} = 2 \cdot \frac{0.75 \times 0.90}{0.75 + 0.90} = 2 \cdot \frac{0.675}{1.65} = \frac{1.35}{1.65} \approx \mathbf{81.82\%}$$
 
@@ -870,4 +867,168 @@ Compute posterior probabilities $P(C_1 \mid \mathbf{x})$ and $P(C_2 \mid \mathbf
    - $z_4 = \frac{8-6}{2.828} = \mathbf{+0.707}$
    - $z_5 = \frac{10-6}{2.828} = \mathbf{+1.414}$
    $$\mathbf{z} = [-1.414, -0.707, 0.000, +0.707, +1.414]^T$$
+
+---
+
+# Part VIII: BITS Practice Archetypes (Questions 51–58)
+
+*Sourced from Prof. Pritee practice PDFs and mid-sem patterns (`audit_QA_and_resources.md`).*
+
+### Q51. [Medium] Locally Weighted Regression at $x_q = 4$: $K_i = 1/d_i^2$, weighted mean, one GD step on $y = w_0 + w_1 x$ with $(w_0,w_1)=(0,1)$, $\eta=0.1$, $k=3$. (6 Marks)
+
+**Given** — Training: $(1,10), (2,12), (3,11), (5,15), (8,20)$. Query $x_q = 4$.
+
+#### Model Solution (6/6 Marks):
+1. **Distances & kernels (2 Marks)**:
+   | $x_i$ | $y_i$ | $d_i=\|x_i-x_q\|$ | $K_i=1/d_i^2$ |
+   | :---: | :---: | :---: | :---: |
+   | 3 | 11 | 1 | 1.000 |
+   | 5 | 15 | 1 | 1.000 |
+   | 2 | 12 | 2 | 0.250 |
+   | 1 | 10 | 3 | (outside $k=3$) |
+
+2. **Weighted local mean (2 Marks)**:
+   $$\hat{y}_{\text{kernel}} = \frac{1(11)+1(15)+0.25(12)}{1+1+0.25} = \frac{29}{2.25} \approx \mathbf{12.89}$$
+
+3. **One LWR GD step (2 Marks)** — use local predictions $\hat{y}_i = w_0 + w_1 x_i$ with $(w_0,w_1)=(0,1)$:
+   - $(3,11)$: $\hat{y}=3$, residual $r=8$, $K=1$
+   - $(5,15)$: $\hat{y}=5$, $r=10$, $K=1$
+   - $(2,12)$: $\hat{y}=2$, $r=10$, $K=0.25$
+
+   $$\Delta w_0 = 0.1\big[1(8)+1(10)+0.25(10)\big] = 0.1(20.5) = \mathbf{2.05}$$
+   $$\Delta w_1 = 0.1\big[1(8)(3)+1(10)(5)+0.25(10)(2)\big] = 0.1(79) = \mathbf{7.90}$$
+   $$\mathbf{w}^{(1)} = (2.05,\ 8.90)$$
+
+---
+
+### Q52. [Medium] Eight-point mixed-type $k$-NN: $k=3$ vs $k=7$, unweighted vs $1/d^2$ weights. (6 Marks)
+
+**Features (all pre-scaled)** — Age and Satisfaction in $[0,1]$; Dept nominal ($k_{\text{nom}}=1$).  
+$$d = \sqrt{(\Delta \text{Age})^2 + (\Delta \text{Sat})^2} + \frac{\text{Dept mismatch}}{1}$$
+
+**Query** — Age $0.50$, Sat $0.50$, Dept **CSE**, label to predict $\in \{+,-\}$.
+
+| ID | Age | Sat | Dept | Class |
+| :---: | :---: | :---: | :---: | :---: |
+| 1 | 0.45 | 0.50 | CSE | + |
+| 2 | 0.40 | 0.50 | CSE | + |
+| 3 | 0.50 | 0.25 | CSE | $-$ |
+| 4 | 0.50 | 0.75 | CSE | $-$ |
+| 5 | 0.55 | 0.50 | ECE | + |
+| 6 | 0.90 | 0.50 | CSE | $-$ |
+| 7 | 0.10 | 0.50 | CSE | $-$ |
+| 8 | 0.50 | 0.50 | ECE | + |
+
+#### Model Solution (6/6 Marks):
+1. **Distances from query (2 Marks)**:
+   | ID | $d$ | Class |
+   | :---: | :---: | :---: |
+   | 1 | $\sqrt{0.0025}=0.050$ | + |
+   | 2 | $\sqrt{0.02}=0.141$ | + |
+   | 3 | $0.25$ | $-$ |
+   | 4 | $0.25$ | $-$ |
+   | 8 | $0+1=1.000$ | + |
+   | 5 | $\sqrt{0.0025}+1=1.050$ | + |
+   | 7 | $0.40$ | $-$ |
+   | 6 | $0.40$ | $-$ |
+
+2. **$k=3$ unweighted (2 Marks)** — nearest: IDs 1 (+), 2 (+), 3 ($-$) → vote **2+ : 1$-$** → $\hat{y}=\mathbf{+}$.
+
+   **$k=7$ unweighted** — add IDs 4 ($-$), 7 ($-$), 6 ($-$), 8 (+) → totals **3+ : 4$-$** → $\hat{y}=\mathbf{-}$ (distant negatives flip the vote).
+
+3. **$k=7$ distance-weighted $w_i=1/d_i^2$ (2 Marks)**:
+   - ID 1: $w \approx 1/0.0025 = 400$
+   - ID 2: $w \approx 1/0.02 \approx 50$
+   - Remaining weights $\ll 50$
+
+   Weighted score: $+\!\approx\!450$ vs $-\!\approx\!31$ → $\hat{y}=\mathbf{+}$ (weights restore the correct class).
+
+---
+
+### Q53. [Medium] CART Gini on income default data (10 records). (6 Marks)
+
+Sorted income (k\$): 60, 70, 75, 85, 90, 95, 100, 120, 125, 220  
+Default: N, N, N, Y, Y, Y, N, N, N, N (3 Yes, 7 No) → parent $Gini = 1-(0.3^2+0.7^2)=0.42$.
+
+#### Model Solution (6/6 Marks):
+1. **Candidates (2 Marks)** — label changes at $75|85$ and $95|100$ → $c_1=80$, $c_2=97.5$.
+
+2. **Split $c_2=97.5$ (2 Marks)**:
+   - Left ($\le 97.5$, 6 rows): 3Y, 3N → $Gini_L = 1-2(0.5^2)=0.50$
+   - Right ($>97.5$, 4 rows): 0Y, 4N → $Gini_R = 0$
+   - Weighted: $\frac{6}{10}(0.50)+\frac{4}{10}(0)=\mathbf{0.30}$
+
+3. **Split $c_1=80$ (2 Marks)** — Left 3 pure N ($Gini=0$); Right 4N+3Y → $Gini_R \approx 0.490$; weighted $\mathbf{0.343}$.
+
+   **Optimum: threshold $\mathbf{97.5}$** (minimum weighted Gini).
+
+---
+
+### Q54. [Medium] MDL bit cost — simple tree vs complex tree. (6 Marks)
+
+Encoding: **2 bits per leaf**, **1 bit per split**, **2 bits per misclassified point**.
+
+#### Model Solution (6/6 Marks):
+1. **Tree A** — 3 leaves, 1 split: $L(h)=2(3)+1=\mathbf{7}$ bits.
+2. **Tree B** — 7 leaves, 6 splits: $L(h)=2(7)+6=\mathbf{20}$ bits.
+3. **Data cost** — A makes 3 errors: $L(D|h)=3(2)=6$ → $\text{MDL}_A=13$. B makes 1 error: $L(D|h)=2$ → $\text{MDL}_B=22$.
+
+   **Choose Tree A** (13 < 22) despite higher training error — Occam's razor.
+
+---
+
+### Q55. [Medium] Reverse confusion matrix: $N=1000$, prevalence $20\%$, recall $80\%$, precision $75\%$. (6 Marks)
+
+#### Model Solution (6/6 Marks):
+1. **Positives (2 Marks)** — $P=0.2\times 1000=200$; $\text{TP}=0.8\times 200=\mathbf{160}$.
+2. **FP and FN (2 Marks)** — $\text{FN}=200-160=40$; $\text{Precision}=\text{TP}/(\text{TP}+\text{FP})=0.75$ ⇒ $\text{TP}+\text{FP}=\frac{160}{0.75}=213.\overline{3}$ ⇒ $\mathbf{FP}=53.\overline{3}$ (accept $53$ if integers required).
+3. **TN (2 Marks)** — $\text{TN}=1000-160-53.\overline{3}-40=\mathbf{746.\overline{6}}$; check accuracy $= (160+746.\overline{6})/1000 \approx 90.7\%$.
+
+---
+
+### Q56. [Medium] Cancer screening accuracy paradox ($N=10{,}000$). (6 Marks)
+
+**Given** — 300 cancer (positive), 9,700 healthy. Model: TP $= 90$, FN $= 210$, FP $= 140$, TN $= 9{,}560$.
+
+#### Model Solution (6/6 Marks):
+1. **Verify totals (2 Marks)** — $90+210+140+9560=10000$; positives $=300$, negatives $=9700$.
+2. **Metrics (2 Marks)**:
+   - Accuracy $=\frac{90+9560}{10000}=\mathbf{96.50\%}$
+   - Recall $=\frac{90}{300}=\mathbf{30.00\%}$ (210 misses = 70% of cancers undetected)
+   - Precision $=\frac{90}{230}\approx\mathbf{39.13\%}$
+3. **Insight (2 Marks)** — a blind “all healthy” classifier reaches 97% accuracy with 0% recall; screening must prioritize **recall**, not accuracy.
+
+---
+
+### Q57. [Medium] Ridge-style weight update: $w_1=2.0$, $\nabla_{w_1}\mathcal{L}_0=+4.0$, $\lambda=0.5$, $\eta=0.1$. (6 Marks)
+
+Penalty on $w_1$ only; bias unregularized. Use $w \leftarrow w(1-2\eta\lambda) - \eta\nabla\mathcal{L}_0$.
+
+#### Model Solution (6/6 Marks):
+1. **Cost form (2 Marks)** — $J=\frac{\text{SSE}}{2m}+\frac{\lambda}{2m}w_1^2$ adds $2\lambda w_1$ to gradient w.r.t. $w_1$.
+2. **Decay factor (2 Marks)** — $1-2\eta\lambda = 1-2(0.1)(0.5)=\mathbf{0.90}$.
+3. **Update (2 Marks)**:
+   $$w_1^{\text{new}} = 2.0(0.90) - 0.1(4.0) = 1.80 - 0.40 = \mathbf{1.40}$$
+
+*(Elastic net: add $\eta\lambda\alpha\,\mathrm{sign}(w_j)$ for L1 portion when $\alpha>0$.)*
+
+---
+
+### Q58. [Medium] Batch GD one step — cardiovascular relative risk, $\boldsymbol{\theta}^{(0)}=\mathbf{0}$, $\alpha=10^{-5}$, $m=3$. (6 Marks)
+
+| $i$ | $X_1$ (systolic) | $X_2$ (diastolic) | $X_3$ (BMI) | $X_4$ (waist) | $Y$ |
+| :---: | :---: | :---: | :---: | :---: | :---: |
+| 1 | 140 | 80 | 35 | 100 | 1.81 |
+| 2 | 120 | 80 | 25 | 80 | 1.22 |
+| 3 | 130 | 100 | 30 | 60 | 1.71 |
+
+$\hat{y}_i=\boldsymbol{\theta}^T\mathbf{x}_i^{(\mathrm{aug})}$ with $x_0=1$; all $\theta_j^{(0)}=0$ ⇒ $\hat{y}_i=0$, errors $e_i=-Y_i$.
+
+#### Model Solution (6/6 Marks):
+1. **Errors (2 Marks)** — $e_1=-1.81$, $e_2=-1.22$, $e_3=-1.71$.
+2. **Gradients (2 Marks)** — $\frac{\partial J}{\partial \theta_j}=\frac{1}{3}\sum_i e_i x_{ij}$:
+   - $\partial_{\theta_0}=\frac{-1.81-1.22-1.71}{3}=\mathbf{-1.58}$
+   - $\partial_{\theta_1}=\frac{-1.81(140)-1.22(120)-1.71(130)}{3}=\mathbf{-207.37}$
+   - $\partial_{\theta_2}=\mathbf{-107.33}$, $\partial_{\theta_3}=\mathbf{-40.87}$, $\partial_{\theta_4}=\mathbf{-94.13}$
+3. **Update (2 Marks)** — $\theta_j := \theta_j - 10^{-5}\partial_{\theta_j}$ e.g. $\theta_1 \approx 0 + 0.00207$; tiny $\alpha$ needed because unscaled BP dominates — **standardize features** or shrink $\alpha$.
 

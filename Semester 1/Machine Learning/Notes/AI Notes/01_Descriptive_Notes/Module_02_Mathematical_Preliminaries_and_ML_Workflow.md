@@ -2,7 +2,7 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Christopher M. Bishop (R1, Chapters 1 & 2); Tan et al. (R2, Chapters 2 & 3); Lecture Notes  
-**Primary Teacher Followed**: Prof. Pritee Narendra Raole (Session 2: 2026-08-02)
+**Lecture alignment**: Prof. Pritee Narendra Raole — CS2 deck (2026-08-09); Prof. Sharon Christa — Sessions 3–4 (2026-08-09, 2026-08-16).
 
 ---
 
@@ -39,7 +39,71 @@ To reason rigorously about optimization landscapes, loss minimization, geometric
 
 ---
 
-## 2. Theoretical Motivation & Mathematical Formulations
+## 2. Lecture-first: data types, quality & preprocessing (Sessions 3–4)
+
+### 2.0 Five-stage ML pipeline (lecture)
+
+1. Domain understanding & problem formulation  
+2. Data collection, integration, cleansing  
+3. Preprocessing & feature engineering  
+4. Model training & optimization  
+5. Evaluation, deployment, monitoring  
+
+### 2.0.1 Stevens' measurement scales
+
+| Scale | Operations | Central tendency | Examples |
+| :--- | :--- | :--- | :--- |
+| **Nominal** | $=, \neq$ | Mode | ID, eye colour, zip code |
+| **Ordinal** | order comparisons | Median | service rating, grades |
+| **Interval** | $+, -$ (no true zero) | Mean, SD | °C, calendar dates |
+| **Ratio** | all arithmetic | geometric/harmonic mean | age, salary, weight, K |
+
+**Bank customer attribute typing (exam)**: Name/Gender → nominal; Service rating → ordinal; Credit score → interval; Income band → ordinal; Region → nominal.
+
+### 2.0.2 Dataset characteristics & data types
+
+- **Dimensionality**, **sparsity**, **resolution**, **volume** (curse of dimensionality when $d$ grows).  
+- **Structural types**: relational/record, transactional, document (bag-of-words), graph, spatial, temporal/sequence.
+
+### 2.0.3 Outlier detection (exam numerics)
+
+**Tukey IQR**: sort data; $Q_1$, $Q_3$, $\text{IQR} = Q_3 - Q_1$; bounds $[Q_1 - 1.5\,\text{IQR},\ Q_3 + 1.5\,\text{IQR}]$.
+
+*Worked example*: $[10, 12, 11, 15, 11, 14, 13, 17, 12, 22, 14, 11]$ → sorted, $Q_1=11$, $Q_3=14.5$, IQR $=3.5$, upper bound $=19.75$ → **outlier: 22**.
+
+**Three-sigma rule**: legitimate range $[\mu - 3\sigma,\ \mu + 3\sigma]$ (e.g. $\mu=50,\ \sigma=5$ → $[35, 65]$).
+
+### 2.0.4 Sampling, scaling, encoding
+
+- Simple random vs **stratified** sampling (preserve class proportions).  
+- Min–max: $x' = \frac{x - x_{\min}}{x_{\max} - x_{\min}}$; custom $[a,b]$: $x' = a + (b-a)\frac{x - x_{\min}}{x_{\max} - x_{\min}}$.  
+- Z-score: $z = (x-\mu)/\sigma$.  
+- **Equal-width** vs **equal-frequency** binning; **one-hot** (nominal) vs **label** encoding (ordinal).  
+
+### 2.0.5 Inductive learning hypothesis (Mitchell)
+
+> Any hypothesis that approximates the target well on a large enough training set will approximate it well on unobserved examples.
+
+Hypothesis as attribute constraints, e.g. $\langle \text{Sunny}, \text{Warm}, ?, \text{Strong}, ?, ? \rangle$.
+
+### 2.0.6 Vectorization & shape tracking (exam)
+
+For $N$ examples, $d$ features: design matrix $\mathbf{X} \in \mathbb{R}^{N \times d}$, weights $\mathbf{w} \in \mathbb{R}^{d}$, bias $b \in \mathbb{R}$.
+
+$$\hat{\mathbf{y}} = \mathbf{X}\mathbf{w} + b\mathbf{1} \in \mathbb{R}^{N}, \quad \mathbf{X}\mathbf{w} \in \mathbb{R}^{N}$$
+
+### 2.0.7 Algorithms and feature scaling
+
+| Scaling needed? | Examples |
+| :--- | :--- |
+| **No** (rank-invariant) | Decision trees, random forests, gradient boosting |
+| **Yes** | $k$-NN, SVM, ridge/lasso, neural nets, batch gradient descent |
+
+---
+
+## 2. (Reference) Mathematical preliminaries
+
+*Items below (SVD, full Hessian calculus, Box-Cox, MICE) are **external prerequisites / advanced reference** — not derived in live lectures.*
 
 ### 2.1 Linear Algebra & Vector Spaces
 
@@ -113,7 +177,7 @@ Let $X$ and $Y$ be random variables.
 1. **Handling Missing Values**:
    - Numerical: Median imputation (robust to outliers) or Mean imputation.
    - Categorical: Mode imputation or explicit `Missing` sentinel category.
-   - Multivariate: MICE (Multivariate Imputation by Chained Equations) or $k$-NN imputation.
+   - Multivariate (reference only — not lectured): MICE or $k$-NN imputation.
 2. **Feature Scaling**:
    - **Min-Max Normalization**: Scales values into a bounded interval $[0, 1]$:
      $$x_{\text{norm}} = \frac{x - x_{\min}}{x_{\max} - x_{\min}}$$
@@ -121,10 +185,7 @@ Let $X$ and $Y$ be random variables.
    - **Z-Score Standardization**: Centers data around $\mu = 0$ with unit variance $\sigma = 1$:
      $$x_{\text{standard}} = \frac{x - \mu}{\sigma}$$
      *Mandatory for distance-based algorithms (k-NN, SVM, K-Means) and gradient descent.*
-3. **Data Skewness Removal**:
-   - Positive skew (long right tail): Logarithmic transform $y = \log(x + 1)$ or Square Root $y = \sqrt{x}$.
-   - Box-Cox Transform (for $x > 0$):
-     $$y^{(\lambda)} = \begin{cases} \frac{x^\lambda - 1}{\lambda} & \text{if } \lambda \neq 0 \\ \ln(x) & \text{if } \lambda = 0 \end{cases}$$
+3. **Data Skewness Removal** (lecture mentions log/sqrt; Box-Cox is **reference only**).
 4. **Handling Class Imbalance**:
    - **SMOTE (Synthetic Minority Over-sampling Technique)**: Generates synthetic instances along the line segments connecting $k$ minority nearest neighbors:
      $$\mathbf{x}_{\text{new}} = \mathbf{x}_i + \lambda (\mathbf{x}_{zi} - \mathbf{x}_i), \quad \lambda \sim \mathcal{U}(0, 1)$$
@@ -132,9 +193,14 @@ Let $X$ and $Y$ be random variables.
 
 ---
 
-## 4. Vectorized Implementation: Complete Pipeline (From Scratch)
+## 4. Implementation note (exams are pencil-and-paper)
+
+BITS mid-semester questions use **manual** preprocessing (IQR, min–max, z-score, mean imputation, stratified split counts). Fit every scaler or imputation statistic on **training data only**, then apply frozen parameters to validation and test.
+
+*Optional Python reference (not tested):*
 
 ```python
+# Illustrative only — CustomStandardScaler pattern
 import numpy as np
 
 class CustomStandardScaler:
@@ -216,7 +282,19 @@ if __name__ == "__main__":
 
 ---
 
-## 5. Solved Numerical Example (Exam Pattern)
+## 5. Solved Numerical Examples (Exam Pattern)
+
+### 5.0 Tukey IQR outlier detection (CS2 slide 32)
+
+Data: $[10, 12, 11, 15, 11, 14, 13, 17, 12, 22, 14, 11]$.
+
+Sorted ($N=12$): $Q_1=11$, $Q_3=14.5$, $\text{IQR}=3.5$. Bounds: $11-5.25=5.75$, $14.5+5.25=19.75$. **Outlier: 22**.
+
+### 5.1 Mean imputation (practice numerics)
+
+Column `[12, 15, \text{NA}, 18, 15]` → mean of observed $= (12+15+18+15)/4 = 15$ → imputed value **15** (NA excluded from denominator).
+
+### 5.2 Scaling & covariance (5 students)
 
 **Problem Statement (University Mid-Semester Exam Pattern, 6 Marks)**:  
 Given the following raw observation table of 5 students with features:

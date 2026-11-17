@@ -2,7 +2,9 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 1); Christopher M. Bishop (R1, Chapter 1); Tan et al. (R2, Chapter 1)  
-**Primary Teacher Followed**: Prof. Pritee Narendra Raole (Session 1: 2026-07-26)
+**Lecture alignment**: Prof. Sharon Christa — **Session 2 (2026-08-02)** (technical Module 1); Session 1 (2026-07-26) was course orientation only. Annotated deck: Prof. Pritee Narendra Raole, CS1 (2026-07-26).
+
+> **Exam note (Prof. Sharon Christa, Session 8)**: Mid-semester coverage is numerical and conceptual — **no Python coding questions**. Practice manual calculations (confusion matrix, trees, gradient steps, Normal Equation vs. gradient descent).
 
 ---
 
@@ -30,25 +32,35 @@ Machine Learning Paradigm:
 └──────────────┘     └──────────────┘
 ```
 
-### 1.1 Formal Definition of Learning (Tom M. Mitchell, 1997)
+### 1.1 Formal Definitions of Learning
 
-A computer program is said to **learn** from experience $E$ with respect to some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$.
+**Arthur Samuel (1959)** — field of study that gives computers the ability to **learn without being explicitly programmed**.
+
+**Tom M. Mitchell (1997)** — a computer program is said to **learn** from experience $E$ with respect to some class of tasks $T$ and performance measure $P$, if its performance at tasks in $T$, as measured by $P$, improves with experience $E$.
 
 $$\text{Learning} \iff P(T, E_{\text{new}}) > P(T, E_{\text{old}})$$
 
-#### Canonical Examples of the $(T, P, E)$ Triplet:
-1. **Autonomous Vehicle Navigation**:
-   - **Task $T$**: Steering, braking, and throttling along public highways while maintaining lane centering and collision avoidance.
-   - **Performance Measure $P$**: Average distance traveled without human safety intervention, passenger ride smoothness, and compliance with traffic regulations.
-   - **Experience $E$**: Terabytes of multi-modal sensory streams (LiDAR point clouds, radar echoes, stereoscopic camera feeds, wheel odometry) collected across thousands of driving hours.
-2. **Medical Diagnostics (Mammography Screening)**:
-   - **Task $T$**: Identifying malignant neoplastic tissue in digital mammograms.
-   - **Performance Measure $P$**: Area Under the ROC Curve (ROC-AUC), Sensitivity (Recall) at fixed high specificity, and false negative rate minimization.
-   - **Experience $E$**: Biopsy-verified historical medical imaging database with ground-truth pathological labels.
-3. **Credit Default Prediction**:
-   - **Task $T$**: Classifying whether a revolving retail credit applicant will default within a 12-month window.
-   - **Performance Measure $P$**: Normalized Gini coefficient, F1-Score, and financial expected loss reduction.
-   - **Experience $E$**: Historical credit bureau files, debt-to-income metrics, and repayment tracking records.
+#### Four canonical $\langle T, P, E \rangle$ formulations (BITS lecture deck)
+| # | Task $T$ | Performance $P$ | Experience $E$ |
+| :--- | :--- | :--- | :--- |
+| 1 | Recognize handwritten words | % words correctly classified | Database of human-labelled handwritten images |
+| 2 | Categorize email as spam or ham | % emails correctly classified | Labelled email corpus |
+| 3 | Play checkers | % games won vs. opponents | Games played against itself |
+| 4 | Drive on public highways (ALVINN) | Avg. distance before human must correct steering | Recorded images + steering commands while observing a human driver |
+
+### 1.2 Traditional programming vs. machine learning (spam filter)
+
+| Approach | Pipeline | Spam example |
+| :--- | :--- | :--- |
+| **Traditional** | Data + hand-crafted Program → Output | Engineers maintain keyword lists ("free", "4U", "credit card"); brittle as vocabulary shifts |
+| **Machine learning** | Data + labelled Output → learned Program | Model learns word/statistical patterns from labelled mail and adapts automatically |
+
+### 1.3 When and why use machine learning?
+
+- Human expertise does not exist (e.g. Mars rover navigation).
+- Humans cannot fully explain their skill (speech, face, biometrics) — Geoffrey Hinton: *"It is very hard to say what makes a 2 — what distinguishes a 2 from a 7 mathematically?"*
+- Environment changes (personalized medicine, dynamic pricing, recommendations).
+- Hidden structure in large data (medical diagnostics, genomics) exceeds manual rule design.
 
 ---
 
@@ -89,72 +101,44 @@ An autonomous agent interacts dynamically with an environment through discrete o
 
 $$R_t = \sum_{k=0}^{\infty} \gamma^k r_{t+k+1}, \quad \gamma \in [0, 1)$$
 
+### 2.4 Semi-supervised learning
+
+A small labelled set plus a large unlabelled set (e.g. medical imaging, web page classification). Labels are expensive; unlabelled data still constrains the hypothesis space.
+
+### 2.5 Operational learning paradigms (lecture taxonomy)
+
+| Paradigm | Description |
+| :--- | :--- |
+| **Batch (offline)** | Train on a fixed dataset; periodic full retraining |
+| **Online (streaming)** | Incremental updates as new data arrives |
+| **Instance-based** | Memorize training points; predict by similarity ($k$-NN) |
+| **Model-based** | Fit a parameterized function (linear models, trees, neural nets) |
+
+### 2.6 Lecture tabular datasets
+
+**Employability (classification)**
+
+| CGPA | Communication | Aptitude | Programming | Job offered |
+| :---: | :---: | :---: | :---: | :---: |
+| 8.5 | High | High | High | Yes |
+| 7.0 | Medium | High | Medium | Yes |
+| 6.0 | Low | Medium | Low | No |
+| 9.0 | High | Medium | High | Yes |
+| 5.5 | Medium | Low | Medium | No |
+
+**Used car price (regression)** — features: Brand, Mfg. year, engine capacity, mileage, distance travelled, cab flag → continuous **Price (Rs.)**.
+
 ---
 
-## 3. Systematic Design of a Learning System
+## 3. Designing a learning system (lecture scope)
 
-Designing a production-grade machine learning system requires a disciplined sequence of mathematical and architectural decisions. Mitchell formalizes this via a 4-stage pipeline (demonstrated here on an autonomous Checkers learning agent):
+Tom Mitchell's textbook discusses full checkers architectures (Performance System, Critic, Generalizer, Experiment Generator, LMS updates). **In BITS live lectures, checkers appears only as the $\langle T,P,E \rangle$ row above** — not as a graded derivation. For exams, prioritize:
 
-```
-┌────────────────────────────────────────────────────────┐
-│  Stage 1: Choose the Training Experience (E)          │
-│  - Direct feedback (board + optimal move) vs. Indirect │
-│  - Degree of agent control (Teacher vs. Self-play)     │
-│  - Representativeness vs. Distribution Shift           │
-└──────────────────────────┬─────────────────────────────┘
-                           │
-                           ▼
-┌────────────────────────────────────────────────────────┐
-│  Stage 2: Choose the Target Function (V)              │
-│  - Operational target mapping: V: Board → ℝ            │
-│  - Terminal state payoff: +100 (win), -100 (loss), 0   │
-│  - Intermediate states: Expected win probability       │
-└──────────────────────────┬─────────────────────────────┘
-                           │
-                           ▼
-┌────────────────────────────────────────────────────────┐
-│  Stage 3: Choose Function Representation (V̂)          │
-│  - Lookup table vs. Linear combination vs. Deep Net   │
-│  - Feature extraction: x₁ (pawns), x₂ (kings), etc.    │
-│  - Linear Hypothesis: V̂(b) = w₀ + ∑ wᵢ xᵢ              │
-└──────────────────────────┬─────────────────────────────┘
-                           │
-                           ▼
-┌────────────────────────────────────────────────────────┐
-│  Stage 4: Choose Function Approximation Algorithm     │
-│  - Loss Formulation: E = ∑ (V_train(b) - V̂(b))²        │
-│  - Optimization: Least Mean Squares (LMS) / SGD        │
-│  - Weight Update: wᵢ ← wᵢ + η (V_train(b) - V̂(b)) xᵢ   │
-└────────────────────────────────────────────────────────┘
-```
+1. **Specify** $\langle T, P, E \rangle$ for a given application.
+2. **Partition data** — train / validation / test sizes and $k$-fold CV counts (see Module 11).
+3. **Choose** supervised vs. unsupervised vs. reinforcement framing and instance- vs. model-based deployment.
 
-### 3.1 The Complete Checkers Learning Architecture (Mitchell Model)
-The complete operational system comprises four interconnected modules:
-
-```
-┌─────────────────┐       ┌─────────────────┐
-│                 │ <──── │                 │
-│                 │ ───── │                 │
-│    Executive    │ Board │ Performance     │
-│    System       │ Trace │ System          │
-│                 │ ────> │                 │
-└────────┬────────┘       └────────┬────────┘
-         │                         │
-  Training │ Experience        Experiment │ Generation
-         ▼                         ▼
-┌─────────────────┐       ┌─────────────────┐
-│                 │ Board │                 │
-│  Generalizer    │ Value │   Experiment    │
-│  (LMS Algorithm)│ <──── │    Generator    │
-│                 │       │                 │
-└─────────────────┘       └─────────────────┘
-```
-
-1. **Performance System**: The operational agent that takes a current game state and executes a legal move by evaluating prospective board positions using current evaluation function $\hat{V}$.
-2. **Critic**: Translates the raw game history (history of moves and terminal win/loss outcome) into training pairs $(b, V_{\text{train}}(b))$. It solves the **Credit Assignment Problem** using temporal difference bootstrapping:
-   $$V_{\text{train}}(b) \leftarrow \hat{V}(\text{Successor}(b))$$
-3. **Generalizer**: Takes the training examples from the Critic and updates the parameter vector $\mathbf{w}$ using stochastic gradient descent.
-4. **Experiment Generator**: Formulates new initial board states and explores novel moves to guarantee sufficient exploration of the state space.
+High-level design stages still apply: define experience, target function, representation, and learning algorithm — without requiring the full Mitchell checkers credit-assignment derivation.
 
 ---
 
@@ -227,155 +211,45 @@ In the first lecture, Prof. Pritee Narendra Raole framed the subject as having t
 
 ---
 
-## 5. Mathematical Vectorized Implementation (From Scratch)
+## 5. Solved Numerical Examples (Exam Pattern)
 
-Here is a vectorized NumPy implementation of the **Least Mean Squares (LMS)** learning algorithm for linear value function approximation in Mitchell's learning system:
+### 5.1 Mitchell $\langle T, P, E \rangle$ for loan approval (4 marks)
 
-```python
-import numpy as np
+- **$T$**: Classify applicant as approve / reject.
+- **$P$**: Percentage of decisions matching expert underwriter labels on held-out applications.
+- **$E$**: Historical applications with features (income, credit score, employment) and final underwriter decisions.
 
-class LinearGeneralizerLMS:
-    """
-    Least Mean Squares (LMS) Generalizer for Linear Function Approximation.
-    Hypothesis: V_hat(x) = w^T x = w_0 + w_1 x_1 + ... + w_d x_d
-    """
-    def __init__(self, learning_rate: float = 0.01, fit_intercept: bool = True):
-        self.eta = learning_rate
-        self.fit_intercept = fit_intercept
-        self.weights = None
+### 5.2 Train / validation / test sizing (2 marks)
 
-    def fit(self, X: np.ndarray, y: np.ndarray, epochs: int = 100):
-        """
-        X: Feature matrix of shape (N, d)
-        y: Target training values of shape (N,)
-        """
-        N, d = X.shape
-        if self.fit_intercept:
-            # Augment X with leading column of ones for bias w_0
-            X_aug = np.hstack([np.ones((N, 1)), X])
-            self.weights = np.zeros(d + 1)
-        else:
-            X_aug = X
-            self.weights = np.zeros(d)
+$N = 10{,}000$, split **70% / 15% / 15%**:
 
-        loss_history = []
-        for epoch in range(epochs):
-            # Forward pass: Compute predictions V_hat(b)
-            y_pred = np.dot(X_aug, self.weights)
-            
-            # Compute Residual Error: e = V_train(b) - V_hat(b)
-            error = y - y_pred
-            mse = np.mean(error ** 2)
-            loss_history.append(mse)
+| Split | Count |
+| :--- | :---: |
+| Train | $0.70 \times 10{,}000 = 7{,}000$ |
+| Validation | $0.15 \times 10{,}000 = 1{,}500$ |
+| Test | $0.15 \times 10{,}000 = 1{,}500$ |
 
-            # Gradient of 0.5 * MSE w.r.t weights: grad = - (1/N) * X_aug^T error
-            gradient = -np.dot(X_aug.T, error) / N
+Check: $7{,}000 + 1{,}500 + 1{,}500 = 10{,}000$.
 
-            # LMS Weight Update Rule: w <- w - eta * gradient
-            self.weights -= self.eta * gradient
+### 5.3 $k$-fold cross-validation sizing (4 marks)
 
-        return loss_history
+$N = 5{,}000$, $k = 5$:
 
-    def predict(self, X: np.ndarray) -> np.ndarray:
-        if self.fit_intercept:
-            X_aug = np.hstack([np.ones((X.shape[0], 1)), X])
-        else:
-            X_aug = X
-        return np.dot(X_aug, self.weights)
+- Validation fold size: $5{,}000 / 5 = 1{,}000$
+- Training size per fold: $5{,}000 - 1{,}000 = 4{,}000$
+- Models trained: $5$ (one per fold)
 
+### 5.4 Accuracy → error count (2 marks)
 
-# Verification test on synthetic checkers board states
-if __name__ == "__main__":
-    np.random.seed(42)
-    # 5 board features: [x1: black pawns, x2: red pawns, x3: black kings, x4: red kings, x5: threatened pieces]
-    X_train = np.array([
-        [12, 12, 0, 0, 0],
-        [10, 8,  1, 0, 1],
-        [6,  11, 0, 2, 3],
-        [2,  0,  4, 0, 0],
-        [0,  5,  0, 3, 2]
-    ], dtype=float)
-    # Ground-truth board values from game outcomes
-    y_train = np.array([0.0, 35.0, -45.0, 100.0, -90.0])
+Test set $N = 2{,}000$, reported accuracy $92\%$:
 
-    model = LinearGeneralizerLMS(learning_rate=0.005)
-    losses = model.fit(X_train, y_train, epochs=500)
-    print(f"Learned Parameters [w0, w1..w5]:\n{model.weights.round(3)}")
-    preds = model.predict(X_train)
-    print(f"Predicted Board Values:\n{preds.round(2)}")
-```
+$$\text{Errors} = (1 - 0.92) \times 2{,}000 = 160$$
 
 ---
 
-## 6. Solved Numerical Example (Exam Pattern)
+## 6. Common Pitfalls, Trade-offs & Practical Guidelines
 
-**Problem Statement (University Mid-Semester Exam Pattern, 6 Marks)**:  
-Consider a learning agent for a board game utilizing a linear evaluation hypothesis:
-
-$$\hat{V}(b) = w_0 + w_1 x_1 + w_2 x_2$$
-
-Where:
-- $x_1$: Net piece advantage ($x_1 = \text{Own Pieces} - \text{Opponent Pieces}$)
-- $x_2$: Net mobility advantage ($x_2 = \text{Own Legal Moves} - \text{Opponent Legal Moves}$)
-
-Initial weight vector is $\mathbf{w}^{(0)} = [0.0, 10.0, 2.0]^T$.  
-The learning rate is $\eta = 0.1$.  
-The agent observes a training board state $b_1$ with features: $x_1 = +2, x_2 = -1$.  
-The Critic assigns a target value $V_{\text{train}}(b_1) = +25.0$.
-
-Calculate:
-1. The initial predicted board score $\hat{V}(b_1)$.
-2. The estimation error $E(b_1) = V_{\text{train}}(b_1) - \hat{V}(b_1)$.
-3. The updated weight vector $\mathbf{w}^{(1)}$ using the LMS weight update rule.
-4. The revised predicted board score $\hat{V}_{\text{new}}(b_1)$ verifying convergence.
-
----
-
-### Step-by-Step Solution:
-
-#### Step 1: Augment Feature Vector and Compute $\hat{V}(b_1)$
-The augmented feature vector including the bias term is:
-$$\mathbf{x} = [x_0, x_1, x_2]^T = [1.0, 2.0, -1.0]^T$$
-
-The predicted score is:
-$$\hat{V}(b_1) = \mathbf{w}^{(0)T} \mathbf{x} = w_0^{(0)} x_0 + w_1^{(0)} x_1 + w_2^{(0)} x_2$$
-$$\hat{V}(b_1) = (0.0)(1.0) + (10.0)(2.0) + (2.0)(-1.0) = 0 + 20 - 2 = 18.0$$
-
-#### Step 2: Compute Estimation Error
-$$E(b_1) = V_{\text{train}}(b_1) - \hat{V}(b_1) = 25.0 - 18.0 = +7.0$$
-
-#### Step 3: Apply LMS Weight Update Rule
-The LMS update rule for each parameter $w_i$ is:
-$$w_i^{(1)} \leftarrow w_i^{(0)} + \eta \cdot \left(V_{\text{train}}(b_1) - \hat{V}(b_1)\right) \cdot x_i$$
-$$w_i^{(1)} \leftarrow w_i^{(0)} + 0.1 \cdot (7.0) \cdot x_i = w_i^{(0)} + 0.7 \cdot x_i$$
-
-Computing component-wise:
-- **Bias ($w_0$)**:
-  $$w_0^{(1)} = 0.0 + 0.7 \times (1.0) = \mathbf{0.70}$$
-- **Piece Advantage Weight ($w_1$)**:
-  $$w_1^{(1)} = 10.0 + 0.7 \times (2.0) = 10.0 + 1.4 = \mathbf{11.40}$$
-- **Mobility Advantage Weight ($w_2$)**:
-  $$w_2^{(1)} = 2.0 + 0.7 \times (-1.0) = 2.0 - 0.7 = \mathbf{1.30}$$
-
-Updated weight vector:
-$$\mathbf{w}^{(1)} = [0.70, 11.40, 1.30]^T$$
-
-#### Step 4: Verify Convergence on Revised Prediction
-$$\hat{V}_{\text{new}}(b_1) = (0.70)(1.0) + (11.40)(2.0) + (1.30)(-1.0) = 0.70 + 22.80 - 1.30 = \mathbf{22.20}$$
-
-The prediction shifted monotonically from $18.00 \to 22.20$, successfully reducing error $|25.0 - 22.20| = 2.80 < 7.00$.
-
----
-
-## 7. Common Pitfalls, Trade-offs & Practical Guidelines
-
-1. **Credit Assignment Trap in Indirect Feedback**:
-   - In board games and sequential control, reward is delayed until terminal victory or defeat. Updating intermediate board evaluations naively with $\pm 100$ produces catastrophic parameter explosion.
-   - *Remedy*: Use temporal difference bootstrapping: $V_{\text{train}}(b) \leftarrow \hat{V}(\text{Successor}(b))$.
-2. **Exploration vs. Exploitation Dilemma**:
-   - If the agent only plays moves evaluated highest by its current imperfect $\hat{V}$, it risks settling into suboptimal local equilibria.
-   - *Remedy*: Employ $\epsilon$-greedy action selection or Boltzmann softmax exploration.
-3. **Data Leakage in Workflow Setup**:
+1. **Data leakage in workflow setup**:
    - Performing feature scaling, imputation, or outlier removal on the *entire dataset* before splitting into train/test leaks test distribution parameters $(\mu_{\text{test}}, \sigma_{\text{test}})$ into training.
    - *Rule*: Fit preprocessing transformers strictly on `X_train`, then call `transform()` on `X_val` and `X_test`.
 

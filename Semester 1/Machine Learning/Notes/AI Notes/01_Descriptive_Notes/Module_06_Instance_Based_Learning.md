@@ -2,7 +2,7 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 8); Tan et al. (R2, Chapter 4)  
-**Primary Teacher Followed**: Prof. Pritee Narendra Raole (Session 7: 2026-09-06)
+**Lecture alignment**: Prof. Sharon Christa — **Session 10 (2026-10-11)**; brief intro end of Session 9. Deck: `11th - 18th -KNN-ML CS 9_updated.pdf` (Session 7 was Decision Trees only).
 
 ---
 
@@ -41,6 +41,24 @@ Query Point x_q ───[ Distance Metric d(x_q, xᵢ) ]───────�
 ![Data Matrix and Dissimilarity Matrix — Foundation of Instance-Based Learning](../assets/M06_knn_dissimilarity_matrix.jpg)
 *Figure 6.1: Data Matrix (n×p) vs Dissimilarity Matrix (triangular) — foundation of instance-based learning distance metrics (Oct 11 session).*
 
+### 2.0 Data matrix vs. dissimilarity matrix (Session 10)
+
+- **Data matrix**: $n \times p$ (objects × features).  
+- **Dissimilarity matrix**: $n \times n$ symmetric, $d(i,i)=0$, $d(i,j)=d(j,i)$.  
+- **$k$ heuristic**: $k \approx \lfloor\sqrt{n}\rfloor$ (odd for binary votes); tune via validation SSE elbow.  
+- **Ordinal features**: rank $r$, then $z = (r-1)/(M-1) \in [0,1]$.  
+- **Asymmetric binary (Jaccard)**: $d = (r+s)/(q+r+s)$ — joint 0–0 matches excluded.  
+- **Gower mixed distance**: $d(i,j)=\frac{\sum_k w_k \delta_{ij}^{(k)} d_{ij}^{(k)}}{\sum_k w_k \delta_{ij}^{(k)}}$.
+
+**Choosing $k$ (Session 10)** — heuristic $k \approx \lfloor\sqrt{N}\rfloor$ (odd for binary vote); plot validation **SSE / error vs $k$** and pick the elbow. $k=1$ overfits noise; $k=N$ predicts majority class only.
+
+**Kernel weights** — inverse $1/d^2$; shifted $1/(d_0+d)^2$ (avoids divide-by-zero); Gaussian $\exp(-d^2/(2b^2))$.
+
+**Jaccard (asymmetric binary, slides 21–23)** — Jack vs Mary clinical tests: $d(\text{Jack},\text{Mary}) = (r+s)/(q+r+s) = 1/3 \approx 0.33$ (joint 0–0 matches excluded).
+
+**Mixed-type distance (practice sheets)**:
+$$d = \sqrt{\sum_{\text{num, ord}} (\Delta x_j)^2} + \frac{\text{nominal mismatches}}{k_{\text{nom}}}$$
+
 ### 2.1 Formal Formulation
 Given training dataset $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^N \subset \mathbb{R}^d \times \mathcal{Y}$ and a distance metric $d: \mathbb{R}^d \times \mathbb{R}^d \to \mathbb{R}_{\ge 0}$:
 1. For query point $\mathbf{x}_q$, compute pairwise distances to all training points: $\{d(\mathbf{x}_q, \mathbf{x}_i)\}_{i=1}^N$.
@@ -76,6 +94,8 @@ The predictive behavior of instance-based models is entirely dictated by the cho
 
 ### 2.3 Theoretical Performance Bound: Cover and Hart Theorem (1967)
 
+> *Textbook supplement — not covered in live lecture; keep for comprehensive exam.*
+
 One of the foundational theorems of non-parametric pattern recognition governs the asymptotic asymptotic performance of the simple 1-Nearest Neighbor classifier:
 
 > **Cover & Hart Theorem**: Let $R^*$ denote the optimal Bayes risk (the irreducible minimum theoretical error achievable by any classifier knowing the true posterior distributions). In the infinite data limit ($N \to \infty$), the asymptotic probability of error of the 1-NN rule $R_{1-\text{NN}}$ is tightly bounded by:
@@ -110,9 +130,15 @@ The optimal closed-form parameter vector $\mathbf{w}(\mathbf{x}_q)$ is:
 $$\mathbf{w}^*(\mathbf{x}_q) = (\mathbf{X}^T \mathbf{W}_{\mathbf{x}_q} \mathbf{X})^{-1} \mathbf{X}^T \mathbf{W}_{\mathbf{x}_q} \mathbf{y}$$
 where $\mathbf{W}_{\mathbf{x}_q} \in \mathbb{R}^{N \times N}$ is the diagonal weight matrix: $W_{ii} = K(\mathbf{x}_i, \mathbf{x}_q)$.
 
+**BITS exam pattern (iterative update)** — one step on local line $y=w_0+w_1 x$ with kernel weights $K_i=1/d_i^2$:
+$$\Delta w_0 = \eta \sum_i K_i (y_i - \hat{y}_i), \qquad \Delta w_1 = \eta \sum_i K_i (y_i - \hat{y}_i) x_i$$
+Weighted prediction without fitting: $\hat{y}=\frac{\sum K_i y_i}{\sum K_i}$.
+
 ---
 
 ### 2.6 The Curse of Dimensionality
+
+**Lecture case (study hours vs noise)** — Query: 8h study, shoe 6, fav 3. True peer: 8.5h (Pass). Impostor: 2h (Fail). 1D: nearest is peer. Adding shoe + favourite number **reverses** nearest neighbour → wrong Fail prediction. Remedies: feature weights $w_j^2\Delta x_j^2$ or CV feature elimination.
 
 As feature dimension $d \to \infty$, geometric properties in $\mathbb{R}^d$ become severely counter-intuitive:
 1. **Exponential Sparsity**: To maintain fixed sample density, required sample size scales exponentially: $N \propto \mathcal{O}(C^d)$.
@@ -167,7 +193,9 @@ print(gaussian_rbf(X, C, sigma=1.0))  # approx [[0.0821]]
 
 ---
 
-## 3. Vectorized Implementation (From Scratch)
+## 3. Implementation note
+
+Exams use **manual distances**, weighted votes, and **LWR one-step GD** (§2.5). Optional code:
 
 ```python
 import numpy as np
@@ -248,7 +276,63 @@ if __name__ == "__main__":
 
 ---
 
-## 4. Solved Numerical Example (Exam Pattern)
+## 4. Solved Numerical Examples (Exam Pattern)
+
+### 4.0 Eight-point mixed-type $k$-NN (Prof. Pritee Problem Type 2 pattern)
+
+**Setup** — Numeric features min–max scaled to $[0,1]$; ordinal satisfaction with ranks $1,\ldots,5$ mapped to $z=(r-1)/(5-1)$; nominal dept (CSE/ECE).  
+$$d(\mathbf{q},\mathbf{x}) = \sqrt{(\Delta \text{Age})^2 + (\Delta \text{Sat})^2} + \frac{\mathbb{I}[\text{Dept}_q \neq \text{Dept}_x]}{k_{\text{nom}}}, \quad k_{\text{nom}}=1$$
+
+**Query** — Age $0.50$, Satisfaction $0.50$, Dept **CSE**.
+
+| ID | Age | Sat | Dept | Class |
+| :---: | :---: | :---: | :---: | :---: |
+| 1 | 0.45 | 0.50 | CSE | + |
+| 2 | 0.40 | 0.50 | CSE | + |
+| 3 | 0.50 | 0.25 | CSE | $-$ |
+| 4 | 0.50 | 0.75 | CSE | $-$ |
+| 5 | 0.55 | 0.50 | ECE | + |
+| 6 | 0.90 | 0.50 | CSE | $-$ |
+| 7 | 0.10 | 0.50 | CSE | $-$ |
+| 8 | 0.50 | 0.50 | ECE | + |
+
+**Step 1 — Distances**
+
+| ID | Computation | $d$ | Class |
+| :---: | :--- | :---: | :---: |
+| 1 | $\sqrt{0.05^2}$ | 0.050 | + |
+| 2 | $\sqrt{0.10^2}$ | 0.100 | + |
+| 3 | $\sqrt{0.25^2}$ | 0.250 | $-$ |
+| 4 | $\sqrt{0.25^2}$ | 0.250 | $-$ |
+| 5 | $\sqrt{0.05^2}+1$ | 1.050 | + |
+| 6 | $\sqrt{0.40^2}$ | 0.400 | $-$ |
+| 7 | $\sqrt{0.40^2}$ | 0.400 | $-$ |
+| 8 | $0+1$ | 1.000 | + |
+
+**Step 2 — $k=3$ majority** — neighbours 1, 2, 3 → $2$ positive, $1$ negative → predict **+**.
+
+**Step 3 — $k=7$ majority** — add 4 ($-$), 7 ($-$), 6 ($-$), 8 (+) → $3+$ vs $4-$ → predict **$-$** (incorrect; distant negatives dominate).
+
+**Step 4 — $k=7$ with $w_i = 1/d_i^2$**
+
+| ID | $w_i$ | Class | Weighted vote |
+| :---: | :---: | :---: | :--- |
+| 1 | $1/0.0025=400$ | + | 400 |
+| 2 | 100 | + | 100 |
+| 3 | 16 | $-$ | 16 |
+| 4 | 16 | $-$ | 16 |
+| 6 | 6.25 | $-$ | 6.25 |
+| 7 | 6.25 | $-$ | 6.25 |
+| 8 | 1 | + | 1 |
+| 5 | $\approx 0.91$ | + | 0.91 |
+
+Totals: **+$ ≈ 501.9**, **$-$ ≈ 44.5** → weighted class **+** (exam teaching point: inverse-distance weighting prevents far points from overturning the label).
+
+### 4.0.1 Gower mixed attributes (Session 10 slides 33–34)
+
+Weights $w_{\text{dept}}=0.3$, $w_{\text{sat}}=0.3$, $w_{\text{age}}=0.4$ on per-attribute dissimilarities $\delta_{ij}^{(k)} d_{ij}^{(k)}$; average with $\sum w_k\delta/\sum w_k\delta$. Use when attributes differ in type and scale.
+
+### 4.1 Euclidean / Manhattan / weighted $k$-NN
 
 **Problem Statement (University Examination Pattern, 6 Marks)**:  
 Given the following training dataset of 6 points with two real-valued features and a binary class label:

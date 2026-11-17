@@ -2,7 +2,7 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 3); Tan et al. (R2, Chapter 3)  
-**Primary Teacher Followed**: Prof. Pritee Narendra Raole (Session 6: 2026-08-30)
+**Lecture alignment**: Prof. Sharon Christa — **Sessions 6–8** (2026-08-30 through 2026-09-13). **Mid-sem exam scope: decision-tree slides through ~45** (pre-pruning, manual IG/Gini — not advanced post-pruning ensembles).
 
 ---
 
@@ -73,6 +73,20 @@ $$I_G(S) = 1 - \sum_{i=1}^C p_i^2$$
 - Maximum value for binary split: $I_G(0.5) = 2(0.5)(0.5) = \mathbf{0.50}$.
 - **Computational Benefit**: Avoids evaluating computationally expensive $\log_2$ operations during large-scale node evaluations.
 
+### 2.2.1 Classification error impurity (Session 8)
+
+$$I_E(S) = 1 - \max_i p_i$$
+
+Maximum $0.5$ for binary $50/50$; minimum $0$ for pure nodes. Less sensitive than entropy/Gini for splitting, but used in comparisons and pruning discussion.
+
+| Measure | Binary max | Penalizes mixing |
+| :--- | :---: | :--- |
+| Entropy | 1.0 bit | Strongest |
+| Gini | 0.50 | Moderate |
+| Classification error | 0.50 | Weakest |
+
+**CART nominal binary splits**: for $k$ categories, evaluate $2^{k-1}-1$ non-empty bipartitions (e.g. marital status → 3 splits).
+
 ---
 
 ### 2.3 Information Gain (ID3 Algorithm)
@@ -110,6 +124,12 @@ To split a continuous numerical attribute $A$ (e.g., Temperature, Income):
 2. Identify candidate split thresholds $c_j$ as midpoints between adjacent distinct values where the target label changes:
    $$c_j = \frac{a_j + a_{j+1}}{2}$$
 3. Evaluate binary split predicate $A \le c_j$ vs. $A > c_j$ for all candidate thresholds and select the threshold $c^*$ maximizing Information Gain.
+
+### 3.1.1 Minimum description length (MDL) — practice numerics
+
+$$\text{MDL}(h) = L(h) + L(D\mid h)$$
+
+Bits to describe tree structure + bits for misclassified exceptions. **Tree A**: 7 bits structure + 6 bits errors $=13$. **Tree B**: 15 + 2 $=17$. Prefer **A** (Occam) despite more training errors.
 
 ---
 
@@ -161,7 +181,7 @@ A complex overfitted tree has small $L(\mathcal{D} \mid h)$ but massive $L(h)$. 
 
 ---
 
-## 4. Vectorized Implementation (From Scratch)
+## 4. Implementation note (manual trees for exams)
 
 ```python
 import numpy as np
@@ -268,7 +288,49 @@ if __name__ == "__main__":
 
 ---
 
-## 5. Solved Numerical Example (Exam Pattern)
+## 5. Solved Numerical Examples (Exam Pattern)
+
+### 5.0 Canonical Play Tennis — ID3 root selection (Session 7)
+
+| Day | Outlook | Temp | Humidity | Wind | Play |
+| :---: | :--- | :--- | :--- | :--- | :---: |
+| D1 | Sunny | Hot | High | Weak | No |
+| D2 | Sunny | Hot | High | Strong | No |
+| D3 | Overcast | Hot | High | Weak | Yes |
+| D4 | Rain | Mild | High | Weak | Yes |
+| D5 | Rain | Cool | Normal | Weak | Yes |
+| D6 | Rain | Cool | Normal | Strong | No |
+| D7 | Overcast | Cool | Normal | Strong | Yes |
+| D8 | Sunny | Mild | High | Weak | No |
+| D9 | Sunny | Cool | Normal | Weak | Yes |
+| D10 | Rain | Mild | Normal | Weak | Yes |
+| D11 | Sunny | Mild | Normal | Strong | Yes |
+| D12 | Overcast | Mild | High | Strong | Yes |
+| D13 | Overcast | Hot | Normal | Weak | Yes |
+| D14 | Rain | Mild | High | Strong | No |
+
+14 instances, 9 Yes / 5 No → $H(S) \approx 0.940$ bits. Information gains at root:
+
+| Attribute | $IG(S,A)$ |
+| :--- | :---: |
+| **Outlook** | **0.247** (highest → root) |
+| Humidity | 0.152 |
+| Wind | 0.048 |
+| Temperature | 0.029 |
+
+**Root (Outlook)** — $H(S)=0.940$; weighted child entropy $0.694$ → $IG=0.247$.
+
+**After Outlook = Sunny** (5 rows: 2 Yes, 3 No): $H=0.971$; split on **Humidity** gives $IG \approx 0.971$ (High→No, Normal→Yes leaves).
+
+**After Outlook = Rain** (5 rows: 3 Yes, 2 No): split on **Wind** gives $IG \approx 0.971$ (Strong→No, Weak→Yes).
+
+**Overcast** branch: 4 Yes, 0 No → pure **Yes** leaf ($H=0$).
+
+### 5.1 Continuous threshold — annual income (Session 8)
+
+Sorted incomes (k\$): 60, 70, 75, 85, 90, 95, 100, 120, 125, 220 with default labels changing at 75|85 and 95|100 → candidate midpoints **80** and **97.5**. Weighted Gini is lower at **$c=97.5$** (lecture optimum).
+
+### 5.2 Supplement: loan applicant entropy exercise
 
 **Problem Statement (University Examination Pattern, 6 Marks)**:  
 Given the following dataset of 10 bank loan applicants with target label **Default** ($y \in \{\text{Yes}, \text{No}\}$):

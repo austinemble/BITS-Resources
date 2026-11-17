@@ -2,7 +2,7 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Christopher M. Bishop (R1, Chapter 3); Tan et al. (R2, Chapter 4)  
-**Primary Teacher Followed**: Prof. Pritee Narendra Raole (Session 3: 2026-08-09)
+**Lecture alignment**: Prof. Sharon Christa — Sessions 3–6 (2026-08-09 through 2026-08-30).
 
 ---
 
@@ -46,7 +46,9 @@ The Residual Sum of Squares (RSS) objective function is:
 
 $$\mathcal{L}(\mathbf{w}) = \frac{1}{2} \|\mathbf{y} - \mathbf{\Phi}\mathbf{w}\|_2^2 = \frac{1}{2} (\mathbf{y} - \mathbf{\Phi}\mathbf{w})^T (\mathbf{y} - \mathbf{\Phi}\mathbf{w})$$
 
-Expanding the matrix quadratic form:
+Expanding $(\mathbf{y} - \mathbf{\Phi}\mathbf{w})^T(\mathbf{y} - \mathbf{\Phi}\mathbf{w})$ (Session 5 lecture):
+$$\mathcal{L}(\mathbf{w}) = \frac{1}{2}\left(\mathbf{y}^T\mathbf{y} - \mathbf{y}^T\mathbf{\Phi}\mathbf{w} - \mathbf{w}^T\mathbf{\Phi}^T\mathbf{y} + \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w}\right)$$
+Because $\mathbf{y}^T\mathbf{\Phi}\mathbf{w}$ is a scalar, $\mathbf{y}^T\mathbf{\Phi}\mathbf{w} = \mathbf{w}^T\mathbf{\Phi}^T\mathbf{y}$, so:
 $$\mathcal{L}(\mathbf{w}) = \frac{1}{2} \left[ \mathbf{y}^T\mathbf{y} - 2\mathbf{w}^T\mathbf{\Phi}^T\mathbf{y} + \mathbf{w}^T\mathbf{\Phi}^T\mathbf{\Phi}\mathbf{w} \right]$$
 
 Taking the vector gradient with respect to $\mathbf{w}$ and setting to $\mathbf{0}$:
@@ -86,6 +88,31 @@ This gradient matches the $\tfrac{1}{2}\|\mathbf{y}-\mathbf{\Phi}\mathbf{w}\|_2^
 3. **Mini-Batch Gradient Descent (MBGD)**:
    - Computes gradients across subsets $\mathcal{B} \subset \{1, \dots, N\}$ of batch size $B$ (typically $32 \le B \le 512$).
    - Maximizes hardware vectorized parallelism (SIMD/GPU tensor cores) while dampening SGD variance.
+
+**Simultaneous update rule**: compute all partial derivatives using weights $\mathbf{w}^{(t)}$ before applying any update (not in-place Gauss–Seidel).
+
+#### Exam decision: Normal Equation vs. gradient descent
+
+| Criterion | Normal Equation | Gradient descent |
+| :--- | :--- | :--- |
+| Nature | Closed form | Iterative |
+| Hyperparameters | None | Learning rate $\alpha$ |
+| Feature scaling | Not required | **Required** |
+| Cost | $\mathcal{O}(d^3)$ inversion | $\mathcal{O}(k \cdot n \cdot d)$ per run |
+| When $d$ is large | Poor if $d \gtrsim 10^4$ | Scales to $d \gg 10^5$ |
+| Singular $X^TX$ | Fails | Converges with suitable $\alpha$ |
+
+#### Worked example: meal bill → tip (1D OLS, Session 4)
+
+| Bill $x$ | Tip $y$ |
+| :---: | :---: |
+| 34 | 5.00 |
+| 10 | 1.50 |
+| 25 | 3.00 |
+| 50 | 7.00 |
+| 15 | 2.00 |
+
+$\bar{x}=26.8$, $\bar{y}=3.7$; $\hat{\theta}_1 = \frac{\sum(x_i-\bar{x})(y_i-\bar{y})}{\sum(x_i-\bar{x})^2} \approx 0.146$; $\hat{\theta}_0 = \bar{y} - \hat{\theta}_1\bar{x} \approx -0.82$ (lecture rounded values).
 
 ---
 
@@ -153,9 +180,33 @@ w₁ ≠ 0, w₂ ≠ 0 (Shrinkage)             w₁ = 0, w₂ ≠ 0 (Exact Zero 
           │     Circle                           │        ◇  Diamond
 ```
 
+**Elastic Net (lecture)**
+$$J = \frac{1}{2m}\|\mathbf{y}-\mathbf{\Phi}\mathbf{w}\|^2 + \frac{\lambda}{2m}\left[r\|\mathbf{w}\|_1 + (1-r)\|\mathbf{w}\|_2^2\right]$$
+
+**Early stopping**
+Stop gradient descent when **validation** error rises — reduces overfitting without an explicit penalty.
+
+**Linear basis function models**
+Non-linear in features, linear in $\mathbf{w}$: $y = \mathbf{w}^T\boldsymbol{\phi}(\mathbf{x})$.
+
+- Polynomial: $\phi_j(x) = x^j$
+- Gaussian RBF: $\phi_j(x) = \exp\left(-\frac{(x-\mu_j)^2}{2s^2}\right)$
+- Sigmoid: $\phi_j(x) = \sigma\left(\frac{x-\mu_j}{s}\right)$
+
+**Ridge gradient — weight decay**
+$$\mathbf{w} \leftarrow \mathbf{w}\left(1 - \frac{\alpha\lambda}{m}\right) - \frac{\alpha}{m}\mathbf{\Phi}^T(\mathbf{\Phi}\mathbf{w}-\mathbf{y})$$
+(intercept $\theta_0$ typically not regularized in closed-form ridge)
+
+**Goodness of fit ($R^2$)**
+$$R^2 = 1 - \frac{\sum_i (y_i-\hat{y}_i)^2}{\sum_i (y_i-\bar{y})^2}$$
+
 ---
 
-## 3. Vectorized Implementation (From Scratch)
+## 3. Implementation note
+
+Closed-form and one-step GD calculations are exam staples; full training loops are not. Use simultaneous updates and feature scaling before GD.
+
+*Optional reference implementation (abbreviated):*
 
 ```python
 import numpy as np

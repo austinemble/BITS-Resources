@@ -11,9 +11,21 @@
 | Module & Concept | Canonical Mathematical Formulation | Key Parameters & Dimensions | Operational Bounds & Remarks |
 | :--- | :--- | :--- | :--- |
 | **M1: Learning Criterion** | $P(T, E_{\text{new}}) > P(T, E_{\text{old}})$ | $T$: Task, $P$: Performance, $E$: Experience | Mitchell's formal operational definition |
-| **M1: LMS Update Rule** | $w_j \leftarrow w_j + \eta \left( V_{\text{train}}(b) - \hat{V}(b) \right) x_j$ | $\mathbf{w} \in \mathbb{R}^d, \mathbf{x} \in \mathbb{R}^d, \eta \in \mathbb{R}^+$ | Stochastic gradient descent on $0.5 \times \text{Error}^2$ |
+| **M1: Arthur Samuel (1959)** | Learning without explicit programming | Foundational definition | Lecture Session 2 |
 | **M2: Min-Max Scaling** | $x_{\text{norm}} = \frac{x - x_{\min}}{x_{\max} - x_{\min}}$ | $x_{\min}, x_{\max} \in \mathbb{R}$ | Bound: $x_{\text{norm}} \in [0, 1]$; sensitive to outliers |
 | **M2: Z-Score Standardization** | $z = \frac{x - \mu}{\sigma}$ | $\mu \in \mathbb{R}, \sigma > 0$ | $\mu_z = 0, \sigma_z = 1$; preserves outlier presence |
+| **M2: Tukey IQR Outliers** | $\text{IQR}=Q_3-Q_1$; bounds $Q_1-1.5\,\text{IQR},\ Q_3+1.5\,\text{IQR}$ | Quartiles from sorted data | Exam: flag points outside both bounds |
+| **M2: Min-Max to $[a,b]$** | $x' = a + (b-a)\frac{x-x_{\min}}{x_{\max}-x_{\min}}$ | Custom range scaling | Used in mixed-type $k$-NN practice |
+| **M3: Bivariate OLS Slope** | $m=\frac{\sum(x-\bar{x})(y-\bar{y})}{\sum(x-\bar{x})^2}$ | Simple regression | Meal-bill / tip numerics |
+| **M3: $R^2$** | $R^2=1-\frac{\sum(y_i-\hat{y}_i)^2}{\sum(y_i-\bar{y})^2}$ | Explained variance | Goodness of fit |
+| **M3: Elastic Net Cost** | $J=\frac{\text{SSE}}{2m}+\frac{\lambda}{2m}\left[\alpha\sum|\theta_j|+(1-\alpha)\sum\theta_j^2\right]$ | $\alpha \in [0,1]$ | Blended L1/L2 |
+| **M3: L2 Weight Decay GD** | $w\leftarrow w(1-2\eta\lambda)-\eta\frac{\partial\mathcal{L}_0}{\partial w}$ | Ridge gradient step | Exam regularization updates |
+| **M5: Classification Error** | $I_E(S)=1-\max_i p_i$ | Tree impurity | Session 8 comparison |
+| **M5: Continuous Split** | $c_j=\frac{a_j+a_{j+1}}{2}$ where labels change | CART thresholds | Income $c=97.5$ example |
+| **M6: LWR GD Update** | $\Delta w_0=\eta\sum K_i(y_i-\hat{y}_i)$; $\Delta w_1=\eta\sum K_i(y_i-\hat{y}_i)x_i$ | $K_i=1/d_i^2$ common | BITS Problem Type 3 |
+| **M6: Mixed-attribute distance** | $d=\sqrt{\sum(\Delta x_j)^2}+\frac{\text{nom mismatches}}{k_{\text{nom}}}$ | Scaled num/ord + nominal | Pritee KNN sheets |
+| **M11: FPR / FNR** | $\text{FPR}=\frac{FP}{FP+TN}$; $\text{FNR}=\frac{FN}{FN+TP}$ | Type I / II rates | Cancer paradox worksheet |
+| **M1: $k$-Fold Sizing** | Fold $=N/k$; train $=N-N/k$ | CV partition | Intro module numerics |
 | **M2: Sample Covariance** | $\text{Cov}(X, Y) = \frac{1}{N} \sum_{i=1}^N (x_i - \mu_x)(y_i - \mu_y)$ | $\mathbf{\Sigma} \in \mathbb{R}^{d \times d}$ | Positive semi-definite matrix |
 | **M2: Shannon Entropy** | $H(X) = - \sum_{k=1}^K p_k \log_2 p_k$ | $\sum p_k = 1, p_k \ge 0$ | Bound: $H(X) \in [0, \log_2 K]$; units: bits |
 | **M2: KL Divergence** | $D_{\text{KL}}(P \parallel Q) = \sum_x P(x) \log \left(\frac{P(x)}{Q(x)}\right)$ | $P, Q$: probability distributions | Non-negative: $D_{\text{KL}} \ge 0$; asymmetric |
@@ -100,6 +112,19 @@
 
 **Q10: Why does $k$-Means clustering fail on concentric circles or non-convex manifolds?**  
 *A*: **Because $k$-Means measures distance using the Euclidean metric, which partitions space into convex polyhedral Voronoi cells.** Concentric rings require non-convex, manifold-following decision boundaries. To cluster manifold data, one must use **DBSCAN** (density reachability) or **Spectral Clustering** (graph Laplacian eigenvectors).
+
+---
+
+## 3. Operational Rules & Exam Shortcuts
+
+| Rule | Detail |
+| :--- | :--- |
+| **IQR outliers** | Always compute lower **and** upper Tukey bounds |
+| **GD on logistic/regression** | Simultaneous weight update; scale features first |
+| **SMOTE / scaling** | Fit only on training split — never before split |
+| **Trees** | No feature scaling; continuous splits = binary thresholds at label-change midpoints |
+| **Precision vs recall** | Screening / epidemics → recall; invasive follow-up / spam → precision |
+| **Ensembles (webinar)** | Tune `n_estimators`, `max_depth` with CV; read Gini MDI for features |
 
 ---
 

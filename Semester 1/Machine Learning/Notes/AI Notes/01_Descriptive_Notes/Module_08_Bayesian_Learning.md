@@ -2,7 +2,7 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 6); Christopher M. Bishop (R1, Chapters 1 & 4)  
-**Primary Teacher Followed**: Prof. Pritee Narendra Raole (Session 11: 2026-10-18)
+**Lecture alignment**: Prof. Sharon Christa — **Sessions 12 & 13** (2026-10-25, 2026-11-01). Deck: `ML_ Bayes Classifer-CS 11_Oct 26.pdf`.
 
 ---
 
@@ -85,6 +85,12 @@ $$h_{\text{ML}} = \arg\min_{h \in \mathcal{H}} \sum_{i=1}^N (y_i - h(\mathbf{x}_
 
 > **Theorem**: Minimizing sum-of-squared errors is mathematically identical to finding the Maximum Likelihood estimator under the assumption of independent additive Gaussian noise.
 
+**Laplacian noise** $\Rightarrow$ maximizing likelihood $\Rightarrow$ **MAE / $L_1$** loss (more robust to outliers).
+
+**Logistic regression MLE (Session 13)** — Bernoulli likelihood; no closed form for $\boldsymbol{\theta}$. Log-likelihood:
+$$\ell(\boldsymbol{\theta}) = \sum_i \left[y_i\ln\sigma(\boldsymbol{\theta}^T\mathbf{x}_i) + (1-y_i)\ln(1-\sigma(\boldsymbol{\theta}^T\mathbf{x}_i))\right]$$
+Gradient ascent: $\frac{\partial \ell}{\partial \theta_j} = \sum_i (y_i - \sigma(\boldsymbol{\theta}^T\mathbf{x}_i)) x_{ij}$.
+
 ---
 
 ### 2.3 The Bayes Optimal Classifier
@@ -102,6 +108,12 @@ $$v_{\text{BayesOptimal}} = \arg\max_{v_j \in V} \sum_{h_i \in \mathcal{H}} P(v_
 
 ![Bayes Optimal Classifier Worked Example](../assets/M08_bayes_optimal_classifier.jpg)
 *Figure 8.1: Bayes optimal classifier example from 1 November 2026. Posteriors are $P(h_1\mid D)=0.4$, $P(h_2\mid D)=0.3$, $P(h_3\mid D)=0.3$. Only $h_1$ votes positive, so the posterior mass on the negative class is $0.6$ and the Bayes optimal label is negative.*
+
+**MAP vs Bayes optimal (exam counterexample)** — $h_1$ predicts $+$ with $P(h_1\mid D)=0.4$; $h_2,h_3$ predict $-$. MAP picks $h_1$ ($+$), but $P(+\mid D)=0.4 < P(-\mid D)=0.6$ → **Bayes optimal predicts $-$**.
+
+**Gibbs classifier** — sample $h \sim P(h\mid D)$, classify with $h$. **Haussler bound**: $\mathbb{E}[\text{error}_{\text{Gibbs}}] \le 2\,\mathbb{E}[\text{error}_{\text{Bayes optimal}}]$.
+
+**Generative vs discriminative (sample complexity)** — Naive Bayes needs $O(\log d)$ examples per class under true independence; logistic regression needs $O(d)$, but can reach lower asymptotic error if independence is violated.
 
 ---
 
@@ -145,6 +157,19 @@ Where:
 - $K_k$: Total number of distinct possible categorical values of feature $k$.
 - $\alpha$: Smoothing parameter ($\alpha = 1$ is Laplace smoothing; $\alpha < 1$ is Lidstone smoothing).
 
+**$m$-estimate (Dirichlet prior)**:
+$$\hat{P}(x_k=c\mid v_j) = \frac{N_{jc} + m\,p}{N_j + m}$$
+$p$ = prior (e.g. $1/K_k$); $m$ = virtual sample size.
+
+### 3.2.1 Text classification models
+
+| Model | Features | Typical use |
+| :--- | :--- | :--- |
+| **Multinomial NB** | Word counts per class | Long documents, bag-of-words |
+| **Bernoulli NB** | Binary word presence | Short texts, spam |
+
+Use **log-probabilities** in products to avoid underflow.
+
 ---
 
 ### 3.3 Continuous Features: Gaussian Naïve Bayes
@@ -154,6 +179,10 @@ When features $x_k$ are continuous real values ($x_k \in \mathbb{R}$), we model 
 $$P(x_k \mid v_j) = \frac{1}{\sqrt{2\pi\sigma_{jk}^2}} \exp \left( - \frac{(x_k - \mu_{jk})^2}{2\sigma_{jk}^2} \right)$$
 
 Where $\mu_{jk}$ and $\sigma_{jk}^2$ are the empirical sample mean and variance of feature $k$ computed exclusively over training instances belonging to class $v_j$.
+
+**Scoring in log space (exam)**:
+$$\log P(v_j\mid \mathbf{x}) = \log P(v_j) + \sum_k \log P(x_k\mid v_j)$$
+Classify $\arg\max_j \log P(v_j\mid \mathbf{x})$ — avoids product underflow.
 
 ---
 
@@ -191,7 +220,9 @@ The predictive variance grows from 1.5 to 5.5 as the input moves away from the d
 
 ---
 
-## 4. Vectorized Implementation (From Scratch)
+## 4. Implementation note
+
+Exams: Laplace/$m$-estimate tables, Gaussian NB densities in **log space**, Bayes optimal aggregation. Optional:
 
 ```python
 import numpy as np
