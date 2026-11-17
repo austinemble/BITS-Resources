@@ -2,13 +2,14 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 3 & Ch 12); Goodfellow et al. (R1, Ch 5)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 3: 2026-08-08 & Session 4: 2026-08-19)
+**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 4: 2026-08-19, Recording `Shakshi -- 5.mp4`)  
+**Exam Reference**: Prof. Mithun Ghosh Question Paper (Q12, Q13, Q14, Q15, Q16, Q17)
 
 ---
 
 ## 1. Problem Formulation: Regression
 
-Regression addresses tasks where the target variable is a continuous real-valued scalar or vector: $y \in \mathbb{R}$.
+Regression addresses supervised learning tasks where the target variable is a continuous real-valued scalar or vector: $y \in \mathbb{R}$.
 - **Typical Questions**: "How much?", "How many?", "What price?", "What duration?"
 - **Canonical Examples**: Automobile fuel efficiency prediction (Auto MPG), residential property valuation, temperature forecasting.
 
@@ -19,7 +20,7 @@ Regression addresses tasks where the target variable is a continuous real-valued
 A single artificial neuron without non-linear hidden layers implements multivariate linear regression.
 
 ![Single Neuron Regression](../assets/M03_single_neuron_regression.jpg)
-*Figure 3.1: Single neuron computational graph for linear regression with identity activation (Prof. Shakshi Sharma Lecture 4).*
+*Figure 3.1: Single neuron computational graph for linear regression with identity activation and scalar bias (Slide 13, DNN_M3_Linear NN Regression (1).pdf, Prof. Shakshi Sharma Lecture 4).*
 
 ### 2.1 Mathematical Architecture
 For feature vector $\mathbf{x} = [x_1, x_2, \dots, x_d]^T \in \mathbb{R}^d$, weight vector $\mathbf{w} = [w_1, w_2, \dots, w_d]^T \in \mathbb{R}^d$, and scalar bias $b \in \mathbb{R}$:
@@ -28,7 +29,7 @@ For feature vector $\mathbf{x} = [x_1, x_2, \dots, x_d]^T \in \mathbb{R}^d$, wei
 2. **Identity Activation Function**:
    $$g(z) = z \implies \hat{y} = g(z) = \mathbf{w}^T \mathbf{x} + b$$
    *Properties of Identity Activation*:
-   - Unbounded range: $(-\infty, +\infty)$, preserving continuous output range.
+   - Unbounded range: $(-\infty, +\infty)$, preserving the full continuous output spectrum.
    - Constant derivative: $g'(z) = 1$, ensuring uniform gradient flow without saturation.
    - Linear scale preservation.
 
@@ -80,7 +81,7 @@ $$b^{(t+1)} = b^{(t)} - \eta \frac{1}{N} \sum_{i=1}^N (\hat{y}^{(i)} - y^{(i)})$
 where $\eta > 0$ is the learning rate hyperparameter.
 
 ### 5.3 Dynamics of Learning Rate $\eta$
-- **Too small ($\ eta \ll \eta_{opt}$)**: Extremely slow convergence requiring thousands of iterations.
+- **Too small ($\eta \ll \eta_{opt}$)**: Extremely slow convergence requiring thousands of iterations.
 - **Appropriate**: Monotonically decreasing loss curve converging smoothly to the global minimum.
 - **Too large**: Oscillations across the valley; may overshoot and diverge to $\infty$.
 
@@ -102,32 +103,59 @@ where $\eta > 0$ is the learning rate hyperparameter.
 
 ---
 
-## 7. Worked Numerical Example (Exam Classic)
+## 7. Worked Numerical Example: BITS Exam Classic (Exam Q16)
 
-**Problem**: Given 3 training instances: $(x=1, y=2), (x=2, y=4), (x=3, y=5)$.  
-Initialize $w_0 = 0, w_1 = 0$, learning rate $\eta = 0.1$, model $\hat{y} = w_0 + w_1 x$. Perform 1 iteration of Batch Gradient Descent with loss $J = \frac{1}{2N} \sum_{i=1}^N (\hat{y}^{(i)} - y^{(i)})^2$.
+**Problem Statement (6 Marks)**:  
+A tiny dataset for predicting house price from size is:
+- $(x=1, y=2)$
+- $(x=2, y=4)$
+- $(x=3, y=5)$
+
+Using the model $\hat{y} = w_0 + w_1 x$ with initial weights $w^{(0)} = [0, 0]^T$, learning rate $\eta = 0.1$, and loss $J(w) = \frac{1}{2N} \sum_{i=1}^N (\hat{y}^{(i)} - y^{(i)})^2$:
+Perform **ONE iteration** of batch gradient descent: compute the initial loss, the gradient, the updated weights $w^{(1)}$, and the new loss. Comment on the progress.
 
 ### Step-by-Step Solution:
-$N = 3$. At $t=0$, $w_0^{(0)} = 0, w_1^{(0)} = 0$.
-1. **Compute Predictions**:
+Here $N = 3$. At $t=0$, $w_0^{(0)} = 0, w_1^{(0)} = 0$.
+
+1. **Compute Initial Predictions**:
    - $\hat{y}^{(1)} = 0 + 0(1) = 0$
    - $\hat{y}^{(2)} = 0 + 0(2) = 0$
    - $\hat{y}^{(3)} = 0 + 0(3) = 0$
+
 2. **Compute Residual Errors ($e_i = \hat{y}^{(i)} - y^{(i)}$)**:
    - $e_1 = 0 - 2 = -2$
    - $e_2 = 0 - 4 = -4$
    - $e_3 = 0 - 5 = -5$
+
 3. **Compute Initial Loss $J(0, 0)$**:
-   $$J = \frac{1}{2(3)} [(-2)^2 + (-4)^2 + (-5)^2] = \frac{1}{6}[4 + 16 + 25] = \frac{45}{6} = 7.50$$
+   $$J^{(0)} = \frac{1}{2(3)} [(-2)^2 + (-4)^2 + (-5)^2] = \frac{1}{6}[4 + 16 + 25] = \frac{45}{6} = 7.50$$
+
 4. **Compute Gradients**:
-   $$\frac{\partial J}{\partial w_0} = \frac{1}{N} \sum_{i=1}^3 e_i = \frac{-2 + (-4) + (-5)}{3} = \frac{-11}{3} \approx -3.667$$
-   $$\frac{\partial J}{\partial w_1} = \frac{1}{N} \sum_{i=1}^3 e_i x_i = \frac{(-2)(1) + (-4)(2) + (-5)(3)}{3} = \frac{-2 - 8 - 15}{3} = \frac{-25}{3} \approx -8.333$$
+   $$\frac{\partial J}{\partial w_0} = \frac{1}{N} \sum_{i=1}^3 e_i = \frac{-2 + (-4) + (-5)}{3} = \frac{-11}{3} \approx -3.6667$$
+   $$\frac{\partial J}{\partial w_1} = \frac{1}{N} \sum_{i=1}^3 e_i x_i = \frac{(-2)(1) + (-4)(2) + (-5)(3)}{3} = \frac{-2 - 8 - 15}{3} = \frac{-25}{3} \approx -8.3333$$
+
 5. **Update Weights**:
-   $$w_0^{(1)} = w_0^{(0)} - \eta \frac{\partial J}{\partial w_0} = 0 - 0.1(-3.667) = +0.3667$$
-   $$w_1^{(1)} = w_1^{(0)} - \eta \frac{\partial J}{\partial w_1} = 0 - 0.1(-8.333) = +0.8333$$
-6. **Compute New Loss $J(w_0^{(1)}, w_1^{(1)})$**:
-   - $\hat{y}^{(1)} = 0.3667 + 0.8333(1) = 1.2000 \implies e_1 = 1.2 - 2 = -0.80$
+   $$w_0^{(1)} = w_0^{(0)} - \eta \frac{\partial J}{\partial w_0} = 0 - 0.1(-3.6667) = +0.3667$$
+   $$w_1^{(1)} = w_1^{(0)} - \eta \frac{\partial J}{\partial w_1} = 0 - 0.1(-8.3333) = +0.8333$$
+
+6. **Compute New Predictions & Errors with $w^{(1)}$**:
+   - $\hat{y}^{(1)} = 0.3667 + 0.8333(1) = 1.2000 \implies e_1 = 1.2000 - 2 = -0.8000$
    - $\hat{y}^{(2)} = 0.3667 + 0.8333(2) = 2.0333 \implies e_2 = 2.0333 - 4 = -1.9667$
    - $\hat{y}^{(3)} = 0.3667 + 0.8333(3) = 2.8666 \implies e_3 = 2.8666 - 5 = -2.1334$
-   $$J^{(1)} = \frac{1}{6} [(-0.80)^2 + (-1.9667)^2 + (-2.1334)^2] = \frac{1}{6}[0.64 + 3.8679 + 4.5514] = \frac{9.0593}{6} \approx 1.51$$
-   **Progress**: Loss decreased dramatically from $7.50$ to $1.51$ in a single gradient descent iteration.
+
+7. **Compute New Loss $J(w^{(1)})$**:
+   $$J^{(1)} = \frac{1}{2(3)} [(-0.8000)^2 + (-1.9667)^2 + (-2.1334)^2] = \frac{1}{6}[0.6400 + 3.8679 + 4.5514] = \frac{9.0593}{6} \approx 1.5099$$
+
+**Comment on Progress**:
+The loss dropped drastically from $7.50$ down to $1.51$ in a single gradient descent step (an 79.9% loss reduction), confirming proper convergence dynamics toward the optimal line ($y \approx 0.67 + 1.5x$).
+
+---
+
+## 8. Summary Checklist for Examination
+
+- [x] Mathematical architecture of a single neuron regression model with identity activation.
+- [x] Closed-form derivation of Normal Equations: $\mathbf{w}^* = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}$ and why gradient descent is required when $d$ is large.
+- [x] Mean Squared Error loss definition, convexity properties, and Gaussian maximum likelihood equivalence.
+- [x] Batch gradient descent update equations with gradient formulas.
+- [x] Complete 6-mark solved numerical calculation (Exam Q16) with all intermediate residuals and loss values.
+- [x] Evaluation metrics: MSE, RMSE, MAE, and $R^2$ score interpretation.

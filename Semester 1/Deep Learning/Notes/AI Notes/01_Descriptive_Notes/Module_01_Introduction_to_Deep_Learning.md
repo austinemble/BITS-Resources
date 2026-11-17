@@ -1,14 +1,15 @@
 # Module 1: Introduction to Deep Learning
 
 **Course**: AIML ZG511 — Deep Neural Networks  
-**Prescribed References**: Zhang et al. (T1, Ch 1); Jurafsky & Martin (R3, Ch 1); Goodfellow et al. (R1, Ch 1)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 1: 2026-07-25)
+**Prescribed References**: Zhang et al. (T1, Ch 1); Goodfellow et al. (R1, Ch 1); Jurafsky & Martin (R3, Ch 1)  
+**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 1: 2026-07-25, Recording `Shakshi -- 2.mp4`)  
+**Exam Reference**: Prof. Mithun Ghosh Question Paper (Q1, Q2, Q3, Q4)
 
 ---
 
 ## 1. Executive Summary & Foundational Definitions
 
-**Deep Learning (DL)** is a specialized discipline within **Machine Learning (ML)** and **Artificial Intelligence (AI)** focused on learning multi-level representations of data through layered computational graphs.
+**Deep Learning (DL)** is a specialized subfield of **Machine Learning (ML)** and **Artificial Intelligence (AI)** focused on learning multi-level representations of data through layered computational graphs.
 
 Traditional machine learning algorithms depend on **feature engineering** — human domain experts designing manual heuristics (e.g., SIFT or HOG for vision, MFCCs for speech, bag-of-words for NLP). Deep learning replaces this manual step with **representation learning**: raw sensory data is passed into hierarchical non-linear transformations where lower layers learn primitives (edges, textures, phonemes) and higher layers synthesize semantic concepts (object parts, words, full objects).
 
@@ -46,28 +47,19 @@ Each hidden layer warps the geometry of the feature space so that complex, non-l
 ### 2.1 The Andrew Ng Scaling Principle
 Traditional statistical machine learning models (e.g., Random Forests, Support Vector Machines, Logistic Regression) experience an asymptotic performance ceiling: beyond a certain threshold of data, their limited hypothesis capacity prevents further performance gains. In contrast, large deep neural networks exhibit power-law scaling: performance continues to scale with increases in data volume and compute capacity.
 
-```
-Model Performance
-       ^
-       |                                       / Large Deep Neural Network
-       |                                      /
-       |                                     / Medium Neural Network
-       |                                    /
-       |               - - - - - - - - - - / Small Neural Network
-       |           . '
-       |       . '---------------------------- Traditional ML (Ceiling)
-       |     /
-       |    /
-       +--------------------------------------------->
-                       Volume of Labeled Data
-```
+![Why Deep Learning: Andrew Ng Scaling Curve](../assets/M01_deep_learning_pipeline.jpg)
+*Figure 1.1: The Andrew Ng Performance Scaling Principle: Traditional ML algorithms plateau as data volume increases, whereas large deep neural networks continue to scale monotonically with increased compute and data (Slide 18, DNN_M1_Introduction.pdf).*
+
+Mathematically, empirical generalization error $\mathcal{E}$ often follows an empirical power law:
+$$\mathcal{E}(N) \approx \left(\frac{N_c}{N}\right)^{\alpha_N}$$
+where $N$ is dataset size, $N_c$ is a characteristic constant, and $\alpha_N$ is the scaling exponent. For traditional shallow models, $\alpha_N \to 0$ rapidly as capacity saturates; for deep architectures, $\alpha_N > 0$ over several orders of magnitude.
 
 ### 2.2 The Convergence of Three Catalysts
 1. **Data Availability**: The digital age produced massive empirical datasets (ImageNet, Common Crawl, speech corpora) sufficient to train models with hundreds of millions of parameters without catastrophic overfitting.
-2. **Compute Architecture**: Graphical Processing Units (GPUs) with thousands of arithmetic logic units executing parallel matrix multiply-accumulate (MAC) operations reduced training cycles from months to hours.
+2. **Compute Architecture**: Graphical Processing Units (GPUs) and Tensor Processing Units (TPUs) executing massively parallel matrix multiply-accumulate (MAC) operations reduced training cycles from months to hours.
 3. **Algorithmic Refinements**:
    - Replacement of saturating activations (Sigmoid, Tanh) with non-saturating piecewise linear activations (ReLU, GELU).
-   - Principled weight initialization (He, Xavier).
+   - Principled weight initialization (He, Xavier/Glorot).
    - Gradient flow stabilization techniques (Batch Normalization, Layer Normalization, Residual Connections).
 
 ---
@@ -82,7 +74,7 @@ Every deep learning framework consists of four coupled mathematical components:
 ```
 
 1. **Data**: The training set $\mathcal{D} = \{(\mathbf{x}^{(i)}, y^{(i)})\}_{i=1}^N$ drawn from a distribution $P(\mathbf{X}, Y)$. Features can be structured tables, raw image tensors, audio spectrograms, or textual tokens.
-2. **Model Architecture**: The parameterised hypothesis family $f(\mathbf{x}; \boldsymbol{\theta})$ defining how input vectors are transformed into predictions.
+2. **Model Architecture**: The parameterized hypothesis family $f(\mathbf{x}; \boldsymbol{\theta})$ defining how input vectors are transformed into predictions.
 3. **Objective / Loss Function**: A scalar function $\mathcal{L}(\hat{y}, y)$ measuring prediction error. Optimization minimizes the empirical risk:
    $$J(\boldsymbol{\theta}) = \frac{1}{N} \sum_{i=1}^N \mathcal{L}(f(\mathbf{x}^{(i)}; \boldsymbol{\theta}), y^{(i)})$$
 4. **Optimization Algorithm**: An algorithm based on gradient descent that updates the parameter tensor $\boldsymbol{\theta}$ in the opposite direction of the loss gradient:
@@ -92,14 +84,12 @@ Every deep learning framework consists of four coupled mathematical components:
 
 ## 4. Motivating Example: Wake Word Detection
 
-![Deep Learning Pipeline](../assets/M01_deep_learning_pipeline.jpg)
-*Figure 1.1: Deep learning pipeline from raw audio signals to binary trigger decisions (Prof. Shakshi Sharma Lecture 1).*
-
 In wake-word detection (e.g., *"Hey Siri"*, *"Ok Google"*), an edge system continuously processes incoming audio to detect a target keyphrase:
 - **Input Data**: Raw 16 kHz audio segmented into short frames (25 ms with 10 ms hop), converted via Fast Fourier Transform (FFT) into a 2D Log-Mel Spectrogram $\mathbf{X} \in \mathbb{R}^{T \times F}$.
 - **Model**: A lightweight Convolutional Neural Network (CNN) or Conv-RNN processing time-frequency patches.
-- **Objective**: Weighted Binary Cross-Entropy (BCE) to penalize false negatives (user speaking the word but ignored) differently from false alarms (device triggering unintentionally).
-- **Optimization**: Mini-batch Adam with learning rate warm-up and cosine decay, followed by post-training INT8 quantization for real-time inference on edge DSPs.
+- **Objective**: Weighted Binary Cross-Entropy (BCE) to penalize false negatives (user speaking the word but ignored) differently from false alarms (device triggering unintentionally):
+  $$\mathcal{L}_{\text{wake}}(y, \hat{y}) = - \left[ w \cdot y \log \hat{y} + (1 - y) \log(1 - \hat{y}) \right], \quad w > 1$$
+- **Optimization**: Mini-batch Adam with learning rate warm-up and cosine decay, followed by post-training INT8 quantization for real-time inference on edge DSPs (< 50 mW power budget).
 
 ---
 

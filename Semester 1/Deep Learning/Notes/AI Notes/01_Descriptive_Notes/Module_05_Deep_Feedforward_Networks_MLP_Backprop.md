@@ -1,8 +1,9 @@
 # Module 5: Deep Feedforward Neural Networks (DFNN) & Backpropagation
 
 **Course**: AIML ZG511 — Deep Neural Networks  
-**Prescribed References**: Zhang et al. (T1, Ch 5); Goodfellow et al. (R1, Ch 6); Companion: `M5_DFNN_Handwritten.pdf`  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 6: 2026-08-29)
+**Prescribed References**: Zhang et al. (T1, Ch 5); Goodfellow et al. (R1, Ch 6); Companion: `M5_DFNN_Handwritten..pdf`, `BPNNDerivation.pdf`  
+**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 6: 2026-08-29, Recording `Shakshi -- 7.mp4`)  
+**Exam Reference**: Prof. Mithun Ghosh Question Paper (Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34)
 
 ---
 
@@ -40,7 +41,7 @@ $$\mathbf{h}^{[2]} = \mathbf{W}^{[2]}\mathbf{h}^{[1]} + \mathbf{b}^{[2]} = \math
 ## 3. Vectorized Forward Propagation Algorithm
 
 ![DFNN MLP Architecture](../assets/M05_dfnn_mlp_architecture.jpg)
-*Figure 5.1: Multi-layer feedforward architecture with layer indexing and weight tensor dimensions (Prof. Shakshi Sharma Lecture 6).*
+*Figure 5.1: Multi-layer feedforward architecture with layer indexing and weight tensor dimensions (Slide 18, DNN_M5_DFNN (1).pdf, Prof. Shakshi Sharma Lecture 6).*
 
 Consider an $L$-layer network where layer $l \in \{1, 2, \dots, L\}$ has $n^{[l]}$ neurons. Layer $0$ is the input layer with $n^{[0]} = d$ features.
 - Weight matrix for layer $l$: $\mathbf{W}^{[l]} \in \mathbb{R}^{n^{[l]} \times n^{[l-1]}}$
@@ -62,7 +63,7 @@ $$\mathbf{A}^{[l]} = g^{[l]}(\mathbf{Z}^{[l]})$$
 ## 4. Rigorous Vectorized Backpropagation (The Chain Rule)
 
 ![Backpropagation Derivation](../assets/M05_backpropagation_derivation.jpg)
-*Figure 5.2: Computation graph and vectorized chain rule derivations for error propagation $\boldsymbol{\delta}^{[l]}$ (Prof. Shakshi Sharma Lecture 6).*
+*Figure 5.2: Computation graph and vectorized chain rule derivations for error propagation $\boldsymbol{\delta}^{[l]}$ (Slide 34, DNN_M5_DFNN (1).pdf, Prof. Shakshi Sharma Lecture 6).*
 
 Backpropagation computes the gradient of scalar loss $\mathcal{L}$ with respect to every weight $W_{jk}^{[l]}$ and bias $b_j^{[l]}$ via the chain rule of multivariable calculus.
 
@@ -73,8 +74,8 @@ $$\boldsymbol{\delta}^{[l]} \triangleq \nabla_{\mathbf{z}^{[l]}} \mathcal{L} = \
 ### 4.2 Output Layer Sensitivity $\boldsymbol{\delta}^{[L]}$
 By the chain rule:
 $$\delta_i^{[L]} = \frac{\partial \mathcal{L}}{\partial z_i^{[L]}} = \sum_{k} \frac{\partial \mathcal{L}}{\partial a_k^{[L]}} \frac{\partial a_k^{[L]}}{\partial z_i^{[L]}}$$
-- **For element-wise activations** (e.g., Sigmoid with BCE, or Linear with MSE):
-  $$\boldsymbol{\delta}^{[L]} = \nabla_{\mathbf{a}^{[L]}} \mathcal{L} \odot g'^{[L]}(\mathbf{z}^{[L]})$$
+- **For element-wise activations** (e.g., Sigmoid with Squared Error Loss):
+  $$\boldsymbol{\delta}^{[L]} = (\mathbf{a}^{[L]} - \mathbf{y}) \odot g'^{[L]}(\mathbf{z}^{[L]})$$
 - **For Softmax with Categorical Cross-Entropy**:
   $$\boldsymbol{\delta}^{[L]} = \hat{\mathbf{y}} - \mathbf{y}$$
 
@@ -100,9 +101,9 @@ $$\mathbf{b}^{[l]} \leftarrow \mathbf{b}^{[l]} - \eta \frac{\partial \mathcal{L}
 
 ---
 
-## 5. Complete Step-by-Step Numerical Walkthrough
+## 5. Complete Step-by-Step Numerical Walkthrough (Exam Q33)
 
-*(Directly following Prof. Shakshi Sharma's solved exam numerical in `M5_DFNN_Handwritten.pdf`)*
+*(Directly following Prof. Shakshi Sharma's solved exam numerical in `M5_DFNN_Handwritten..pdf` and `DNN_M5_DFNN_Numerical.pdf`)*
 
 ### Network Specifications:
 - **Architecture**: 2 input neurons ($x_1, x_2$), 2 hidden neurons ($h_1, h_2$), 1 output neuron ($\hat{y}$).
@@ -137,21 +138,26 @@ $$\mathbf{b}^{[l]} \leftarrow \mathbf{b}^{[l]} - \eta \frac{\partial \mathcal{L}
    $$\delta_2^{[1]} = (W_{12}^{[2]} \delta^{[2]}) \cdot a_2^{[1]}(1 - a_2^{[1]}) = (0.45 \cdot 0.13849) \cdot 0.59688(1 - 0.59688)$$
    $$\delta_2^{[1]} = 0.062321 \cdot 0.24062 \approx 0.01500$$
 
-### Step 3: Parameter Updates
-1. **Output Weights ($W_{11}^{[2]}, W_{12}^{[2]}$)**:
-   $$\frac{\partial \mathcal{L}}{\partial W_{11}^{[2]}} = \delta^{[2]} a_1^{[1]} = 0.13849 \cdot 0.59327 \approx 0.08216$$
-   $$W_{11}^{[2](\text{new})} = 0.40 - 0.5(0.08216) = 0.40 - 0.04108 = 0.35892$$
-   $$\frac{\partial \mathcal{L}}{\partial W_{12}^{[2]}} = \delta^{[2]} a_2^{[1]} = 0.13849 \cdot 0.59688 \approx 0.08266$$
-   $$W_{12}^{[2](\text{new})} = 0.45 - 0.5(0.08266) = 0.45 - 0.04133 = 0.40867$$
-2. **Hidden Weights ($W_{11}^{[1]}, W_{12}^{[1]}$)**:
-   $$\frac{\partial \mathcal{L}}{\partial W_{11}^{[1]}} = \delta_1^{[1]} x_1 = 0.01337 \cdot 0.05 \approx 0.0006685$$
-   $$W_{11}^{[1](\text{new})} = 0.15 - 0.5(0.0006685) = 0.14967$$
-   $$\frac{\partial \mathcal{L}}{\partial W_{12}^{[1]}} = \delta_1^{[1]} x_2 = 0.01337 \cdot 0.10 \approx 0.001337$$
-   $$W_{12}^{[1](\text{new})} = 0.20 - 0.5(0.001337) = 0.19933$$
+### Step 3: Complete Parameter Updates ($\eta = 0.5$)
+1. **Output Layer Weights ($W^{[2]}$) and Bias ($b^{[2]}$)**:
+   $$\frac{\partial \mathcal{L}}{\partial W_{11}^{[2]}} = \delta^{[2]} a_1^{[1]} = 0.13849 \cdot 0.59327 \approx 0.08216 \implies W_{11}^{[2](\text{new})} = 0.40 - 0.5(0.08216) = \mathbf{0.35892}$$
+   $$\frac{\partial \mathcal{L}}{\partial W_{12}^{[2]}} = \delta^{[2]} a_2^{[1]} = 0.13849 \cdot 0.59688 \approx 0.08266 \implies W_{12}^{[2](\text{new})} = 0.45 - 0.5(0.08266) = \mathbf{0.40867}$$
+   $$\frac{\partial \mathcal{L}}{\partial b^{[2]}} = \delta^{[2]} = 0.13849 \implies b^{[2](\text{new})} = 0.60 - 0.5(0.13849) = \mathbf{0.53076}$$
+2. **Hidden Layer Weights ($W^{[1]}$) and Biases ($b^{[1]}$)**:
+   $$\frac{\partial \mathcal{L}}{\partial W_{11}^{[1]}} = \delta_1^{[1]} x_1 = 0.01337 \cdot 0.05 \approx 0.000669 \implies W_{11}^{[1](\text{new})} = 0.15 - 0.5(0.000669) = \mathbf{0.14967}$$
+   $$\frac{\partial \mathcal{L}}{\partial W_{12}^{[1]}} = \delta_1^{[1]} x_2 = 0.01337 \cdot 0.10 \approx 0.001337 \implies W_{12}^{[1](\text{new})} = 0.20 - 0.5(0.001337) = \mathbf{0.19933}$$
+   $$\frac{\partial \mathcal{L}}{\partial W_{21}^{[1]}} = \delta_2^{[1]} x_1 = 0.01500 \cdot 0.05 \approx 0.000750 \implies W_{21}^{[1](\text{new})} = 0.25 - 0.5(0.000750) = \mathbf{0.24963}$$
+   $$\frac{\partial \mathcal{L}}{\partial W_{22}^{[1]}} = \delta_2^{[1]} x_2 = 0.01500 \cdot 0.10 \approx 0.001500 \implies W_{22}^{[1](\text{new})} = 0.30 - 0.5(0.001500) = \mathbf{0.29925}$$
+   $$\frac{\partial \mathcal{L}}{\partial b_1^{[1]}} = \delta_1^{[1]} = 0.01337 \implies b_1^{[1](\text{new})} = 0.35 - 0.5(0.01337) = \mathbf{0.34332}$$
+   $$\frac{\partial \mathcal{L}}{\partial b_2^{[1]}} = \delta_2^{[1]} = 0.01500 \implies b_2^{[1](\text{new})} = 0.35 - 0.5(0.01500) = \mathbf{0.34250}$$
 
 ---
 
-## 6. Depth vs Width & Universal Approximation
+## 6. Summary Checklist for Examination
 
-- **Universal Approximation Theorem (Cybenko 1989, Hornik 1991)**: A feedforward neural network with a single hidden layer containing a finite number of non-linear neurons can approximate any continuous function on compact subsets of $\mathbb{R}^d$ to arbitrary accuracy.
-- **Why Deep Over Shallow?**: While a single wide hidden layer can theoretically approximate any function, it may require exponentially many neurons ($2^d$). Deep architectures factorize complex functions into compositions of simpler functions, requiring exponentially fewer parameters ($\mathcal{O}(\text{polynomial})$) to achieve the same expressive power.
+- [x] Multi-layer perceptron structural necessity for non-linearly separable problems (XOR).
+- [x] Proof that deep linear networks collapse to single affine transformations: $\mathbf{W}' = \mathbf{W}^{[L]} \dots \mathbf{W}^{[1]}$.
+- [x] Five primary activation functions (Sigmoid, Tanh, ReLU, LeakyReLU, GELU) with formulas and saturation properties.
+- [x] Vectorized forward propagation equations for layer $l$: $\mathbf{z}^{[l]} = \mathbf{W}^{[l]}\mathbf{a}^{[l-1]} + \mathbf{b}^{[l]}$, $\mathbf{a}^{[l]} = g(\mathbf{z}^{[l]})$.
+- [x] Rigorous chain rule derivation of error sensitivity: $\boldsymbol{\delta}^{[l]} = ((\mathbf{W}^{[l+1]})^T \boldsymbol{\delta}^{[l+1]}) \odot g'^{[l]}(\mathbf{z}^{[l]})$.
+- [x] Complete end-to-end forward/backward propagation solved numerical walkthrough (Exam Q33).
