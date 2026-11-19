@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 11); Jurafsky & Martin (R3, Ch 10); Vaswani et al. (2017)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 11: 2026-10-17, Recording `Shakshi -- 11.mp4`)  
+**Syllabus module**: **M10** — Attention Mechanism (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_11_Attention_Mechanism_QKV.mp4`  
 **Exam Reference**: Prof. Mithun Ghosh Question Paper (Q51) & Course Handout
 
 ---

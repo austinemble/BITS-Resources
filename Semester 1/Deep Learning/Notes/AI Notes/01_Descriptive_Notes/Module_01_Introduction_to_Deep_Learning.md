@@ -2,8 +2,9 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 1); Goodfellow et al. (R1, Ch 1); Jurafsky & Martin (R3, Ch 1)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 1: 2026-07-25, Recording `Shakshi -- 2.mp4`)  
-**Exam Reference**: Prof. Mithun Ghosh Question Paper (Q1, Q2, Q3, Q4)
+**Syllabus module**: **M01** — Introduction to Deep Learning (`Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_01_Introduction_to_Deep_Learning.mp4` (Prof. Shakshi Sharma)  
+**Exam reference**: Prof. Mithun Ghosh Question Paper (Q1–Q4)
 
 ---
 

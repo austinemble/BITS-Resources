@@ -2,7 +2,9 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 6); Christopher M. Bishop (R1, Chapters 1 & 4)  
-**Lecture alignment**: Prof. Sharon Christa — **Sessions 12 & 13** (2026-10-25, 2026-11-01). Deck: `ML_ Bayes Classifer-CS 11_Oct 26.pdf`.
+**Syllabus module**: **M08** — Bayesian Learning (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_11_Bayesian_Learning_MLE_MAP_Naive_Bayes.mp4`  
+**Contact sessions** (reference): 12–13. Deck: `ML_ Bayes Classifer-CS 11_Oct 26.pdf`.
 
 ---
 

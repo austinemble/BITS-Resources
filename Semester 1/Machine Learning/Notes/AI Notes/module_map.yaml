@@ -1,0 +1,149 @@
+# AIML ZG565 — syllabus modules (11). Primary stream: Prof. Pritee Narendra Raole.
+# Source: Curriculum_Mapping_and_Faculty_Audit.md (chronological Videos/ symlinks).
+course_id: ml
+modules:
+  - id: M01
+    title: "Introduction to Machine Learning & Designing a Learning System"
+    descriptive_note: "01_Descriptive_Notes/Module_01_Introduction_and_Designing_a_Learning_System.md"
+    contact_sessions: [1]
+    lectures:
+      - video: "Videos/Lecture_01_Intro_to_ML_and_Design_of_Learning_Systems.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Machine Learning S1-26_AIMLZG565 - Prof. Pritee Narendra Raole-20260726_082007-Meeting Recording.md"
+        title: "Intro to ML & designing a learning system (T, P, E)"
+    slides:
+      - path: "Notes/Handwitten Notes/2026-26th July-ML_CS 1.pdf"
+        label: "ML CS1 — annotated session deck"
+
+  - id: M02
+    title: "Mathematical Preliminaries & Machine Learning Workflow"
+    descriptive_note: "01_Descriptive_Notes/Module_02_Mathematical_Preliminaries_and_ML_Workflow.md"
+    contact_sessions: [2]
+    lectures:
+      - video: "Videos/Lecture_02_Mathematical_Preliminaries_and_ML_Workflow.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Machine Learning S1-26_AIMLZG565 - Prof. Pritee Narendra Raole-20260802_082102-Meeting Recording.md"
+        title: "Linear algebra, entropy, normalization vs standardization"
+    slides:
+      - path: "Notes/Handwitten Notes/ML_CS 2_09Aug2026.pdf"
+        label: "ML CS2"
+
+  - id: M03
+    title: "Linear Models for Regression"
+    descriptive_note: "01_Descriptive_Notes/Module_03_Linear_Models_for_Regression.md"
+    contact_sessions: [3]
+    lectures:
+      - video: "Videos/Lecture_03_Linear_Models_for_Regression.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Machine Learning S1-26_AIMLZG565 - Prof. Pritee Narendra Raole-20260809_081851-Meeting Recording.md"
+        title: "OLS, normal equation, gradient descent, ridge/lasso"
+    slides:
+      - path: "Notes/Handwitten Notes/ML_CS 3&4_9&16Aug2026.pdf"
+        label: "ML CS3–4 (regression)"
+
+  - id: M04
+    title: "Linear Models for Classification & Logistic Regression"
+    descriptive_note: "01_Descriptive_Notes/Module_04_Linear_Models_for_Classification_and_Logistic_Regression.md"
+    contact_sessions: [4, 5]
+    lectures:
+      - video: "Videos/Lecture_04_Linear_Models_for_Classification.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Meeting in Prof. Pritee Narendra Raole-20260816_081121-Meeting Recording.md"
+        title: "Discriminant functions, LDA, generative vs discriminative"
+      - video: "Videos/Lecture_05_Logistic_Regression_Logloss_Multiclass.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Machine Learning S1-26_AIMLZG565 - Prof. Pritee Narendra Raole-20260823_081138-Meeting Recording.md"
+        title: "Sigmoid, log loss, multiclass softmax"
+    slides:
+      - path: "Notes/Handwitten Notes/ML_CS 3&4_9&16Aug2026.pdf"
+        label: "ML CS3–4 (classification)"
+      - path: "Notes/Handwitten Notes/23rd-30th Aug-ML_CS 5 & 6_23&30Aug26.pdf"
+        label: "Logistic regression deep-dive (CS5)"
+
+  - id: M05
+    title: "Decision Trees & Information Theory"
+    descriptive_note: "01_Descriptive_Notes/Module_05_Decision_Trees_and_Information_Theory.md"
+    contact_sessions: [6]
+    lectures:
+      - video: "Videos/Lecture_06_Decision_Trees_Entropy_InfoGain_ID3.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Meeting in Prof. Pritee Narendra Raole-20260830_080935-Meeting Recording.md"
+        title: "Entropy, Gini, information gain, ID3/C4.5, MDL"
+    slides:
+      - path: "Notes/Handwitten Notes/23rd-30th Aug-ML_CS 5 & 6_23&30Aug26.pdf"
+        label: "Decision trees (CS6)"
+
+  - id: M06
+    title: "Instance-Based Learning"
+    descriptive_note: "01_Descriptive_Notes/Module_06_Instance_Based_Learning.md"
+    contact_sessions: [7]
+    lectures:
+      - video: "Videos/Lecture_07_Instance_Based_Learning_KNN_LWR.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Meeting in Prof. Pritee Narendra Raole-20260906_081300-Meeting Recording.md"
+        title: "k-NN, distance metrics, LWR, Cover–Hart"
+    slides:
+      - path: "Notes/Handwitten Notes/6th-13th Sept-ML_ CS 7&8_6th&12th Sep2026.pdf"
+        label: "Instance-based learning (CS7)"
+      - path: "Notes/Lecture Slides & Companions/Extra Material/KNN-CURSE-slide-34.pdf"
+        label: "k-NN curse of dimensionality (companion)"
+
+  - id: M07
+    title: "Support Vector Machines"
+    descriptive_note: "01_Descriptive_Notes/Module_07_Support_Vector_Machines.md"
+    contact_sessions: [9, 10]
+    lectures:
+      - video: "Videos/Lecture_09_Support_Vector_Machines_Part1.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Machine Learning S1-26_AIMLZG565 - Prof. Pritee Narendra Raole-20261004_082033-Meeting Recording.md"
+        title: "Linear SVM, margin, primal/dual, KKT"
+      - video: "Videos/Lecture_10_Support_Vector_Machines_Part2_Kernels.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Machine Learning S1-26_AIMLZG565 - Prof. Pritee Narendra Raole-20261011_081857-Meeting Recording.md"
+        title: "Soft-margin SVM, kernel trick"
+    slides:
+      - path: "Notes/Handwitten Notes/4th Oct 26-ML_ CS 7&8_6th&12th Sep2026.pdf"
+        label: "SVM part 1 (CS9)"
+      - path: "Notes/Handwitten Notes/ML_ CS 10_SVM_ October 2026.pdf"
+        label: "SVM kernels (CS10)"
+
+  - id: M08
+    title: "Bayesian Learning"
+    descriptive_note: "01_Descriptive_Notes/Module_08_Bayesian_Learning.md"
+    contact_sessions: [11]
+    lectures:
+      - video: "Videos/Lecture_11_Bayesian_Learning_MLE_MAP_Naive_Bayes.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Machine Learning S1-26_AIMLZG565 - Prof. Pritee Narendra Raole-20261018_081543-Meeting Recording.md"
+        title: "Bayes, MLE vs MAP, naive Bayes, smoothing"
+    slides:
+      - path: "Notes/Handwitten Notes/ML_ Bayes Classifer-CS 11_Oct 26.pdf"
+        label: "Bayesian learning (CS11)"
+
+  - id: M09
+    title: "Ensemble Learning"
+    descriptive_note: "01_Descriptive_Notes/Module_09_Ensemble_Learning.md"
+    contact_sessions: [12]
+    lectures:
+      - video: "Videos/Lecture_12_Ensemble_Learning_Bagging_Random_Forest.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Machine Learning S1-26_AIMLZG565 - Prof. Pritee Narendra Raole-20261025_081930-Meeting Recording.md"
+        title: "Bagging, bootstrap, random forest"
+    slides:
+      - path: "Inbox/Webinar/Webinar 3_Supervised_learning/Ensemble_Learning_Student_Notes.pdf"
+        label: "Ensemble techniques (webinar companion)"
+
+  - id: M10
+    title: "Unsupervised Learning & Clustering"
+    descriptive_note: "01_Descriptive_Notes/Module_10_Unsupervised_Learning_and_Clustering.md"
+    contact_sessions: [13]
+    lectures:
+      - video: "Videos/Lecture_13_Ensemble_Boosting_and_Unsupervised_Learning.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Machine Learning S1-26_AIMLZG565 - Prof. Pritee Narendra Raole-20261101_082050-Meeting Recording.md"
+        title: "AdaBoost, k-means, k-means++, GMM/EM (clustering segment)"
+    slides:
+      - path: "Inbox/Webinar/Webinar 3_Supervised_learning/Ensemble_Learning_Student_Notes.pdf"
+        label: "Boosting companion (session 13 overlap)"
+
+  - id: M11
+    title: "Machine Learning Model Evaluation & Comparison"
+    descriptive_note: "01_Descriptive_Notes/Module_11_Machine_Learning_Model_Evaluation_and_Comparison.md"
+    contact_sessions: [13]
+    lectures:
+      - video: "Videos/Lecture_13_Ensemble_Boosting_and_Unsupervised_Learning.mp4"
+        transcript: "Inbox/Prof. Pritee Narendra Raole/Recordings/Machine Learning S1-26_AIMLZG565 - Prof. Pritee Narendra Raole-20261101_082050-Meeting Recording.md"
+        title: "ROC-AUC, fairness, model comparison (closing segment)"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/Extra Material/Classifier_Evaluation_Confusion_Matrix_Solution.pdf"
+        label: "Classification metrics & confusion matrix"
+      - path: "Notes/Lecture Slides & Companions/Extra Material/Confustion-Matrix-Classification_Metrics_Step_by_Step_5_Examples.pdf"
+        label: "Step-by-step metric numerics"

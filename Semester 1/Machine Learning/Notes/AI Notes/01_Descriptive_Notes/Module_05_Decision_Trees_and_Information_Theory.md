@@ -2,7 +2,9 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 3); Tan et al. (R2, Chapter 3)  
-**Lecture alignment**: Prof. Sharon Christa — **Sessions 6–8** (2026-08-30 through 2026-09-13). **Mid-sem exam scope: decision-tree slides through ~45** (pre-pruning, manual IG/Gini — not advanced post-pruning ensembles).
+**Syllabus module**: **M05** — Decision Trees & Information Theory (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_06_Decision_Trees_Entropy_InfoGain_ID3.mp4`  
+**Mid-sem scope**: slides through ~45 (manual IG/Gini). **Contact sessions** (reference): 6–8.
 
 ---
 

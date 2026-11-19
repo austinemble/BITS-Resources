@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 4 & Ch 12); Goodfellow et al. (R1, Ch 6)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 5: 2026-08-22, Recording `Shakshi -- 6.mp4`)  
+**Syllabus module**: **M04** — Linear Neural Networks for Classification (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_05_Linear_Classification_Sigmoid_and_Softmax.mp4`  
 **Exam Reference**: Prof. Mithun Ghosh Question Paper (Q18, Q19, Q20, Q21, Q22, Q23, Q24, Q25, Q26)
 
 ---

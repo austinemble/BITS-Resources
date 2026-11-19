@@ -2,7 +2,9 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Christopher M. Bishop (R1, Chapters 1 & 2); Tan et al. (R2, Chapters 2 & 3); Lecture Notes  
-**Lecture alignment**: Prof. Pritee Narendra Raole — CS2 deck (2026-08-09); Prof. Sharon Christa — Sessions 3–4 (2026-08-09, 2026-08-16).
+**Syllabus module**: **M02** — Mathematical Preliminaries & ML Workflow (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_02_Mathematical_Preliminaries_and_ML_Workflow.mp4`  
+**Contact sessions** (reference): Sessions 3–4; CS2 deck (Prof. Pritee).
 
 ---
 

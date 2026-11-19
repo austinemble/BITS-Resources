@@ -2,7 +2,9 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 1); Christopher M. Bishop (R1, Chapter 1); Tan et al. (R2, Chapter 1)  
-**Lecture alignment**: Prof. Sharon Christa — **Session 2 (2026-08-02)** (technical Module 1); Session 1 (2026-07-26) was course orientation only. Annotated deck: Prof. Pritee Narendra Raole, CS1 (2026-07-26).
+**Syllabus module**: **M01** — Introduction & Designing a Learning System (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_01_Intro_to_ML_and_Design_of_Learning_Systems.mp4`  
+**Contact sessions** (reference only): Session 2 (2026-08-02); Session 1 orientation. Annotated deck: Prof. Pritee Narendra Raole, CS1.
 
 > **Exam note (Prof. Sharon Christa, Session 8)**: Mid-semester coverage is numerical and conceptual — **no Python coding questions**. Practice manual calculations (confusion matrix, trees, gradient steps, Normal Equation vs. gradient descent).
 

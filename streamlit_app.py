@@ -8,6 +8,14 @@ import re
 from pathlib import Path
 import streamlit as st
 
+from portal_lib import (
+    load_course_modules,
+    render_pdf_inline,
+    render_pptx_outline,
+    resolve_course_path,
+    resolve_lecture_video,
+)
+
 # Configure page settings
 st.set_page_config(
     page_title="BITS Pilani WILP Academic Hub",
@@ -203,13 +211,14 @@ if badges:
     st.markdown(f'<div style="margin-bottom: 1.5rem;">{badge_html}</div>', unsafe_allow_html=True)
 
 # Tabs
-tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs([
     "📋 Curriculum & Syllabus",
-    "📖 Modular Descriptive Notes",
+    "📦 Syllabus Module Hub",
+    "📖 Descriptive Notes",
     "🎯 Exam Q&A Bank",
     "📐 Formula Sheet & Study Guide",
     "📚 Textbooks & Handouts",
-    "✍️ Faculty Notes & Numericals"
+    "✍️ Slides, PDFs & Numericals",
 ])
 
 # TAB 1: CURRICULUM & SYLLABUS
@@ -231,33 +240,68 @@ with tab1:
         st.info("No markdown syllabus document found in this course folder yet.")
 
 
-# TAB 2: MODULAR DESCRIPTIVE NOTES
+# TAB 2: SYLLABUS MODULE HUB
 with tab2:
-    st.header("Comprehensive Descriptive Notes")
-    if DESCRIPTIVE_DIR.exists() and any(DESCRIPTIVE_DIR.glob("*.md")):
-        notes_files = sorted(list(DESCRIPTIVE_DIR.glob("*.md")))
-        
-        col_sel, col_stat = st.columns([3, 1])
-        with col_sel:
-            selected_note_file = st.selectbox(
-                "Select Module",
-                notes_files,
-                format_func=lambda p: p.stem.replace("_", " ")
-            )
-        with col_stat:
-            st.metric("Total Modules", len(notes_files))
-            
-        if selected_note_file:
-            st.markdown("---")
-            with open(selected_note_file, "r", encoding="utf-8", errors="replace") as f:
-                content = f.read()
-            render_markdown_with_assets(content, COURSE_DIR)
+    st.header("Syllabus Module Hub")
+    modules = load_course_modules(COURSE_DIR)
+    if not modules:
+        st.info("Add `Notes/AI Notes/module_map.yaml` for module-wise navigation.")
     else:
-        st.info(f"Descriptive Notes are currently being synthesized for {selected_course}.")
+        labels = {m["id"]: f"{m['id']}: {m.get('title', '')}" for m in modules}
+        pick_id = st.selectbox("Syllabus module", list(labels.keys()), format_func=lambda k: labels[k])
+        mod = next(m for m in modules if m["id"] == pick_id)
+        cs = mod.get("contact_sessions")
+        st.caption(f"Contact sessions (reference): {cs if cs else '—'} | Webinar: {mod.get('webinar') or '—'}")
+        note_rel = mod.get("descriptive_note", "")
+        note_path = None
+        if note_rel:
+            candidate = NOTES_DIR / note_rel
+            note_path = candidate if candidate.exists() else DESCRIPTIVE_DIR / Path(note_rel).name
+        if note_path and note_path.exists():
+            st.subheader("Descriptive notes")
+            render_markdown_with_assets(note_path.read_text(encoding="utf-8", errors="replace"), COURSE_DIR)
+        for lec in mod.get("lectures") or []:
+            vid_rel = lec.get("video", "")
+            st.subheader(lec.get("title") or vid_rel)
+            vpath = resolve_lecture_video(COURSE_DIR, vid_rel)
+            if vpath and vpath.is_file():
+                st.video(str(vpath))
+            else:
+                st.caption("No local video — copy via `scripts/materialize_lecture_videos.py` into `Videos/_materialized/`.")
+            tr = lec.get("transcript")
+            if tr:
+                tp = resolve_course_path(COURSE_DIR, tr)
+                if tp:
+                    with st.expander("Transcript"):
+                        st.markdown(tp.read_text(encoding="utf-8", errors="replace")[:16000])
+        for sl in mod.get("slides") or []:
+            sp = resolve_course_path(COURSE_DIR, sl.get("path", ""))
+            if not sp:
+                continue
+            st.subheader(sl.get("label") or sp.name)
+            if sp.suffix.lower() == ".pdf":
+                render_pdf_inline(sp)
+            elif sp.suffix.lower() in {".pptx", ".ppt"}:
+                render_pptx_outline(sp)
 
 
-# TAB 3: EXAM Q&A BANK
+# TAB 3: DESCRIPTIVE NOTES
 with tab3:
+    st.header("All descriptive note files")
+    if DESCRIPTIVE_DIR.exists() and any(DESCRIPTIVE_DIR.glob("Module_*.md")):
+        notes_files = sorted(DESCRIPTIVE_DIR.glob("Module_*.md"))
+        selected_note_file = st.selectbox(
+            "Module file", notes_files, format_func=lambda p: p.stem.replace("_", " ")
+        )
+        render_markdown_with_assets(
+            selected_note_file.read_text(encoding="utf-8", errors="replace"), COURSE_DIR
+        )
+    else:
+        st.info(f"Descriptive notes are not available yet for {selected_course}.")
+
+
+# TAB 4: EXAM Q&A BANK
+with tab4:
     st.header("Examination Question-Answer Bank")
     if QA_DIR.exists() and any(QA_DIR.glob("*.md")):
         qa_files = sorted(list(QA_DIR.glob("*.md")))
@@ -273,8 +317,20 @@ with tab3:
                 
             search_query = st.text_input("🔍 Search Questions or Keywords:", "")
             
-            # If large Q&A file with questions formatted like "### Question"
-            if "### Question" in qa_content:
+            if re.search(r"^### Q\d+\.", qa_content, re.MULTILINE):
+                questions = re.split(r"(?=^### Q\d+\.)", qa_content, flags=re.MULTILINE)
+                header_part = questions[0]
+                q_list = [q for q in questions[1:] if q.strip().startswith("### Q")]
+                if search_query:
+                    q_list = [q for q in q_list if search_query.lower() in q.lower()]
+                    st.caption(f"Found {len(q_list)} matching questions.")
+                st.markdown(header_part, unsafe_allow_html=True)
+                for q_block in q_list:
+                    first_line = q_block.strip().split("\n")[0].replace("###", "").strip()
+                    body = "\n".join(q_block.strip().split("\n")[1:])
+                    with st.expander(first_line, expanded=False):
+                        st.markdown(body)
+            elif "### Question" in qa_content:
                 questions = re.split(r'(?=### Question \d+)', qa_content)
                 header_part = questions[0]
                 q_list = questions[1:]
@@ -301,8 +357,8 @@ with tab3:
         st.info(f"Exam Q&A Bank is currently in preparation for {selected_course}.")
 
 
-# TAB 4: FORMULA SHEET & STUDY GUIDE
-with tab4:
+# TAB 5: FORMULA SHEET & STUDY GUIDE
+with tab5:
     st.header("Master Formula Sheet & Oral Viva Guide")
     formula_files = []
     if QA_DIR.exists():
@@ -323,75 +379,52 @@ with tab4:
         st.info("Formula sheet and study guide will appear here once generated.")
 
 
-# TAB 5: TEXTBOOKS & HANDOUTS
-with tab5:
+# TAB 6: TEXTBOOKS & HANDOUTS (inline PDF)
+with tab6:
     st.header("Prescribed Textbooks & Reference Books")
     if BOOKS_DIR.exists() and any(BOOKS_DIR.glob("*.pdf")):
-        book_files = sorted(list(BOOKS_DIR.glob("*.pdf")))
-        st.markdown(f"Found **{len(book_files)}** textbook and reference documents:")
-        
-        for bk in book_files:
-            sz_mb = bk.stat().st_size / (1024 * 1024)
-            col_name, col_size, col_btn = st.columns([3, 1, 1])
-            with col_name:
-                st.write(f"📖 **{bk.name}**")
-            with col_size:
-                st.caption(f"{sz_mb:.1f} MB")
-            with col_btn:
-                try:
-                    with open(bk, "rb") as f_bytes:
-                        st.download_button(
-                            label="⬇️ Download",
-                            data=f_bytes.read(),
-                            file_name=bk.name,
-                            mime="application/pdf",
-                            key=f"dl_{bk.name}"
-                        )
-                except Exception as e:
-                    st.caption("Available locally")
+        book_files = sorted(BOOKS_DIR.glob("*.pdf"))
+        pick = st.selectbox("Textbook", book_files, format_func=lambda p: p.name)
+        if pick:
+            st.caption(f"{pick.stat().st_size / (1024**2):.1f} MB")
+            render_pdf_inline(pick)
+            with open(pick, "rb") as f_bytes:
+                st.download_button("Download", f_bytes.read(), pick.name, mime="application/pdf", key=f"dl_{pick.name}")
     else:
         st.info(f"No PDFs found in Books directory for {selected_course}.")
 
 
-# TAB 6: FACULTY NOTES & NUMERICALS
-with tab6:
-    st.header("Faculty Tablet Notes & Exam Numericals")
-    
-    col_hw, col_qp = st.columns(2)
-    
-    with col_hw:
-        st.subheader("✍️ Handwritten / Tablet Derivations")
-        if HANDWRITTEN_DIR.exists() and any(HANDWRITTEN_DIR.glob("*.pdf")):
-            hw_files = sorted(list(HANDWRITTEN_DIR.glob("*.pdf")))
-            for hw in hw_files:
-                sz_mb = hw.stat().st_size / (1024 * 1024)
-                st.write(f"📄 **{hw.name}** ({sz_mb:.1f} MB)")
-                with open(hw, "rb") as f_hw:
-                    st.download_button(
-                        label=f"Download {hw.name}",
-                        data=f_hw.read(),
-                        file_name=hw.name,
-                        mime="application/pdf",
-                        key=f"hw_{hw.name}"
-                    )
-        else:
-            st.caption("No handwritten tablet PDFs available.")
-            
-    with col_qp:
-        st.subheader("📝 Past Question Papers & Practice Sets")
-        if QP_DIR.exists() and any(QP_DIR.glob("*")):
-            qp_files = sorted(list(QP_DIR.glob("*")))
-            for qp in qp_files:
-                if qp.is_file() and not qp.name.startswith("."):
-                    sz_mb = qp.stat().st_size / (1024 * 1024)
-                    st.write(f"📄 **{qp.name}** ({sz_mb:.1f} MB)")
-                    with open(qp, "rb") as f_qp:
-                        st.download_button(
-                            label=f"Download {qp.name}",
-                            data=f_qp.read(),
-                            file_name=qp.name,
-                            key=f"qp_{qp.name}"
-                        )
-        else:
-            st.caption("No past question papers uploaded yet.")
+# TAB 7: SLIDES, HANDWRITTEN, QP
+with tab7:
+    st.header("Slides, companions & practice PDFs")
+
+    doc_buckets: list[tuple[str, list[Path]]] = []
+    if HANDWRITTEN_DIR.exists():
+        doc_buckets.append(("Handwritten derivations", sorted(HANDWRITTEN_DIR.glob("*.pdf"))))
+    if COMPANIONS_DIR.exists():
+        doc_buckets.append(
+            ("Lecture slides & companions", sorted(COMPANIONS_DIR.rglob("*.pdf"))[:80])
+        )
+    if QP_DIR.exists():
+        doc_buckets.append(("Question papers & solutions", sorted(QP_DIR.glob("*.pdf"))))
+
+    flat: list[Path] = []
+    flat_labels: list[str] = []
+    for label, files in doc_buckets:
+        for f in files:
+            flat.append(f)
+            flat_labels.append(f"{label}: {f.name}")
+
+    if not flat:
+        st.caption("No PDF companions in this course folder.")
+    else:
+        idx = st.selectbox("Document", range(len(flat)), format_func=lambda i: flat_labels[i])
+        chosen = flat[idx]
+        st.caption(str(chosen.relative_to(COURSE_DIR)))
+        if chosen.suffix.lower() == ".pdf":
+            render_pdf_inline(chosen)
+        elif chosen.suffix.lower() in {".pptx", ".ppt"}:
+            render_pptx_outline(chosen)
+        with open(chosen, "rb") as fb:
+            st.download_button("Download", fb.read(), chosen.name, key=f"dl7_{chosen.name}")
 

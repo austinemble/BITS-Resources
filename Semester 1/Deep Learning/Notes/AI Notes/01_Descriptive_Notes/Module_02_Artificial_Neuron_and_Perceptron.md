@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 2); Goodfellow et al. (R1, Ch 1 & Ch 6)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 2: 2026-08-01 & Session 3: 2026-08-08, Recordings `Shakshi -- 3.mp4`, `Shakshi -- 4.mp4`)  
+**Syllabus module**: **M02** — Artificial Neuron & Perceptron (`module_map.yaml`)  
+**Canonical videos**: `Lecture_02_Artificial_Neuron_and_Perceptron.mp4`, `Lecture_03_Perceptron_Learning_Algorithm_and_XOR.mp4`  
 **Exam Reference**: Prof. Mithun Ghosh Question Paper (Q5, Q6, Q7, Q8, Q9, Q10, Q11)
 
 ---

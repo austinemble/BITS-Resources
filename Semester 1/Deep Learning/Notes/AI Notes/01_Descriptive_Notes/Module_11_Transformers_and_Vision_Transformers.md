@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 11); Jurafsky & Martin (R3, Ch 10); Vaswani et al. (2017); Dosovitskiy et al. (2020)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 12: 2026-10-24 & Session 13: 2026-10-31, Recordings `Shakshi -- 12.mp4`, `Shakshi -- 13.mp4`)  
+**Syllabus module**: **M11** — Transformers & Vision Transformers (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_12_Transformer_Architecture.mp4`  
 **Exam Reference**: Prof. Mithun Ghosh Question Paper (Q52) & Companion HTML Modules
 
 ---

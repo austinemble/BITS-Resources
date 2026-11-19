@@ -36,7 +36,7 @@
 | **M4: Logistic Sigmoid** | $\sigma(z) = \frac{1}{1 + e^{-z}} = \frac{e^z}{1 + e^z}$ | $z = \mathbf{w}^T \mathbf{x} + w_0 \in \mathbb{R}$ | Symmetry: $\sigma(-z) = 1 - \sigma(z)$; $\sigma' = \sigma(1-\sigma)$ |
 | **M4: Binary Cross-Entropy** | $\mathcal{L}(\mathbf{w}) = - \sum_{i=1}^N [y_i \ln \hat{y}_i + (1 - y_i) \ln(1 - \hat{y}_i)]$ | $y_i \in \{0, 1\}, \hat{y}_i = \sigma(\mathbf{w}^T \mathbf{x}_i)$ | Strictly convex; Hessian $\mathbf{H} = \mathbf{X}^T \mathbf{R} \mathbf{X} \succeq 0$ |
 | **M4: Softmax Function** | $P(y = k \mid \mathbf{x}) = \frac{e^{\mathbf{w}_k^T \mathbf{x}}}{\sum_{j=1}^K e^{\mathbf{w}_j^T \mathbf{x}}}$ | $\mathbf{W} \in \mathbb{R}^{K \times d}, k \in \{1, \dots, K\}$ | $\sum_{k=1}^K P(y=k \mid \mathbf{x}) = 1.0$ |
-| **M4: Fisher LDA Projection** | $\mathbf{w} \propto \mathbf{S}_W^{-1} (\mathbf{m}_1 - \mathbf{m}_2)$ | $\mathbf{S}_W$: within-class scatter matrix | Maximizes between-to-within scatter ratio |
+| **M4: Fisher LDA Projection** *(supplement — not mid-sem lecture)* | $\mathbf{w} \propto \mathbf{S}_W^{-1} (\mathbf{m}_1 - \mathbf{m}_2)$ | $\mathbf{S}_W$: within-class scatter matrix | Comprehensive / textbook only |
 | **M5: Gini Impurity (CART)** | $I_G(S) = 1 - \sum_{i=1}^C p_i^2$ | $C$: number of classes | Bound for binary: $I_G \in [0, 0.50]$ |
 | **M5: Information Gain** | $\text{Gain}(S, A) = H(S) - \sum_{v} \frac{\|S_v\|}{\|S\|} H(S_v)$ | $A$: candidate splitting attribute | Expected entropy reduction |
 | **M5: Gain Ratio (C4.5)** | $\text{GainRatio}(S, A) = \frac{\text{Gain}(S, A)}{\text{SplitInfo}(S, A)}$ | $\text{SplitInfo} = - \sum \frac{\|S_v\|}{\|S\|} \log_2 \frac{\|S_v\|}{\|S\|}$ | Penalizes high-cardinality attributes |

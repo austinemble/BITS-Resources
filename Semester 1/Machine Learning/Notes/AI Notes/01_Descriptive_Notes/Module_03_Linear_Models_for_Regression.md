@@ -2,7 +2,9 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Christopher M. Bishop (R1, Chapter 3); Tan et al. (R2, Chapter 4)  
-**Lecture alignment**: Prof. Sharon Christa — Sessions 3–6 (2026-08-09 through 2026-08-30).
+**Syllabus module**: **M03** — Linear Models for Regression (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_03_Linear_Models_for_Regression.mp4`  
+**Contact sessions** (reference): Sessions 3–6.
 
 ---
 

@@ -2,7 +2,9 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Christopher M. Bishop (R1, Chapter 4); Tan et al. (R2, Chapter 4)  
-**Lecture alignment**: Prof. Sharon Christa — Sessions 5–6 (2026-08-23, 2026-08-30).
+**Syllabus module**: **M04** — Linear Models for Classification & Logistic Regression (`module_map.yaml`)  
+**Canonical videos**: `Lecture_04_Linear_Models_for_Classification.mp4`, `Lecture_05_Logistic_Regression_Logloss_Multiclass.mp4`  
+**Contact sessions** (reference): Sessions 5–6.
 
 ---
 

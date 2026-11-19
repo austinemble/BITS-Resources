@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 10); Goodfellow et al. (R1, Ch 10); Jurafsky & Martin (R3, Ch 9)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 10: 2026-10-10, Recording `Shakshi -- 10.mp4`)  
+**Syllabus module**: **M09** — LSTM & GRU (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_10_Deep_RNNs_LSTM_and_GRU.mp4`  
 **Exam Reference**: Prof. Mithun Ghosh Question Paper (Q49, Q50)
 
 ---

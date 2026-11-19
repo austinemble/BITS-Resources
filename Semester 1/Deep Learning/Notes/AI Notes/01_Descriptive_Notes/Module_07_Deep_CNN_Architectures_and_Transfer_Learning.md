@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 8); Goodfellow et al. (R1, Ch 9)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 8: 2026-09-12, Recording `Shakshi -- 9.mp4`)  
+**Syllabus module**: **M07** — Deep CNN Architectures & Transfer Learning (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_08_Deep_CNN_Architectures_and_Numericals.mp4`  
 **Exam Reference**: Prof. Mithun Ghosh Question Paper (Q41, Q42, Q43)
 
 ---

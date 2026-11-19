@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 7 & Ch 8); Goodfellow et al. (R1, Ch 9); Companion: `DNN_M6_CNN_Numerical.pdf`  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 7: 2026-09-05, Recording `Shakshi -- 8.mp4`)  
+**Syllabus module**: **M06** — Convolutional Neural Networks (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_07_Convolutional_Neural_Networks_CNN.mp4`  
 **Exam Reference**: Prof. Mithun Ghosh Question Paper (Q35, Q36, Q37, Q38, Q39, Q40, Q41, Q42, Q43)
 
 ---

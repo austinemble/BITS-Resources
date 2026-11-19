@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 5); Goodfellow et al. (R1, Ch 6); Companion: `M5_DFNN_Handwritten..pdf`, `BPNNDerivation.pdf`  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 6: 2026-08-29, Recording `Shakshi -- 7.mp4`)  
+**Syllabus module**: **M05** — Deep Feedforward Networks & Backpropagation (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_06_Deep_Feedforward_Networks_MLP_Backprop.mp4`  
 **Exam Reference**: Prof. Mithun Ghosh Question Paper (Q27, Q28, Q29, Q30, Q31, Q32, Q33, Q34)
 
 ---

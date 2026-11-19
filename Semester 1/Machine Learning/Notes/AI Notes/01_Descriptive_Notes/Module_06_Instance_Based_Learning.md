@@ -2,7 +2,9 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 8); Tan et al. (R2, Chapter 4)  
-**Lecture alignment**: Prof. Sharon Christa — **Session 10 (2026-10-11)**; brief intro end of Session 9. Deck: `11th - 18th -KNN-ML CS 9_updated.pdf` (Session 7 was Decision Trees only).
+**Syllabus module**: **M06** — Instance-Based Learning (`Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_07_Instance_Based_Learning_KNN_LWR.mp4`  
+**Contact sessions** (reference): Session 10 (2026-10-11); deck `11th - 18th -KNN-ML CS 9_updated.pdf`.
 
 ---
 
@@ -278,7 +280,25 @@ if __name__ == "__main__":
 
 ## 4. Solved Numerical Examples (Exam Pattern)
 
-### 4.0 Eight-point mixed-type $k$-NN (Prof. Pritee Problem Type 2 pattern)
+### 4.0 LWR at $x_q=4$ — kernel weights & one GD step (Problem Type 3 / Exam Q51)
+
+**Given** — $(1,10), (2,12), (3,11), (5,15), (8,20)$; query $x_q=4$; $K_i=1/d_i^2$; local line $y=w_0+w_1 x$ with $(w_0,w_1)=(0,1)$, $\eta=0.1$; $k=3$ neighbours.
+
+| $x_i$ | $y_i$ | $d_i$ | $K_i$ |
+| :---: | :---: | :---: | :---: |
+| 3 | 11 | 1 | 1.000 |
+| 5 | 15 | 1 | 1.000 |
+| 2 | 12 | 2 | 0.250 |
+
+**Weighted local mean** (kernel-only forecast):
+$$\hat{y}=\frac{1(11)+1(15)+0.25(12)}{2.25}\approx\mathbf{12.89}$$
+
+**One LWR gradient step** — residuals on current line $\hat{y}_i=x_i$:
+$$\Delta w_0 = 0.1[1(8)+1(10)+0.25(10)] = \mathbf{2.05}, \quad
+\Delta w_1 = 0.1[1(24)+1(50)+0.25(20)] = \mathbf{7.90}$$
+$$\Rightarrow (w_0,w_1)^{(1)} = \mathbf{(2.05,\ 8.90)}$$
+
+### 4.0.1 Eight-point mixed-type $k$-NN (Prof. Pritee Problem Type 2 pattern)
 
 **Setup** — Numeric features min–max scaled to $[0,1]$; ordinal satisfaction with ranks $1,\ldots,5$ mapped to $z=(r-1)/(5-1)$; nominal dept (CSE/ECE).  
 $$d(\mathbf{q},\mathbf{x}) = \sqrt{(\Delta \text{Age})^2 + (\Delta \text{Sat})^2} + \frac{\mathbb{I}[\text{Dept}_q \neq \text{Dept}_x]}{k_{\text{nom}}}, \quad k_{\text{nom}}=1$$

@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 3 & Ch 12); Goodfellow et al. (R1, Ch 5)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 4: 2026-08-19, Recording `Shakshi -- 5.mp4`)  
+**Syllabus module**: **M03** — Linear Neural Networks for Regression (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_04_Linear_Regression_and_Gradient_Descent.mp4`  
 **Exam Reference**: Prof. Mithun Ghosh Question Paper (Q12, Q13, Q14, Q15, Q16, Q17)
 
 ---

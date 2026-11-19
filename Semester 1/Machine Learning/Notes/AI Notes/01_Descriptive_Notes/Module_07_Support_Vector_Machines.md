@@ -2,7 +2,9 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Christopher J.C. Burges (R3: Tutorial on SVM, pp. 1–43); Tan et al. (R2, Chapter 4); Bishop (R1, Chapter 7)  
-**Lecture alignment**: Prof. Sharon Christa — **Sessions 11, 11b, 12** (2026-10-18, 2026-10-25). Deck: `ML_ CS 10_SVM_ October 2026.pdf`.
+**Syllabus module**: **M07** — Support Vector Machines (`module_map.yaml`)  
+**Canonical videos**: `Lecture_09_Support_Vector_Machines_Part1.mp4`, `Lecture_10_Support_Vector_Machines_Part2_Kernels.mp4`  
+**Contact sessions** (reference): 11, 11b, 12. Deck: `ML_ CS 10_SVM_ October 2026.pdf`.
 
 ---
 

@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 6); Christopher M. Bishop (R1, Chapter 9); Tan et al. (R2, Chapters 8 & 9)  
-**Lecture alignment**: **Autonomous textbook-bridge module** — clustering absent from Sessions 1–13 and all webinars. Synthesized from Bishop R1 Ch. 9 / Tan R2 Ch. 8 per syllabus.
+**Syllabus module**: **M10** — Unsupervised Learning & Clustering (`module_map.yaml`)  
+**Source**: **Textbook bridge** — no lecture in archive. Bishop R1 Ch. 9 / Tan R2 Ch. 8 per syllabus.
 
 ---
 

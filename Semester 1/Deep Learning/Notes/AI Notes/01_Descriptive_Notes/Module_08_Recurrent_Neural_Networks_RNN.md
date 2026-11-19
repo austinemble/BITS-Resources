@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 9); Goodfellow et al. (R1, Ch 10); Jurafsky & Martin (R3, Ch 9)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 9: 2026-10-03, Recording `Shakshi -- 1.mp4`)  
+**Syllabus module**: **M08** — Recurrent Neural Networks (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_09_Recurrent_Neural_Networks_RNN_BPTT.mp4`  
 **Exam Reference**: Prof. Mithun Ghosh Question Paper (Q44, Q45, Q46, Q47, Q48)
 
 ---

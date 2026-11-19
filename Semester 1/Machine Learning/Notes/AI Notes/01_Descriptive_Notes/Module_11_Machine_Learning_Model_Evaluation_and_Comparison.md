@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tom M. Mitchell (T1, Chapter 5); Christopher M. Bishop (R1, Chapter 1); Tan et al. (R2, Chapter 4)  
-**Lecture alignment**: Prof. Sharon Christa — Session 10 slides 67–79 (train/val/test, CV); **Webinar 2 (2026-10-15)** (imbalance, accuracy paradox, macro vs weighted F1).
+**Syllabus module**: **M11** — Model Evaluation & Comparison (`Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_07_Instance_Based_Learning_KNN_LWR.mp4` (slides 67–79 on resampling) + **Webinar 2** (2026-10-15) for imbalance & metrics.
 
 ---
 
@@ -140,6 +141,37 @@ Classifiers output continuous confidence scores $s(\mathbf{x}) \in [0, 1]$. Vary
 #### 2. The Precision-Recall (PR) Curve:
 - Plots **Precision** versus **Recall**.
 - **When to Use PR Curves**: In extreme class imbalance, the negative class size $N \gg P$. Even a massive influx of False Positives barely shifts FPR because the denominator $(\text{TN} + \text{FP})$ is dominated by TN. The ROC curve looks deceptively optimistic, whereas the PR curve reveals catastrophic drops in Precision.
+
+### 3.3 Worked case: cancer screening & the accuracy paradox (6-mark pattern)
+
+Prof. Pritee’s confusion-matrix worksheet (`Classifier_Evaluation_Confusion_Matrix_Solution.pdf`) — same numbers as **Exam Q56**.
+
+| Quantity | Value |
+| :--- | :---: |
+| Population $N$ | 10,000 |
+| True cancer cases | 300 |
+| Healthy | 9,700 |
+| TP / FN / FP / TN | 90 / 210 / 140 / 9,560 |
+
+**Step 1 — Verify counts**  
+$90+210+140+9560=10{,}000$; positives $300$, negatives $9{,}700$.
+
+**Step 2 — Metrics**
+$$\text{Accuracy}=\frac{9650}{10000}=\mathbf{96.50\%}, \quad
+\text{Recall}=\frac{90}{300}=\mathbf{30.00\%}, \quad
+\text{Precision}=\frac{90}{230}\approx\mathbf{39.13\%}, \quad
+\text{FNR}=1-\text{Recall}=\mathbf{70\%}$$
+
+**Step 3 — Interpretation (comprehensive exam)**  
+A trivial “predict all healthy” rule scores **97% accuracy** with **0% recall**. For screening, optimize **recall** (and often **$F_2$**) even at lower precision — missing cancer (FN) is clinically worse than follow-up on false alarms (FP).
+
+**When to favour precision vs recall** (Webinar 2 / extra material)
+
+| Favour **high precision** | Favour **high recall** |
+| :--- | :--- |
+| Invasive or expensive follow-up (surgery, PET) | Routine low-cost screening (mammography) |
+| Spam filter — must not delete ham | Epidemic / security screening |
+| Legal prosecution (false conviction) | Fraud / intrusion detection |
 
 ---
 

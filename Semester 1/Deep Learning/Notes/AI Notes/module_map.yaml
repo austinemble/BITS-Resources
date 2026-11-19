@@ -1,0 +1,172 @@
+# AIML ZG511 — 12 syllabus modules. Primary stream: Prof. Shakshi Sharma.
+# Videos/ symlinks use chronologically corrected Shakshi mapping (audit_DNN_comprehensive.md §3–4).
+course_id: dnn
+modules:
+  - id: M01
+    title: "Introduction to Deep Learning"
+    descriptive_note: "01_Descriptive_Notes/Module_01_Introduction_to_Deep_Learning.md"
+    contact_sessions: [1]
+    lectures:
+      - video: "Videos/Lecture_01_Introduction_to_Deep_Learning.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 2.md"
+        title: "AI vs ML vs DL, data scaling, pipelines"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M1_Introduction.pdf"
+        label: "DNN M1 — introduction"
+
+  - id: M02
+    title: "Artificial Neuron and Perceptron"
+    descriptive_note: "01_Descriptive_Notes/Module_02_Artificial_Neuron_and_Perceptron.md"
+    contact_sessions: [2, 3]
+    lectures:
+      - video: "Videos/Lecture_02_Artificial_Neuron_and_Perceptron.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 3.md"
+        title: "Biological vs artificial neuron, perceptron"
+      - video: "Videos/Lecture_03_Perceptron_Learning_Algorithm_and_XOR.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 4.md"
+        title: "PLA, logic gates, XOR inseparability"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M2_ANN_Perceptron.pdf"
+        label: "DNN M2 — ANN & perceptron"
+
+  - id: M03
+    title: "Linear Neural Networks for Regression"
+    descriptive_note: "01_Descriptive_Notes/Module_03_Linear_Neural_Networks_for_Regression.md"
+    contact_sessions: [4]
+    lectures:
+      - video: "Videos/Lecture_04_Linear_Regression_and_Gradient_Descent.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 5.md"
+        title: "Single-neuron regression, MSE, gradient descent"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M3_Linear NN Regression (1).pdf"
+        label: "DNN M3 — linear regression"
+      - path: "Notes/Lecture Slides & Companions/M3_regression_handwritten.pdf"
+        label: "Handwritten regression derivations"
+
+  - id: M04
+    title: "Linear Neural Networks for Classification"
+    descriptive_note: "01_Descriptive_Notes/Module_04_Linear_Neural_Networks_for_Classification.md"
+    contact_sessions: [5, 6]
+    lectures:
+      - video: "Videos/Lecture_05_Linear_Classification_Sigmoid_and_Softmax.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 6.md"
+        title: "Binary classification, sigmoid, BCE"
+      - video: "Videos/Lecture_06_Deep_Feedforward_Networks_MLP_Backprop.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 7.md"
+        title: "Softmax, multiclass CE, intro to MLP"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M4_Linear NN Classification.pdf"
+        label: "DNN M4 — classification"
+      - path: "Notes/Lecture Slides & Companions/M4_classification_handwritten.pdf"
+        label: "Handwritten classification numerics"
+
+  - id: M05
+    title: "Deep Feedforward Neural Networks & Backpropagation"
+    descriptive_note: "01_Descriptive_Notes/Module_05_Deep_Feedforward_Networks_MLP_Backprop.md"
+    contact_sessions: [7, 8]
+    lectures:
+      - video: "Videos/Lecture_07_Convolutional_Neural_Networks_CNN.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 8.md"
+        title: "DFNN forward pass, activations (session 7)"
+      - video: "Videos/Lecture_08_Deep_CNN_Architectures_and_Numericals.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 9.md"
+        title: "Backpropagation, error deltas (session 8)"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M5_DFNN (1).pdf"
+        label: "DNN M5 — DFNN & backprop"
+      - path: "Notes/Lecture Slides & Companions/DNN_M5_DFNN_Numerical.pdf"
+        label: "Solved DFNN numerics"
+      - path: "Notes/Lecture Slides & Companions/M5_DFNN_Handwritten..pdf"
+        label: "Handwritten backprop"
+      - path: "Notes/Lecture Slides & Companions/BPNNDerivation.pdf"
+        label: "Backprop derivation supplement"
+
+  - id: M06
+    title: "Convolutional Neural Networks (CNN)"
+    descriptive_note: "01_Descriptive_Notes/Module_06_Convolutional_Neural_Networks.md"
+    contact_sessions: [9]
+    lectures:
+      - video: "Videos/Lecture_09_Recurrent_Neural_Networks_RNN_BPTT.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 1.md"
+        title: "2D convolution, stride, padding, pooling (session 9)"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M6_CNN.pdf"
+        label: "DNN M6 — CNN"
+      - path: "Notes/Lecture Slides & Companions/DNN_M6_CNN_annotated.pdf"
+        label: "Annotated CNN deck"
+      - path: "Notes/Lecture Slides & Companions/DNN_M6_CNN_Numerical.pdf"
+        label: "CNN numerical workbook"
+
+  - id: M07
+    title: "Deep CNN Architectures & Transfer Learning"
+    descriptive_note: "01_Descriptive_Notes/Module_07_Deep_CNN_Architectures_and_Transfer_Learning.md"
+    contact_sessions: [10]
+    lectures:
+      - video: "Videos/Lecture_10_Deep_RNNs_LSTM_and_GRU.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 10.md"
+        title: "LeNet, AlexNet, VGG, ResNet, transfer learning"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M6_CNN.pdf"
+        label: "Architectures (continued from M6 deck)"
+
+  - id: M08
+    title: "Recurrent Neural Networks (RNN)"
+    descriptive_note: "01_Descriptive_Notes/Module_08_Recurrent_Neural_Networks_RNN.md"
+    contact_sessions: [11]
+    lectures:
+      - video: "Videos/Lecture_11_Attention_Mechanism_QKV.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 11.md"
+        title: "RNN unfold, BPTT, vanishing gradients (session 11)"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M7_RNN_annotated_1.pdf"
+        label: "DNN M7 — RNN (annotated)"
+
+  - id: M09
+    title: "Deep Recurrent Neural Networks (LSTM & GRU)"
+    descriptive_note: "01_Descriptive_Notes/Module_09_Deep_RNNs_LSTM_and_GRU.md"
+    contact_sessions: [11]
+    lectures:
+      - video: "Videos/Lecture_11_Attention_Mechanism_QKV.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 11.md"
+        title: "LSTM & GRU gating (same session as M08)"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M7_RNN_annotated_1.pdf"
+        label: "LSTM/GRU slides (M7 deck)"
+
+  - id: M10
+    title: "Attention Mechanism"
+    descriptive_note: "01_Descriptive_Notes/Module_10_Attention_Mechanism.md"
+    contact_sessions: [12]
+    lectures:
+      - video: "Videos/Lecture_12_Transformer_Architecture.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 12.md"
+        title: "Seq2Seq bottleneck, QKV, scaled dot-product attention"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M8_Attention (2)_annotated.pdf"
+        label: "DNN M8 — attention"
+
+  - id: M11
+    title: "Transformers & Vision Transformers (ViT)"
+    descriptive_note: "01_Descriptive_Notes/Module_11_Transformers_and_Vision_Transformers.md"
+    contact_sessions: [13]
+    lectures:
+      - video: "Videos/Lecture_13_Vision_Transformers_Optimization_Regularization.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 13.md"
+        title: "Transformer encoder–decoder, ViT pipeline"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M9_Transformer (1)_annotated_annotated.pdf"
+        label: "DNN M9 — transformer"
+
+  - id: M12
+    title: "Optimization & Regularization for Deep Models"
+    descriptive_note: "01_Descriptive_Notes/Module_12_Optimization_and_Regularization.md"
+    contact_sessions: [13]
+    lectures:
+      - video: "Videos/Lecture_13_Vision_Transformers_Optimization_Regularization.mp4"
+        transcript: "Inbox/Prof. Shakshi Sharma/Recordings/Shakshi -- 13.md"
+        title: "Adam, RMSprop, dropout, batch norm (session 13 close)"
+    slides:
+      - path: "Notes/Lecture Slides & Companions/DNN_M10_Optimizers (2)_261010_111225.pdf"
+        label: "DNN M10 — optimizers"
+      - path: "Notes/Lecture Slides & Companions/DNN_M11_Regularisation (1)_261010_111237.pdf"
+        label: "DNN M11 — regularization"

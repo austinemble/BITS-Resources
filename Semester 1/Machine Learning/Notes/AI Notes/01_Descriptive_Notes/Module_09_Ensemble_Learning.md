@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG565 — Machine Learning  
 **Prescribed References**: Tan et al. (R2, Chapter 4); Christopher M. Bishop (R1, Chapter 14); Lecture Notes  
-**Lecture alignment**: **No regular Session 9–13 lecture** on ensembles. Conceptual + Python walkthrough: **Webinar 2 (2026-10-15)**. Derivations below marked *textbook bridge* where not shown in webinar.
+**Syllabus module**: **M09** — Ensemble Learning (`module_map.yaml`)  
+**Source**: **Webinar 2 (2026-10-15)** — no regular Session 9–13 lecture. Derivations marked *textbook bridge* where not in webinar.
 
 ---
 

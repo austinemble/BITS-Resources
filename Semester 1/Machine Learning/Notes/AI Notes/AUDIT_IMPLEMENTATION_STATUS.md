@@ -1,6 +1,6 @@
 # Audit Implementation Status — AIML ZG565 AI Notes
 
-**Last updated**: 2026-11-17 (pass 3 — modules 04–11 polish)  
+**Last updated**: 2026-11-19 (pass 4 — module-wise portal metadata)  
 **Source audits**: `audit_M01_M05.md`, `audit_M06_M11.md`, `audit_QA_and_resources.md`
 
 ## Status: **Modules 01–11 aligned with audits**
@@ -25,6 +25,14 @@
 - Python blocks renamed **Implementation note** where exams are manual (M04–11 except prior M02/M03).
 - Non-lecture material labelled: textbook bridge, supplement, or advanced.
 
+## Pass 4 (module-wise notes)
+
+- Added `module_map.yaml` — Streamlit primary key = **M01–M11**, not contact session.
+- All descriptive headers: **Syllabus module** + canonical `Videos/Lecture_*.mp4`.
+- **M11**: cancer-screening accuracy paradox (Exam Q56) in descriptive notes.
+- **M06**: LWR Problem Type 3 / Q51 worked block in descriptive notes.
+- Formula sheet: Fisher LDA marked supplement.
+
 ## Optional future enhancements (not blocking)
 
-- Mirror additional PDF numerics (full `KNN-BITS-Problem3` LWR gadget table line-by-line) if source text becomes available.
+- Mirror full `KNN-BITS-Problem3` gadget LWR table if source PDF is transcribed.

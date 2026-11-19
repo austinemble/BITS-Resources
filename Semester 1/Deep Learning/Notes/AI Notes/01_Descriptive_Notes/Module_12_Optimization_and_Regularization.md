@@ -2,7 +2,8 @@
 
 **Course**: AIML ZG511 — Deep Neural Networks  
 **Prescribed References**: Zhang et al. (T1, Ch 3.6-3.7, 4.6-4.7, Ch 12); Goodfellow et al. (R1, Ch 7 & Ch 8)  
-**Primary Teacher Followed**: Prof. Shakshi Sharma (Session 13: 2026-10-31, Recording `Shakshi -- 13.mp4`)  
+**Syllabus module**: **M12** — Optimization & Regularization (`module_map.yaml`)  
+**Canonical video**: `Videos/Lecture_13_Vision_Transformers_Optimization_Regularization.mp4`  
 **Exam Reference**: Prof. Mithun Ghosh Question Paper (Q53) & Companion Optimizers HTML Module
 
 ---

@@ -91,3 +91,13 @@ To maintain a high-speed, lightweight Git tree:
 - **Strictly Excluded**: All raw recorded video containers (`*.mp4`, `*.mkv`, `*.avi`, `*.mov`) and raw meeting dump directories (`Inbox/`, `Videos/`) are excluded via `.gitignore`.
 - **Preserved in Git**: All converted transcripts (`.md`), descriptive notes, textbook PDFs, handwritten tablet notes, assignment notebooks, and lecture keyframe assets.
 
+### Google Drive sync (lecture videos)
+`Videos/` keeps **symlinks** into each course `Inbox/` so the repo stays small and recordings stay in one place. Cloud sync tools (Google Drive, etc.) often upload shortcut/alias files instead of real video bytes.
+
+Use **`Videos/_materialized/`** for upload: run `scripts/materialize_lecture_videos.py` to copy resolved `.mp4` files there (symlinks under `Videos/` are left unchanged). Optional `Videos/module_map.json` is reflected in `Videos/_materialized/manifest.json`.
+
+```bash
+python scripts/materialize_lecture_videos.py --dry-run --course "Deep Learning"
+python scripts/materialize_lecture_videos.py --course "Machine Learning"
+```
+
