@@ -1,6 +1,6 @@
 # Audit Implementation Status — AIML ZG565 AI Notes
 
-**Last updated**: 2026-11-19 (pass 4 — module-wise portal metadata)  
+**Last updated**: 2026-11-19 (pass 5 re-audit)  
 **Source audits**: `audit_M01_M05.md`, `audit_M06_M11.md`, `audit_QA_and_resources.md`
 
 ## Status: **Modules 01–11 aligned with audits**
@@ -24,6 +24,11 @@
 
 - Python blocks renamed **Implementation note** where exams are manual (M04–11 except prior M02/M03).
 - Non-lecture material labelled: textbook bridge, supplement, or advanced.
+
+## Pass 5 (re-audit)
+
+- `audit_ML_pass5.md` — comprehensive-ready; optional M05 CART Q53 mirror.
+- M05 MDL Exam Q54 bit table expanded.
 
 ## Pass 4 (module-wise notes)
 

@@ -1,7 +1,7 @@
 # Audit Implementation Status — AIML ZG511 AI Notes
 
-**Last updated**: 2026-11-19 (pass — module-wise metadata & lecture map)  
-**Source audit**: `audit_DNN_comprehensive.md`
+**Last updated**: 2026-11-19 (pass 2 re-audit)  
+**Source audits**: `audit_DNN_comprehensive.md`, `audit_DNN_pass2.md`
 
 ## Status: module-centric headers + `module_map.yaml`
 
@@ -19,6 +19,11 @@
 | **M10** | `Lecture_11` | Attention QKV |
 | **M11** | `Lecture_12` | Transformer / ViT |
 | **M12** | `Lecture_13` | Optimizers + regularization |
+
+## Pass 2 (re-audit)
+
+- Prior “thin M07–M12” ratings **obsolete** — attention 2×2, ViT param count, Adam bias proof verified.
+- Study spine: `audit_DNN_pass2.md`.
 
 ## Pass 4 changes
 

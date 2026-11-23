@@ -131,7 +131,16 @@ To split a continuous numerical attribute $A$ (e.g., Temperature, Income):
 
 $$\text{MDL}(h) = L(h) + L(D\mid h)$$
 
-Bits to describe tree structure + bits for misclassified exceptions. **Tree A**: 7 bits structure + 6 bits errors $=13$. **Tree B**: 15 + 2 $=17$. Prefer **A** (Occam) despite more training errors.
+Bits to describe tree structure + bits for misclassified exceptions.
+
+**Exam Q54 pattern (6 marks)** — two candidate trees on the same 8-row dataset:
+
+| Tree | Structure cost $L(h)$ | Error cost $L(D\mid h)$ | MDL |
+| :--- | :---: | :---: | :---: |
+| **A** (shallow, 3 mistakes) | $7$ bits | $3 \times 2 = 6$ bits | **13** |
+| **B** (deep, 1 mistake) | $15$ bits | $1 \times 2 = 2$ bits | **17** |
+
+**Answer**: choose **Tree A** — lower total description length despite higher training error (Occam / MDL).
 
 ---
 

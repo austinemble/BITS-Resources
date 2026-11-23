@@ -71,7 +71,18 @@ $$P(A_i\mid B) = \frac{P(B\mid A_i)\,P(A_i)}{\sum_j P(B\mid A_j)\,P(A_j)}$$
 
 **Manager / bonus (CS4)**: $P(X)=4/9$, $P(Y)=2/9$, $P(Z)=1/3$; bonuses $3/10$, $1/2$, $4/5$ ⇒ total $P(B)$ then $P(X\mid B)$.
 
-**Medical diagnosis**: flu vs measles with rash likelihoods → posterior flu given rash.
+**Medical diagnosis (Exam Q8 — 6 marks)**: rare disease + imperfect test → posterior after positive screen.
+
+| Symbol | Meaning | Value |
+| :--- | :--- | :---: |
+| $D$ | disease present | $P(D)=0.01$ |
+| $+$ | test positive | — |
+| — | sensitivity | $P(+\mid D)=0.95$ |
+| — | specificity | $P(-\mid D^c)=0.90 \Rightarrow P(+\mid D^c)=0.10$ |
+
+1. **Total probability**: $P(+) = 0.95(0.01) + 0.10(0.99) = 0.1085$.
+2. **Bayes**: $P(D\mid+) = \dfrac{0.95 \times 0.01}{0.1085} \approx 0.088$ (**~8.8%**).
+3. **Interpretation**: when prevalence is low, most positives are **false alarms** (compare with ML Module 11 cancer paradox).
 
 **Spam filter false positive**: $P(\text{not spam}\mid\text{flagged spam})$ using $P(\text{spam})=0.5$, detection rates — links to **confusion matrix** in ML.
 

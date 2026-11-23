@@ -1,6 +1,6 @@
 # Audit Implementation Status — AIML ZC418 AI Notes
 
-**Last updated**: 2026-11-17  
+**Last updated**: 2026-11-19 (pass 1 re-audit)  
 **Workflow**: `course-notes-generator` Phases 1–6 (Phase 8 portal deferred)
 
 ## Phases completed
@@ -25,9 +25,15 @@
 | M5 | `Module_05_Correlation_Regression_and_Time_Series.md` | CS11–14, T3 |
 | M6 | `Module_06_Gaussian_Mixture_Models_and_EM.md` | CS15 |
 
+## Pass 1 fixes (2026-11-19)
+
+- Re-audit: `audit_Stats_pass1.md`.
+- **M02**: full rare-disease Bayes diagnostic (Exam Q8).
+- **M05**: 3-period moving-average worked forecast.
+
 ## Next steps (optional)
 
 1. Add **R1** Miller & Freund PDF to `Books/`.
 2. Transcribe Krishna Kumari sessions 8–15 (`bits_transcribe`).
 3. Extract keyframes for M3 (Normal table), M5 (ACF/PACF), M6 (EM diagram).
-4. Phase 8: Streamlit portal + GitHub publish (exclude `*.mp4`).
+4. ANOVA two-way partition numeric + Excel time-series walkthrough (CS14).

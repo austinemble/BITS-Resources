@@ -88,6 +88,12 @@ $$\hat{Y}_{t+1}=\frac{1}{m}\sum_{j=0}^{m-1} Y_{t-j}$$
 
 Low-pass filter; larger \(m\) → smoother, slower to react.
 
+**Solved (3-period MA — exam pattern)** — sales \(Y_1=100, Y_2=110, Y_3=120, Y_4=115\):
+
+$$\hat{Y}_4=\frac{Y_3+Y_2+Y_1}{3}=\frac{120+110+100}{3}=110$$
+
+One-step forecast at end of period 3 is **110** (actual \(Y_4=115\) → error \(+5\)).
+
 ### 5.2 Weighted moving average (WMA)
 
 $$\hat{Y}_{t+1}=\sum_{j=0}^{m-1} w_j Y_{t-j}, \quad \sum_j w_j=1, \quad w_j\ge 0$$
