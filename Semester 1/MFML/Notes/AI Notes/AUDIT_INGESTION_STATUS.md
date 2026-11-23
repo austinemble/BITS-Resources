@@ -1,25 +1,22 @@
 # MFML (ZC416) — Ingestion & Audit Status
 
-**Last updated**: 2026-11-19
+**Last updated**: 2026-11-23 (pass 1 audit)
 
-| Phase | Status |
-| :--- | :--- |
-| Syllabus in repo | ❌ — import handout from WILP |
-| Faculty transcripts | ✅ Mandar (multiple `.md` in `Inbox/`) |
-| Slides | ✅ e.g. `Lecture_14.pdf`, KKT problem set |
-| Descriptive modules | 🟡 **M01 only** |
-| QA bank | ❌ |
-| Streamlit `module_map` | ❌ |
+| Phase | Status | Artifact |
+| :--- | :--- | :--- |
+| 1 Syllabus | ✅ | `Syllabus.md` |
+| 2 Books | ✅ | `BOOKS_VERIFICATION.md` (T1, R1, R2) |
+| 3 Faculty audit | ✅ | `FACULTY_AUDIT.md` |
+| 4 Curriculum map | ✅ | `CURRICULUM_MAPPING.md` (CS1–16) |
+| 5 Keyframes | ✅ | `assets/M01`–`M14` (18 PNGs) |
+| 6 Dual notes | ✅ | M01–M14 descriptive; 50-QA; formula sheet |
+| 7 Portal map | 🟡 | `module_map.yaml` — **metadata only** (no slide/video paths yet) |
+| 8 Streamlit | 🟡 | Course in picker; hub needs map enrichment |
 
-## Module plan (16 CS — `session_map` mathFoundationsML)
+**Re-audit**: `audit_MFML_pass1.md` · Cross-course summary: `AUDIT_NEW_GENERATION_2026-11-23.md` (repo root).
 
-1. Linear systems · 2. Vector spaces · 3. Norms/geometry · 4. Eigen · 5. SVD  
-6. Vector calculus · 7. Matrix gradients/backprop · 8. Taylor/extrema  
-9. Constrained/Lagrange · 10. SGD · 11. Adam family · 12. PCA · 13. Low-rank · 14–16. SVM/KKT/kernels
+## Next steps
 
-## Next passes
-
-1. Syllabus.md + handout PDF in `Semester 1/MFML/`.
-2. Transcript → M02–M08 (linear algebra block).
-3. KKT module from `Problem-KKT.pdf`.
-4. `STUDY_ROADMAP.md` already at course root.
+1. Add `slides` / `lectures` entries to `module_map.yaml` from `CURRICULUM_MAPPING.md`.
+2. Validate QA Tier 3 against Mandar / Alphonse solution PDFs in `Inbox/`.
+3. Optional: align module headers with ML-style `**Syllabus module**` + canonical video path.
