@@ -102,10 +102,49 @@ Recent observations often get higher weights (PPT examples: \(w=[0.5,0.3,0.2]\))
 
 ### 5.3 Simple exponential smoothing (SES)
 
-One-parameter **level** \(\ell_t\):
-$$\ell_t=\alpha Y_t+(1-\alpha)\ell_{t-1}, \quad 0<\alpha<1$$
+One-parameter **level** \(\ell_t\) for data with no distinct trend or seasonality:
+$$\ell_t = \alpha Y_t + (1-\alpha)\ell_{t-1}, \quad 0 < \alpha < 1$$
 
-One-step ahead forecast: \(\hat{Y}_{t+1}=\ell_t\). **Holt** (double) adds trend; **Holt–Winters** (triple) adds seasonality (CS-14).
+One-step ahead forecast: \(\hat{Y}_{t+1} = \ell_t\); \(h\)-step ahead forecast: \(\hat{Y}_{t+h} = \ell_t\).
+
+### 5.4 Holt's Linear Trend Model (Double Exponential Smoothing)
+
+When the time series exhibits a systematic linear trend without seasonality, Holt's method introduces a separate smoothing equation for the local slope (trend) \(b_t\):
+
+$$\begin{aligned}
+\text{Level update: } & \ell_t = \alpha Y_t + (1-\alpha)(\ell_{t-1} + b_{t-1}), \quad 0 < \alpha < 1 \\
+\text{Trend update: } & b_t = \beta (\ell_t - \ell_{t-1}) + (1-\beta) b_{t-1}, \quad 0 < \beta < 1 \\
+h\text{-step ahead forecast: } & \hat{Y}_{t+h} = \ell_t + h \cdot b_t
+\end{aligned}$$
+
+- **Initialization** (standard exam protocol from Excel models): \(\ell_1 = Y_1\), \(b_1 = Y_2 - Y_1\) (or linear regression slope over initial points).
+- **Interpretation**: \(\ell_t\) represents the smoothed level estimate at time \(t\); \(b_t\) tracks the per-period growth rate.
+
+### 5.5 Holt–Winters Seasonal Model (Triple Exponential Smoothing)
+
+Accounts for both trend and seasonal oscillations with period length \(m\) (e.g., \(m=4\) quarterly, \(m=12\) monthly):
+
+#### 1. Additive Seasonality (Constant seasonal fluctuation amplitude)
+Used when seasonal variations do not depend on the level of the series:
+
+$$\begin{aligned}
+\text{Level: } & \ell_t = \alpha (Y_t - s_{t-m}) + (1-\alpha)(\ell_{t-1} + b_{t-1}) \\
+\text{Trend: } & b_t = \beta (\ell_t - \ell_{t-1}) + (1-\beta) b_{t-1} \\
+\text{Seasonal: } & s_t = \gamma (Y_t - \ell_t) + (1-\gamma) s_{t-m} \\
+h\text{-step forecast: } & \hat{Y}_{t+h} = \ell_t + h \cdot b_t + s_{t+h - m(k+1)} \quad \text{where } k = \lfloor(h-1)/m\rfloor
+\end{aligned}$$
+
+#### 2. Multiplicative Seasonality (Seasonal fluctuations proportional to level)
+Used when seasonal amplitude increases proportionally with the overall sales or demand volume:
+
+$$\begin{aligned}
+\text{Level: } & \ell_t = \alpha \left(\frac{Y_t}{s_{t-m}}\right) + (1-\alpha)(\ell_{t-1} + b_{t-1}) \\
+\text{Trend: } & b_t = \beta (\ell_t - \ell_{t-1}) + (1-\beta) b_{t-1} \\
+\text{Seasonal: } & s_t = \gamma \left(\frac{Y_t}{\ell_t}\right) + (1-\gamma) s_{t-m} \\
+h\text{-step forecast: } & \hat{Y}_{t+h} = (\ell_t + h \cdot b_t) \cdot s_{t+h - m(k+1)}
+\end{aligned}$$
+
+Smoothing parameters \(\alpha, \beta, \gamma \in (0, 1)\) are calibrated via SSE minimization (Solver in Excel models `Holts winter triple exponential method.xlsx`).
 
 ---
 
@@ -191,6 +230,9 @@ One-step forecast \(\hat{Y}_6=\ell_5=\mathbf{138}\).
 | \(\hat{\beta}_0\) | \(\bar{y}-\hat{\beta}_1\bar{x}\) |
 | MA\((m)\) | \(\hat{Y}_{t+1}=\frac{1}{m}\sum_{j=0}^{m-1}Y_{t-j}\) |
 | SES update | \(\ell_t=\alpha Y_t+(1-\alpha)\ell_{t-1}\) |
+| Holt (Trend) | \(\ell_t = \alpha Y_t + (1-\alpha)(\ell_{t-1} + b_{t-1})\); \(b_t = \beta(\ell_t - \ell_{t-1}) + (1-\beta)b_{t-1}\); \(\hat{Y}_{t+h} = \ell_t + h b_t\) |
+| Holt-Winters (Add) | \(\hat{Y}_{t+h} = \ell_t + h b_t + s_{t+h-m(k+1)}\) |
+| Holt-Winters (Mult) | \(\hat{Y}_{t+h} = (\ell_t + h b_t) \cdot s_{t+h-m(k+1)}\) |
 | AR(1) | \(Y_t=\phi Y_{t-1}+\varepsilon_t\) |
 
 ---
