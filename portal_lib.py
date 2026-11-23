@@ -53,21 +53,34 @@ def resolve_lecture_video(course_dir: Path, video_rel: str) -> Path | None:
 
 
 def render_pdf_inline(pdf_path: Path, *, height: int = 780, max_embed_mb: float = 14.0) -> None:
-    """Embed PDF in the app when small enough; otherwise paginated text fallback."""
+    """Show PDF in-app via native Streamlit viewer; legacy iframe/text as fallback."""
+    del max_embed_mb  # kept for call-site compatibility; st.pdf handles large files
     size_mb = pdf_path.stat().st_size / (1024 * 1024)
-    if size_mb <= max_embed_mb:
-        b64 = base64.b64encode(pdf_path.read_bytes()).decode("utf-8")
-        st.markdown(
-            f'<iframe src="data:application/pdf;base64,{b64}" '
-            f'width="100%" height="{height}px" style="border:1px solid #e2e8f0;"></iframe>',
-            unsafe_allow_html=True,
-        )
+    try:
+        st.pdf(pdf_path, height=height)
+        if size_mb >= 12:
+            st.caption(f"{size_mb:.1f} MB — if the viewer is slow, use the download button below.")
         return
-    st.info(f"PDF is {size_mb:.1f} MB — inline preview disabled. Showing outline + download.")
+    except Exception as primary:
+        st.warning(f"PDF viewer unavailable ({primary}). Trying fallback preview.")
+    # Fallback: small PDFs only (base64 iframe); huge files → first-page text
+    if size_mb <= 14.0:
+        try:
+            b64 = base64.b64encode(pdf_path.read_bytes()).decode("utf-8")
+            st.markdown(
+                f'<iframe src="data:application/pdf;base64,{b64}" '
+                f'width="100%" height="{height}px" style="border:1px solid #e2e8f0;"></iframe>',
+                unsafe_allow_html=True,
+            )
+            return
+        except Exception:
+            pass
+    st.info(f"PDF is {size_mb:.1f} MB — showing text outline only. Use download for full file.")
     try:
         from pypdf import PdfReader
+
         reader = PdfReader(str(pdf_path))
-        st.caption(f"{len(reader.pages)} pages — extract first page text:")
+        st.caption(f"{len(reader.pages)} pages — first page text:")
         if reader.pages:
             st.text(reader.pages[0].extract_text() or "(no extractable text)")
     except Exception as e:
