@@ -226,3 +226,21 @@ print("Reconstruction Error:", np.linalg.norm(X - X_rec))
 1. **Forgetting to Center Data**: Computing $S = \frac{1}{N-1} X^\top X$ without subtracting the mean vector $\mu$ yields uncentered raw second moments, completely distorting the principal axes. Always center the data first!
 2. **Normalizing Principal Components**: Eigenvectors must always be normalized to unit Euclidean length ($\|u_i\|_2 = 1$). Writing $u_1 = [1, 2]^\top$ without dividing by $\sqrt{5}$ will lose marks on BITS examinations.
 3. **Divisor $N-1$ vs $N$**: In BITS hand numericals, $N-1$ is the standard textbook sample covariance formula. Always specify which divisor you are using.
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 15 (2026-11-14).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261114_103156-Meeting Recording.mp4`.
+- **Official Annotated Decks**: `PCA_annotated1.pdf`, `PCA_Companion_Lecture13_AIMLCZC416_1.pdf`. Companion: Prof. Saurabh (`Lecture_13.pdf`), Prof. Upendar Mendu.
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **The Maximum Variance vs. Minimum Error Duality**: Prof. Mandar Datar proves that finding orthogonal axes that maximize projected data variance is mathematically equivalent to minimizing the mean squared reconstruction error.
+2. **Mean-Centering Requirement**: Prof. Datar emphasizes: *"If data is not mean-centered ($X_c = X - \mathbf{1}\bar{x}^T$), the first principal component will simply capture the vector offset from the origin to the center of mass, rather than the direction of maximal intrinsic spread."*
+3. **Covariance Matrix Eigenvalues**: The sample covariance matrix $S = \frac{1}{N} X_c^T X_c$ is symmetric positive semi-definite ($S \succeq 0$). The projected variance along unit vector $u$ is $u^T S u = \lambda$. Hence, sorting eigenvalues $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_D$ gives the principal components in order of informational significance.
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Sample Covariance Divisor**: In BITS exam problems (e.g., EC-3 Makeup Q5), pay careful attention to whether population covariance ($1/N$) or sample covariance ($1/(N-1)$) is specified. In EC-3M Q5, $N=3$ uses $1/N$ with centered points yielding integer-fraction eigenvalues $\lambda_1 = 10/3, \lambda_2 = 0$.
+- **Unit Norm Constraint**: Principal directions $u_i$ must have unit Euclidean norm: $\|u_i\|_2 = 1$. Unnormalized eigenvectors lose credit.

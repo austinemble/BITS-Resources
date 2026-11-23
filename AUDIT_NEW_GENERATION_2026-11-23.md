@@ -7,18 +7,21 @@
 
 ## Executive Verdict
 
-| Course | Modules | QA Bank | Phase 2 Books | Header Standard | Portal Map | Exam Readiness |
-| :--- | :---: | :---: | :---: | :---: | :---: | :---: |
-| **ML** (ZG565) | 11 ✅ | 58 Q ✅ | ✅ | ✅ `**Syllabus module**` | ✅ 0 broken links | **Comprehensive-Ready** |
-| **DNN** (ZG511) | 12 ✅ | 50 Q ✅ | ✅ | ✅ `**Syllabus module**` | ✅ 0 broken links | **Comprehensive-Ready** |
-| **Stats** (ZC418) | 6 ✅ | 50 Q ✅ | ✅ Real T1 PDF in `Books/` | ✅ `**Syllabus module**` | ✅ 0 broken links | **Comprehensive-Ready** |
-| **MFML** (ZC416) | 14 ✅ | 50 Q ✅ | ✅ T1, R1, R2 in `Books/` | ✅ `**Syllabus module**` | ✅ 0 broken links | **Comprehensive-Ready** |
+| Course | Modules | QA Bank | Phase 2 Books | Header Standard | Lecture / Transcript Ground | Portal Map | Exam Readiness |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **ML** (ZG565) | 11 ✅ | 58 Q ✅ | ✅ | ✅ `**Syllabus module**` | ✅ Strong (Sharon/Pritee + webinars) | ✅ 0 broken links | **Comprehensive-Ready** |
+| **DNN** (ZG511) | 12 ✅ | 50 Q ✅ | ✅ | ✅ `**Syllabus module**` | ✅ Strong (Shakshi + Mithun numerics) | ✅ 0 broken links | **Comprehensive-Ready** |
+| **Stats** (ZC418) | 6 ✅ | 50 Q ✅ | ✅ Real T1 PDF in `Books/` | ✅ `**Syllabus module**` | ✅ Strong (Krishna CS 1–7 + CS 8–15 decks) | ✅ 0 broken links | **Comprehensive-Ready** |
+| **MFML** (ZC416) | 14 ✅ | 50 Q ✅ | ✅ T1, R1, R2 in `Books/` | ✅ `**Syllabus module**` | ✅ **All 14 modules cite Prof. Mandar Datar CS 1–16** | ✅ 0 broken links | **Comprehensive-Ready** |
 
 ---
 
 ## Summary of Audit Fixes Applied
 
 ### 1. Mathematical Foundations for Machine Learning (MFML / AIML ZC416)
+- **Live Faculty Transcripts & Classroom Insights**:
+  - Enriched every single module (M01 to M14) with a dedicated Section (`## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)`).
+  - Explicitly cited primary lecture recordings (`MFML_Mandar Datar_*.mp4`, `.md`), session dates, annotated decks, core whiteboard proofs, and mandatory BITS examination marking rubric rules.
 - **Portal Wiring (`module_map.yaml`)**:
   - Replaced legacy `file:` tag with `descriptive_note:` so Streamlit Tab 2 immediately renders all 14 descriptive modules.
   - Wired companion lecture slide decks from `Inbox/Prof. Mandar Datar/Annotated Slides/` and `Inbox/Prof. Saurabh/Lecture_Slides/`.

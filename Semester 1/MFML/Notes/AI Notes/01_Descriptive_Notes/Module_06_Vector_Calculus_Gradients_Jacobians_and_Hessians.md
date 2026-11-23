@@ -204,3 +204,25 @@ print("Numerical Hessian at (2, 0):\n", np.round(numerical_hessian(g, x_eval), 4
 1. **Jacobian vs Gradient Orientation**: If $f: \mathbb{R}^n \to \mathbb{R}$, $\nabla f(x)$ is a column vector $n \times 1$, whereas the Jacobian $J_f(x)$ is a row vector $1 \times n$. Be careful when mixing gradient and Jacobian notation in multivariable chain rules.
 2. **Inconclusive Second Derivative Test**: Whenever $\det(H) = 0$, you must explicitly state that the test is **inconclusive** and state *why* (zero eigenvalue; degenerate critical point). Do not guess local minimum or maximum.
 3. **Linear Form Derivatives**: The derivative of $x^\top A x$ is $(A + A^\top)x$. Only if $A$ is symmetric does this simplify to $2 A x$. If $A$ is asymmetric, omitting $A^\top$ is an immediate grading penalty.
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 10 (2026-10-10).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261010_103148-Meeting Recording.mp4`.
+- **Official Annotated Decks**: `Module1_Calculus.pdf`, `calculus_annotated_notes.pdf`. Companion: Prof. Saurabh (`Lecture_10_Companion.pdf`).
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **Dimensional Layout Conventions**: Prof. Mandar Datar adheres strictly to the **numerator layout (column-gradient convention)**:
+   - For scalar $f: \mathbb{R}^n \to \mathbb{R}$, gradient $\nabla f(x) \in \mathbb{R}^n$ is a column vector pointing in the direction of maximal ascent.
+   - For vector-valued $f: \mathbb{R}^n \to \mathbb{R}^m$, the Jacobian $J_f(x) \in \mathbb{R}^{m \times n}$ has rows corresponding to output components and columns to input variables.
+2. **Quadratic Form Matrix Gradient**: Prof. Datar highlights the classic exam derivation:
+   $$\nabla_x (x^T A x) = (A + A^T)x$$
+   He cautions the class: *"Students frequently write $2Ax$. This is mathematically correct if and only if $A$ is symmetric! If $A$ is asymmetric, writing $2Ax$ results in an immediate deduction of marks."*
+3. **Hessian Curvature Matrix**: The Hessian $H_f(x) \in \mathbb{R}^{n \times n}$ represents second partial derivatives and is symmetric ($H = H^T$) under Clairaut's/Schwarz's theorem for twice continuously differentiable functions.
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Chain Rule Dimensions**: When composing functions $h(x) = g(f(x))$, the Jacobian is the matrix product $J_h(x) = J_g(f(x)) J_f(x)$. Verify compatibility: $(k \times m) \times (m \times n) = (k \times n)$.
+- **Stationary Point Conditions**: Critical points occur strictly where $\nabla f(x^*) = \mathbf{0}$. Testing the Hessian before finding all zero-gradient coordinates loses method marks.

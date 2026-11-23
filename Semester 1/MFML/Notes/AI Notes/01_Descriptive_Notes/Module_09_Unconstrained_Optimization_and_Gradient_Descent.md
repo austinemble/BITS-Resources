@@ -206,3 +206,25 @@ print(f"Is {exact_alpha:.5f} in [{a_opt}, {b_opt}]?: {a_opt <= exact_alpha <= b_
    Swapping these conditions breaks the entire interval reduction.
 2. **Descent Direction Negative Sign**: The descent direction is $d = -\nabla L$. When $\nabla L = [-1, -1]^\top$, $d = [1, 1]^\top$ (positive). Forgetting the minus sign results in walking in the direction of steepest *ascent*.
 3. **Interval Precision**: Always write the exact interval brackets $[a_k, b_k]$ after each iteration so the examiner can award step marks directly.
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 13 (2026-10-31).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261031_103140-Meeting Recording.mp4`.
+- **Official Annotated Decks**: `Annotated Slides/Gradient-Descent-Lecture-10.pdf`, `Lecture_12_Companion_Part1.pdf`. Companion: Prof. Saurabh (`Lecture_12.pdf`), Prof. Michael Alphonse.
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **Descent Direction & Orthogonal Contours**: Prof. Mandar Datar proves that the negative gradient direction $d = -\nabla f(x)$ guarantees descent for sufficiently small step sizes: $\nabla f(x)^T d = -\|\nabla f(x)\|^2 < 0$. Furthermore, the gradient vector is always orthogonal to the tangent plane of the objective function's level curves.
+2. **Closed-Form Step Size for Quadratics**: For convex quadratic $f(x) = \frac{1}{2}x^T A x - b^T x$ ($A \succ 0$), the optimal line search step size is:
+   $$\alpha_k^* = \frac{\|g_k\|_2^2}{g_k^T A g_k} \quad \text{where } g_k = \nabla f(x_k) = A x_k - b$$
+3. **Binary Line Search Algorithm**: In BITS Comprehensive Exam EC-3 Makeup Q3, students are asked to find the learning rate for non-quadratic functions via binary search on $[a, b]$:
+   - Compute midpoint $m = (a + b)/2$.
+   - Evaluate $\phi(m)$ and $\phi(m + \delta)$ where $\delta = 10^{-3}$.
+   - If $\phi(m + \delta) > \phi(m)$, the function is increasing; discard the right half $[m, b]$ and set $b \leftarrow m$. Otherwise, discard left half $[a, m]$ and set $a \leftarrow m$.
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Condition Number Oscillations**: When $\kappa(A) = \lambda_{\max}/\lambda_{\min} \gg 1$, gradient descent zig-zags inefficiently across narrow valleys. Students must state that convergence rate degrades to $\left(\frac{\kappa - 1}{\kappa + 1}\right)^2$.
+- **Step Count Tracking**: Exam questions require exact intermediate values $(w_0^{(1)}, w_1^{(1)})$ and $(w_0^{(2)}, w_1^{(2)})$. Carry 4 decimal places in all intermediate arithmetic.

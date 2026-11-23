@@ -177,3 +177,22 @@ print(f"Spectral Error: {err_2:.4f} (Actual: {np.linalg.norm(A - A_1, 2):.4f})")
 1. **Frobenius Error Formulation**: Remember that the Frobenius error is $\sqrt{\sigma_{k+1}^2 + \dots + \sigma_r^2}$. It is **not** simply $\sigma_{k+1}$ unless there is only one discarded singular value!
 2. **Spectral Error Formulation**: The spectral norm error is **always exactly equal to the single first discarded singular value** $\sigma_{k+1}$.
 3. **Outer Product Order**: When reconstructing $A_k = \sum_{i=1}^k \sigma_i u_i v_i^\top$, make sure the outer product is $u_i v_i^\top$ ($m \times n$). Writing $v_i u_i^\top$ transposes the approximation to $n \times m$.
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 15 (2026-11-14).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261114_103156-Meeting Recording.mp4`.
+- **Official Annotated Decks**: `linear-algebra-optimization-notes.pdf`. Companion: Prof. Saurabh (`Lecture_14.pdf`).
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **The Eckart–Young–Mirsky Optimality**: Prof. Mandar Datar explains that among all possible rank-$k$ matrices in $\mathbb{R}^{m \times n}$, truncated SVD $A_k = \sum_{i=1}^k \sigma_i u_i v_i^T$ is the globally optimal projection under both Spectral ($L_2$) and Frobenius norms.
+2. **Analytical Error Residuals**:
+   $$\|A - A_k\|_2 = \sigma_{k+1} \quad \text{and} \quad \|A - A_k\|_F = \sqrt{\sum_{i=k+1}^r \sigma_i^2}$$
+3. **Data Compression Ratio**: Storing $A \in \mathbb{R}^{m \times n}$ takes $mn$ memory slots. Storing rank-$k$ SVD takes $k(m + n + 1)$ slots. For image compression ($1000 \times 1000$ image, $k=50$), storage collapses from $1,000,000$ to $100,050$ numbers (a $90\%$ savings).
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Rank Identification**: In rank-$k$ approximation questions, ensure $k < \text{rank}(A)$. Setting $k \ge \text{rank}(A)$ yields exact matrix reconstruction with zero approximation error.
+- **Outer Product Summation**: When writing $A_k$, compute each rank-1 outer product $\sigma_i u_i v_i^T$ explicitly before adding them to form the final approximated matrix.

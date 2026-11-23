@@ -204,3 +204,24 @@ print("Reconstruction check:\n", np.round(U @ S @ Vt, 4))
 1. **Ordering of Singular Values**: Singular values **must** be sorted in non-increasing order ($\sigma_1 \ge \sigma_2 \ge \dots$). If you swap $\sigma_1$ and $\sigma_2$, the corresponding columns in $U$ and $V$ will be misaligned, leading to zero marks.
 2. **Dimension of $\Sigma$**: Remember that $\Sigma \in \mathbb{R}^{m \times n}$ has the **exact same shape** as $A$. For $A \in \mathbb{R}^{3 \times 2}$, $\Sigma$ must be $3 \times 2$ (not square $2 \times 2$ or $3 \times 3$).
 3. **Completing Left Singular Vectors**: When $m > n$, you can only compute $n$ left singular vectors via $u_i = \frac{1}{\sigma_i} A v_i$. The remaining $m - n$ columns of $U$ span $\mathcal{N}(A^\top)$ and must be found by Gram-Schmidt or null space solution.
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 9 (2026-10-03).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261003_103042-Meeting Recording.mp4`.
+- **Official Annotated Decks**: `Inbox/Prof. Mandar Datar/Annotated Slides/Decomposition_annotated.pdf`. Companion: Prof. Saurabh (`Lecture_8.pdf`, `Lecture_9_Companion.pdf`).
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **Universality of SVD**: Unlike eigenvalue decomposition which requires square, non-defective matrices, SVD exists for **every** rectangular matrix $A \in \mathbb{R}^{m \times n}$.
+2. **Geometric Factorization Paradigm**: Prof. Mandar Datar breaks SVD into three consecutive geometric transformations:
+   $$A = U \Sigma V^T : \quad \mathbb{R}^n \xrightarrow{V^T \text{ (Rotation)}} \mathbb{R}^n \xrightarrow{\Sigma \text{ (Axis Stretch)}} \mathbb{R}^m \xrightarrow{U \text{ (Rotation)}} \mathbb{R}^m$$
+3. **Phase Synchronization Rule**: Right singular vectors $v_i$ are orthonormal eigenvectors of $A^T A$. Prof. Datar insists that left singular vectors **must** be computed via:
+   $$u_i = \frac{1}{\sigma_i} A v_i$$
+   Independent eigenvector calculation of $A A^T$ can introduce an arbitrary sign flip ($\pm u_i$), causing $U \Sigma V^T = -A$.
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Eigenvalues vs. Singular Values**: Singular values $\sigma_i = \sqrt{\lambda_i(A^T A)}$ are strictly non-negative real numbers arranged in descending order: $\sigma_1 \ge \sigma_2 \ge \dots \ge \sigma_r > 0$. Eigenvalues can be negative or complex.
+- **Compact vs. Full SVD**: If asked for Full SVD of an $m \times n$ matrix ($m \ne n$), you must extend the orthonormal sets $\{u_1, \dots, u_r\}$ and $\{v_1, \dots, v_r\}$ to complete orthonormal bases of $\mathbb{R}^m$ and $\mathbb{R}^n$ using Gram-Schmidt on the respective null spaces.

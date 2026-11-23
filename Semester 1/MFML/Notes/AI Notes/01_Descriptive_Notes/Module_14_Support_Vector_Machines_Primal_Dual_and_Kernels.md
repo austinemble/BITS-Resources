@@ -272,3 +272,27 @@ print("Total Objective Value:", total, "(Expected: 13.0)")
    - $0 < \alpha_i < C \implies$ strictly on the margin boundary ($\xi_i = 0$).
    - $\alpha_i = C \implies$ inside the margin or misclassified ($\xi_i > 0$).
 3. **Kernel Matrix (Gram Matrix) Properties**: A valid kernel function $k(x, z)$ must generate a Symmetric Positive Semidefinite (SPSD) Gram matrix $K_{ij} = k(x_i, x_j)$ for any dataset (Mercer's Condition).
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 16 (2026-11-21).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261121_103646-Meeting Recording.mp4`.
+- **Official Annotated Decks**: `Annotated Slides/SVM_annotated.pdf`, `Lecture_14.pdf`. Companion: Prof. Michael Alphonse (`EC3M_AIMLCZC416.pdf`), Prof. Saurabh (`Lecture_15.pdf`).
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **Geometric Margin & Hyperplane Invariance**: Prof. Mandar Datar proves that scaling $w$ and $b$ arbitrarily changes the functional margin $y_i(w^T x_i + b)$, but leaves the physical distance to the hyperplane invariant: $\gamma_i = \frac{y_i(w^T x_i + b)}{\|w\|_2}$. Fixing the canonical margin to $1$ leads to minimizing $\frac{1}{2}\|w\|_2^2$.
+2. **Slack Variables and Soft-Margin Duality**: For non-separable data, introducing slack $\xi_i \ge 0$ creates the box constraint in the Wolfe Dual:
+   $$0 \le \alpha_i \le C \quad \text{and} \quad \sum_{i=1}^N \alpha_i y_i = 0$$
+   - Support vectors on the margin boundary: $0 < \alpha_i < C, \xi_i = 0$.
+   - Margin violators / misclassified points: $\alpha_i = C, \xi_i > 0$.
+   - Non-support vectors: $\alpha_i = 0, \xi_i = 0$.
+3. **The Mercer Kernel Trick**: Prof. Datar emphasizes that the Wolfe dual objective depends *exclusively* on pairwise dot products $\langle x_i, x_j \rangle$. Replacing $\langle x_i, x_j \rangle$ with a valid Mercer kernel $k(x_i, x_j)$ projects data into an implicit high-dimensional space without ever computing coordinates $\phi(x)$.
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Hinge Loss Unconstrained Form**: In BITS Comprehensive Exam EC-3 Makeup Q6, students must rewrite the soft-margin primal as unconstrained hinge loss:
+  $$\min_{w, b} \frac{1}{2}\|w\|_2^2 + C \sum_{i=1}^N \max(0, 1 - y_i(w^T x_i + b))$$
+  Evaluating hinge loss for given $(w, b, C)$ requires checking each data point individually and applying $\max(0, \dots)$.
+- **Bias Term Recovery**: In the dual formulation, bias $b^*$ must be calculated using a free support vector ($0 < \alpha_k < C$) via $b^* = y_k - \sum_{i \in SV} \alpha_i y_i k(x_i, x_k)$.

@@ -216,3 +216,26 @@ print("df / dx2:", x2.grad, "(Expected: 7.0)")
 1. **Summing Adjoints Across Multiple Paths**: When an input variable feeds into multiple intermediate nodes (e.g., $x_1$ branches into both $a$ and $b$), its partial derivative is the **sum** of contributions along all paths ($\frac{\partial f}{\partial a} \frac{\partial a}{\partial x_1} + \frac{\partial f}{\partial b} \frac{\partial b}{\partial x_1}$). Forgetting one branch loses half the marks.
 2. **Matrix Derivative Transposition**: For $y = W x$, remember $\frac{\partial L}{\partial W} = \bar{y} x^\top$ (outer product $m \times n$). It is **never** $x \bar{y}^\top$ ($n \times m$). Check matrix dimensions religiously.
 3. **Evaluating vs Symbolic Formulation**: When an exam question specifies "evaluate at $(1, 2)$", compute the intermediate numeric value $a(1, 2) = 3$ first to perform the arithmetic rapidly without expanding giant polynomials.
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 11 (2026-10-17).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261017_103001-Meeting Recording.mp4`.
+- **Official Annotated Decks**: `Module2_Calculus.pdf`. Companion: Prof. Saurabh (`Lecture_11_Companion_Part1.pdf`), Prof. Upendar Mendu.
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **The Differentiation Trilemma**: Prof. Mandar Datar contrasts the 3 historical differentiation methods:
+   - *Numerical (Finite Differences)*: Fast to code but plagued by $\mathcal{O}(\epsilon)$ truncation errors and catastrophic floating-point cancellation.
+   - *Symbolic (Computer Algebra)*: Exact, but leads to exponential expression swell on nested deep networks.
+   - *Automatic Differentiation (AD)*: Applies the chain rule algorithmically to elementary operations, yielding exact gradients to machine precision with constant runtime overhead.
+2. **Dual Numbers in Forward Mode**: Evaluating $f(x + \dot{x}\epsilon)$ with nil-potent $\epsilon^2 = 0$ propagates values and derivatives simultaneously:
+   $$(u + \dot{u}\epsilon)(v + \dot{v}\epsilon) = uv + (u\dot{v} + v\dot{u})\epsilon$$
+3. **Adjoint Accumulation in Reverse Mode**: For scalar loss $\mathcal{L}$, the adjoint $\bar{v}_i = \frac{\partial \mathcal{L}}{\partial v_i}$ accumulates sensitivity backwards:
+   $$\bar{v}_i = \sum_{j \in \text{children}(i)} \bar{v}_j \frac{\partial v_j}{\partial v_i}$$
+   This explains why Deep Learning relies on reverse mode: computing $\nabla_w \mathcal{L}$ for millions of parameters costs only $\sim 2\times$ the forward pass.
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Multi-Branch Node Summation**: If intermediate variable $v_i$ feeds into multiple downstream nodes $v_j$ and $v_k$, its adjoint **must** sum both incoming branches: $\bar{v}_i = \bar{v}_j \frac{\partial v_j}{\partial v_i} + \bar{v}_k \frac{\partial v_k}{\partial v_i}$. Omitting multi-branch summation fails BITS Midterm EC-2 Q6.

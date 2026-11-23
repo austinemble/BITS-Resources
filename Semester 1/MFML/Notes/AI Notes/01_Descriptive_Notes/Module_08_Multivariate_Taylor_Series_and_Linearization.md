@@ -205,3 +205,26 @@ print("Local min eigenvalues:", np.linalg.eigvals(H_min))
 1. **Forgetting the $\frac{1}{2}$ in Taylor Expansion**: The quadratic Taylor expansion has coefficient $\frac{1}{2}$ multiplying the Hessian term: $\frac{1}{2} \Delta x^\top H \Delta x$. Forgetting $\frac{1}{2}$ changes the quadratic coefficients by a factor of 2.
 2. **Determinant Negative vs Positive for Saddle Points**: In 2D, if $\det(H) < 0$, the eigenvalues have opposite signs ($\lambda_1 \lambda_2 < 0$), so the point is **immediately a saddle point**. Do not confuse $\det(H) < 0$ with negative definite!
 3. **Negative Definite Requirements**: A $2 \times 2$ matrix is negative definite if and only if $\Delta_1 < 0$ **AND** $\Delta_2 = \det(H) > 0$.
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 12 (2026-10-24).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261024_103206-Meeting Recording.mp4`.
+- **Official Annotated Decks**: `calculus_annotated_notes-II.pdf`. Companion: Prof. Saurabh (`Lecture_11_Companion_Part2.pdf`), Prof. Michael Alphonse.
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **Multivariate Polynomial Approximation**: Prof. Mandar Datar presents the 2nd-order Taylor expansion around point $x_0$:
+   $$f(x_0 + h) = f(x_0) + \nabla f(x_0)^T h + \frac{1}{2} h^T H_f(x_0) h + \mathcal{O}(\|h\|^3)$$
+   Linearization retains the first two terms; quadratic optimization methods (Newton-Raphson) leverage the full quadratic model.
+2. **Definiteness and Curvature**: At stationary points where $\nabla f(x^*) = \mathbf{0}$, the local behavior is completely governed by the quadratic form $h^T H_f(x^*) h$:
+   - $H_f(x^*) \succ 0$ (all eigenvalues $\lambda_i > 0$) $\implies$ Bowl-shaped local minimum.
+   - $H_f(x^*) \prec 0$ (all eigenvalues $\lambda_i < 0$) $\implies$ Dome-shaped local maximum.
+   - Indefinite (eigenvalues of mixed signs) $\implies$ Saddle point (mountain pass geometry).
+3. **Degenerate Hessians**: If $\det(H_f(x^*)) = 0$ with at least one zero eigenvalue, the 2nd-derivative test is inconclusive; higher-order directional derivatives must be examined.
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Symmetric Factor $\frac{1}{2}$**: In the quadratic term $h^T H h$, students often forget the factor $\frac{1}{2}$. This doubles the estimated quadratic growth and invalidates Newton step calculations.
+- **Evaluation Point Centering**: When finding Taylor series of $g(x) = f(x, 1)$ at $x = 1$, expand in powers of $(x - 1)$, not powers of $x$.

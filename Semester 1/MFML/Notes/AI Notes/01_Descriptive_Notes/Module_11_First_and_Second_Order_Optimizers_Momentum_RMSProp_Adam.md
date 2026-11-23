@@ -179,3 +179,25 @@ print("Final w after 2 steps:", np.round(w_opt, 4), "(Expected: [2.24, 2.24])")
 1. **Velocity Sign Convention in Updates**: In the standard formulation $v_{t+1} = \beta v_t + \eta \nabla J(w_t)$, the gradient has a positive sign in $v$, so the parameter update uses **subtraction**: $w_{t+1} = w_t - v_{t+1}$. If you define $v$ with a negative gradient ($v = \beta v - \eta \nabla J$), you must use **addition** ($w = w + v$). Mixing conventions causes divergence.
 2. **Double Negative in $w - (-v)$**: Notice that when $\nabla J$ is negative ($-2$), $v$ is negative ($-0.1$), so subtracting $v$ results in **adding** $0.1$ to $w$ ($2 - (-0.1) = 2.1$). Always check that the parameter is moving in the correct downhill direction toward $(3, 3)$.
 3. **Adam Bias Correction Power $t$**: In Adam, the powers in the denominator are $\beta_1^t$ and $\beta_2^t$, where $t$ is the current step index ($1, 2, \dots$). Do not confuse the step power $t$ with the decay constants.
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 13 (2026-10-31).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261031_103140-Meeting Recording.mp4`.
+- **Official Annotated Decks**: `Annotated Slides/Lecture-11_Notes.pdf`, `Lecture_12_Companion_Part1.pdf`. Companion: Prof. Saurabh (`Lecture_13.pdf`), Prof. Michael Alphonse.
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **The Heavy-Ball Momentum Intuition**: Prof. Mandar Datar explains momentum by drawing a heavy marble rolling down an oscillating ravine. The friction parameter $\beta \in [0.9, 0.99]$ averages opposing gradient oscillations across the canyon walls while accumulating velocity in the persistent downhill direction.
+2. **Nesterov Accelerated Gradient (NAG) Look-Ahead**: NAG computes the gradient not at the current position $w_t$, but at the anticipated position $w_t - \beta v_t$:
+   $$v_{t+1} = \beta v_t + \eta \nabla f(w_t - \beta v_t)$$
+   This provides an adaptive braking mechanism before overshooting local minima.
+3. **Adam Bias-Correction Mechanics**: In CS 13, Prof. Datar derives why raw moments $m_t$ and $v_t$ are biased toward zero in initial iterations ($t=1, 2$):
+   $$\mathbb{E}[m_t] = \mathbb{E}\left[(1-\beta_1)\sum_{i=1}^t \beta_1^{t-i} g_i\right] = g_t (1-\beta_1^t)$$
+   Dividing by $1 - \beta_1^t$ and $1 - \beta_2^t$ is essential to prevent artificially tiny steps at the start of training.
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Velocity Subtraction Sign**: Momentum updates are formulated as $v_{t+1} = \beta v_t + \eta \nabla f(w_t)$ followed by $w_{t+1} = w_t - v_{t+1}$. Adding $v_{t+1}$ instead of subtracting it diverges away from the minimum.
+- **Initial Velocity Vector**: In BITS Comprehensive Exam EC-3 Makeup Q4, initial velocity is given as $v_0 = (0, 0)$. Ensure the momentum term $\beta v_0$ evaluates to $0$ on step 1.

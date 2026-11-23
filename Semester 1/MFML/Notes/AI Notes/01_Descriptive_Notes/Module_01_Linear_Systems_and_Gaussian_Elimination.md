@@ -246,3 +246,26 @@ print("Is Consistent:", consistent)
 2. **Arithmetic Errors in Row Replacement**: When computing $R_i \leftarrow R_i - c R_j$, always double-check the augmented column entry. A single arithmetic error in column $b$ invalidates all back-substitution steps.
 3. **Pivots Must Never Be Zero**: If $a_{kk} = 0$, you **must** perform a row swap with a lower row where $a_{ik} \ne 0$. Never divide by zero.
 4. **Rank Equality is Both Necessary and Sufficient**: A system is consistent if and only if the augmented column contains no pivot.
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 1 (2026-07-25) & CS 2 (2026-08-01).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_1.mp4` (`_1.md`), `MFML_Mandar Datar_2.mp4` (`_2.md`).
+- **Official Annotated Decks**: `Inbox/Prof. Mandar Datar/Annotated Slides/Session-1_new.pdf` (Slides 1–65), `note-lecture-1.pdf`. Companion: Prof. Saurabh (`Lecture_1_Companion.pdf`).
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **Computational Meaning of Linear Systems**: Prof. Mandar Datar emphasizes that matrices must not be viewed merely as static number grids, but as *computational operators* that transform coordinate spaces. The linear system $Ax = b$ represents an affine intersection manifold in $\mathbb{R}^n$.
+2. **The Rouché–Capelli Rank Test**:
+   - $\text{rank}(A) < \text{rank}([A \mid b]) \implies$ Inconsistent ($0 = c$).
+   - $\text{rank}(A) = \text{rank}([A \mid b]) = n \implies$ Unique point solution ($A$ is full column rank).
+   - $\text{rank}(A) = \text{rank}([A \mid b]) = r < n \implies$ Infinitely many solutions with $k = n - r$ degrees of freedom.
+3. **Parametric Vector Decomposition**: Prof. Datar warns that writing parametric scalar formulas ($x_1 = 3 - 2s, x_2 = s$) is incomplete for engineering applications. Solutions **must** be expressed in vector form as:
+   $$x = x_p + \sum_{i=1}^{n-r} c_i v_i = x_p + \text{span}\{v_1, \dots, v_{n-r}\}$$
+   where $x_p$ is a particular solution to the non-homogeneous system and $\{v_i\}$ forms an explicit basis for the nullspace $\mathcal{N}(A)$.
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Zero Pivot Row Swaps**: When reducing augmented matrices, if a pivot entry $a_{kk} = 0$, you must perform an explicit row swap ($R_k \leftrightarrow R_p$). Dividing by zero or skipping pivots immediately voids all downstream row replacement marks.
+- **Arithmetic Verification in Augmented Column**: Evaluation keys check intermediate fractions in column $b$. Always verify each row operation $R_i \leftarrow R_i - c R_j$ against the right-hand constant.

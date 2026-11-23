@@ -210,3 +210,27 @@ print(f"Set {{u1, u2}}: Independent = {ind_2}, Rank = {rank_2} (Dimension = {ran
 1. **Subspace Proof Shortcuts**: On written university exams, simply stating "a span is always a subspace" is insufficient when asked to *prove* it is a subspace. Always show $\mathbf{0} \in W$ and closure under $c x + d y$ explicitly.
 2. **Dimension vs Number of Components**: A subspace in $\mathbb{R}^4$ does **not** have dimension 4; its dimension is the number of basis vectors (here, 2). Do not confuse vector length with subspace dimension!
 3. **Rank-Nullity Verification**: Always cross-check that $\text{rank}(A) + \text{nullity}(A) = \text{number of columns}$. If $A \in \mathbb{R}^{3 \times 3}$ has rank 2, its null space must have dimension exactly $3 - 2 = 1$.
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 3 (2026-08-08) & CS 4 (2026-08-16).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_3.mp4` (`_3.md`), `MFML_Mandar Datar_4.mp4` (`_4.md`).
+- **Official Annotated Decks**: `Inbox/Prof. Mandar Datar/Annotated Slides/Notes-8-8-26.pdf`, `Notes-16-8-26.pdf`. Companion: Prof. Saurabh (`Lecture_3_Companion.pdf`, `Lecture_4_Companion.pdf`).
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **The 2-Step Subspace Test**: Prof. Mandar Datar highlights that students frequently overcomplicate subspace proofs by testing all 8 vector space axioms. A non-empty subset $W \subseteq V$ is a subspace if and only if:
+   - The zero vector is present: $\mathbf{0} \in W$.
+   - It is closed under linear combinations: $\forall u, v \in W$ and $\alpha, \beta \in \mathbb{R}$, $\alpha u + \beta v \in W$.
+2. **Minimal Spanning vs. Maximal Independent Sets**: Prof. Datar presents the two dual definitions of a basis $\mathcal{B}$:
+   - A basis is a *minimal spanning set* of $V$ (removing any vector destroys span).
+   - A basis is a *maximal linearly independent set* in $V$ (adding any vector induces linear dependence).
+3. **The 4 Fundamental Subspaces Geometry**: In CS 4, Prof. Datar sketches the fundamental orthogonality theorem:
+   $$\mathbb{R}^n = \text{Row}(A) \oplus \text{Null}(A) \quad \text{and} \quad \mathbb{R}^m = \text{Col}(A) \oplus \text{Null}(A^T)$$
+   Every vector $x \in \mathbb{R}^n$ can be uniquely decomposed into an orthogonal sum $x = x_r + x_n$ where $x_r \in \text{Row}(A)$ and $x_n \in \text{Null}(A)$.
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Subspace Non-Zero Offsets**: Any subset with a non-zero affine offset (e.g., $W = \{x \in \mathbb{R}^3 : 2x_1 - x_2 + 3x_3 = 4\}$) fails the zero-vector test ($2(0) - (0) + 3(0) = 0 \ne 4$) and is **not** a vector subspace.
+- **Rank-Nullity Dimension Bookkeeping**: On exams, verify $\text{rank}(A) + \text{nullity}(A) = n$ (the number of columns). A common student error is equating the sum to the number of rows $m$.

@@ -180,3 +180,22 @@ eigen_analysis(A)
 1. **Defective Matrices Cannot be Diagonalized**: When an eigenvalue is repeated ($\text{AM} > 1$), check whether $\text{GM} = \text{AM}$. If $\text{GM} < \text{AM}$, the matrix does **not** have a full set of independent eigenvectors and cannot be diagonalized into $P D P^{-1}$.
 2. **Eigenvalues of Upper/Lower Triangular Matrices**: The eigenvalues of any triangular or diagonal matrix are simply the **entries along the main diagonal**. Do not waste time computing full polynomial expansions on triangular matrices!
 3. **Determinant Equals Product of Eigenvalues**: Always check $\det(A) = \prod_{i=1}^n \lambda_i$ and $\text{trace}(A) = \sum_{i=1}^n \lambda_i$ to catch algebraic errors immediately.
+
+---
+
+## 6. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 6.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 7 (2026-09-05) & CS 8 (2026-09-12).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_7.mp4` (`_7.md`), `MFML_Mandar Datar_8.mp4` (`_8.md`).
+- **Official Annotated Decks**: `Inbox/Prof. Mandar Datar/Annotated Slides/Decomposition_annotated.pdf`. Companion: Prof. Saurabh (`Lecture_7_Companion.pdf`, `lecture_8_Companion.pdf`).
+
+### 6.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **Eigen-Decomposition as Axis Uncoupling**: Prof. Mandar Datar explains that matrix multiplication typically rotates and stretches vectors. Eigenvectors are the privileged invariant axes where multiplication acts purely as scalar scaling: $A v = \lambda v$.
+2. **Trace and Determinant Invariance**: Prof. Datar advises students to always use trace and determinant checks to catch calculation mistakes:
+   $$\sum_{i=1}^n \lambda_i = \text{Tr}(A) = \sum_{i=1}^n A_{ii} \quad \text{and} \quad \prod_{i=1}^n \lambda_i = \det(A)$$
+3. **Defective Matrices & Diagonalization Failure**: A matrix is diagonalizable if and only if every eigenvalue has geometric multiplicity equal to its algebraic multiplicity: $GM(\lambda_i) = \dim(\mathcal{N}(A - \lambda_i I)) = AM(\lambda_i)$. Real symmetric matrices are guaranteed to be orthogonally diagonalizable by the Spectral Theorem ($A = Q \Lambda Q^T$).
+
+### 6.3 BITS Examination Traps & Evaluation Directives
+- **Sign Flipping in Eigenspaces**: When solving $(A - \lambda I)v = \mathbf{0}$, scaling the eigenvector by $-1$ or any non-zero scalar is mathematically valid, but keep coordinate components in simplified integers to avoid compounding errors in $P^{-1}$.
+- **Matrix Powers**: Exam questions frequently ask to compute $A^k$ for large $k$ (e.g., $A^{10}$). Do not multiply $A$ iteratively; use $A^k = P D^k P^{-1}$ where $D^k = \text{diag}(\lambda_1^k, \dots, \lambda_n^k)$.

@@ -249,3 +249,29 @@ print("Optimal f(x*):", np.round(res.fun, 4), "(Expected: 9.0)")
 1. **Systematic 4-Case Protocol**: In university written examinations, omitting any of the 4 cases ($\mu_1=\mu_2=0$, $\mu_1>0, \mu_2=0$, $\mu_1=0, \mu_2>0$, $\mu_1>0, \mu_2>0$) results in an immediate loss of marks, even if you find the correct point. Show the contradiction in each discarded case.
 2. **Dual Multiplier Sign Convention**: For minimization problems with $g(x) \le 0$, the multiplier must be non-negative: $\mu \ge 0$. If an algebraic solution yields $\mu < 0$, that point is a local *maximum* or saddle, and must be rejected.
 3. **Quadratic Extraneous Roots**: When solving intersection polynomials (here, $x_1^2 + x_1 - 2 = 0$), always test both roots against the stationarity equations to discard spurious roots like $x_1 = -2$.
+
+---
+
+## 7. Faculty Pedagogy, Lecture Transcripts & Classroom Insights (Prof. Mandar Vijay Datar)
+
+### 7.1 Primary Lecture Alignment
+- **Live Contact Sessions**: CS 14 (2026-11-07) & Webinar (2026-10-13).
+- **Recordings & Transcripts**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar - Webinar-20261013_193116-Meeting Recording.mp4`.
+- **Official Annotated Decks**: `Annotated Slides/constraint-optimization.pdf`, `Problem-KKT.pdf`. Companion: Prof. Saurabh (`Lagrange-KKT-Duality-Practice-Set.pdf`).
+
+### 7.2 Core Classroom Takeaways & Whiteboard Proofs
+1. **The Tangency Condition of Constraints**: Prof. Mandar Datar demonstrates that at an equality-constrained optimum $h(x) = 0$, the gradient of the objective $\nabla f_0(x^*)$ must be collinear with the constraint normal $\nabla h(x^*)$, yielding $\nabla f_0(x^*) + \lambda^* \nabla h(x^*) = \mathbf{0}$.
+2. **Karush–Kuhn–Tucker (KKT) Necessary Conditions**: For general nonlinear program $\min f_0(x)$ s.t. $g_i(x) \le 0, h_j(x) = 0$:
+   - **Stationarity**: $\nabla f_0(x^*) + \sum \mu_i^* \nabla g_i(x^*) + \sum \lambda_j^* \nabla h_j(x^*) = \mathbf{0}$
+   - **Primal Feasibility**: $g_i(x^*) \le 0, h_j(x^*) = 0$
+   - **Dual Feasibility**: $\mu_i^* \ge 0$
+   - **Complementary Slackness**: $\mu_i^* g_i(x^*) = 0$
+3. **Slater's Condition & Strong Duality**: If the objective and inequality constraints are convex, equality constraints are affine, and there exists a strictly feasible point $\tilde{x}$ ($g_i(\tilde{x}) < 0$), Strong Duality holds ($p^* = d^*$, zero duality gap), and KKT conditions become **necessary and sufficient**.
+
+### 7.3 BITS Examination Traps & Evaluation Directives
+- **Exhaustive 4-Case Branching**: On Prof. Mandar Datar's KKT exams, solving only the active case loses 3 marks. You **must explicitly state and test all $2^m$ cases**:
+  - Case 1: Inactive/Inactive ($\mu_1 = 0, \mu_2 = 0$)
+  - Case 2: Inactive/Active ($\mu_1 = 0, \mu_2 > 0$)
+  - Case 3: Active/Inactive ($\mu_1 > 0, \mu_2 = 0$)
+  - Case 4: Active/Active ($\mu_1 > 0, \mu_2 > 0$)
+- **Dual Feasibility Verification**: Discard candidate solutions that yield negative multipliers $\mu_i^* < 0$.
