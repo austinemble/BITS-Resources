@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 12.1–12.4); R2 Boyd & Vandenberghe (*Convex Optimization*, Ch 5)  
-**Primary Faculty**: Prof. Mandar Vijay Datar (`SVM_annotated.pdf`) | **Companion**: Prof. Michael Alphonse (`EC3M_AIMLCZC416.pdf`), Prof. Saurabh  
+**Syllabus module**: **M14** — Classification with Support Vector Machines (SVM) and Kernels (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261121_103646-Meeting Recording.mp4`  
+**Contact sessions** (reference only): Contact Session 16 (Prof. Mandar Vijay Datar). Companion: Prof. Michael Alphonse (`EC3M_AIMLCZC416.pdf`), Prof. Saurabh.
 **Exam Weight**: Very High (Major 7-Marks Problem in Comprehensive Exam EC-3 Makeup Q6)
 
 ---

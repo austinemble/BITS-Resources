@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 4.5); R1 Boyd & Vandenberghe (*VMLS*, Ch 10)  
-**Primary Faculty**: Prof. Mandar Vijay Datar | **Companion**: Prof. Saurabh (`Lecture_9_Companion.pdf`), Prof. Michael Alphonse  
+**Syllabus module**: **M05** — Singular Value Decomposition (SVD) and Spectral Theory (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261003_103042-Meeting Recording.mp4`  
+**Contact sessions** (reference only): Contact Session 9 (Prof. Mandar Vijay Datar). Companion: Prof. Saurabh (`Lecture_9_Companion.pdf`), Prof. Michael Alphonse.
 **Exam Weight**: Very High (Direct 6-Marks Problem in Midterm EC-2 Makeup Q3; foundational for PCA and Low-Rank Approximations)
 
 ---

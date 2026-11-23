@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 3.1–3.8); R1 Boyd & Vandenberghe (*VMLS*, Ch 3)  
-**Primary Faculty**: Prof. Mandar Vijay Datar | **Companion**: Prof. Saurabh (`Lecture_5_Companion.pdf`, `Lecture_6_Companion.pdf`), Prof. Michael Alphonse  
+**Syllabus module**: **M03** — Inner Products, Norms, and Analytic Geometry (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_5.mp4`  
+**Contact sessions** (reference only): Contact Sessions 5–6 (Prof. Mandar Vijay Datar). Companion: Prof. Saurabh (`Lecture_5_Companion.pdf`, `Lecture_6_Companion.pdf`), Prof. Michael Alphonse.
 **Exam Weight**: Very High (Featured in Midterm Regular Q4, Midterm EC-2 Q5, and Comprehensive Exam EC-3 Q2)
 
 ---

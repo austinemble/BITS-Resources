@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 4.1–4.4); R1 Boyd & Vandenberghe (*VMLS*, Ch 7)  
-**Primary Faculty**: Prof. Mandar Vijay Datar | **Companion**: Prof. Saurabh (`Lecture_7_Companion.pdf`, `lecture_8_Companion.pdf`), Prof. Upendar Mendu  
+**Syllabus module**: **M04** — Linear Mappings, Eigenvalues, and Diagonalization (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_7.mp4`  
+**Contact sessions** (reference only): Contact Sessions 7–8 (Prof. Mandar Vijay Datar). Companion: Prof. Saurabh (`Lecture_7_Companion.pdf`, `lecture_8_Companion.pdf`), Prof. Upendar Mendu.
 **Exam Weight**: Very High (Featured in Midterm Regular Q5, Midterm EC-2 Q4, and Comprehensive Exam EC-3 Q1)
 
 ---

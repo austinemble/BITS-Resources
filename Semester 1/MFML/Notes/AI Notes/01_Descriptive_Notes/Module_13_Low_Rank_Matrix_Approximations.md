@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 4.5, Ch 10.4); R1 Boyd & Vandenberghe (*VMLS*, Ch 10)  
-**Primary Faculty**: Prof. Mandar Vijay Datar | **Companion**: Prof. Saurabh (`PCA_Companion_Lecture13_AIMLCZC416_1.pdf`)  
+**Syllabus module**: **M13** — Low-Rank Matrix Approximations and the Eckart-Young Theorem (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261114_103156-Meeting Recording.mp4`  
+**Contact sessions** (reference only): Contact Session 15 (Prof. Mandar Vijay Datar). Companion: Prof. Saurabh (`PCA_Companion_Lecture13_AIMLCZC416_1.pdf`).
 **Exam Weight**: High (Theoretical bridge connecting SVD to PCA, Matrix Factorization, and Latent Semantic Analysis)
 
 ---

@@ -2,8 +2,9 @@
 
 **Course**: AIML ZC418 — Introduction to Statistical Methods  
 **Prescribed References**: T1 Kaptein et al. (mixture models, latent variables); T2 Devore (multivariate normal, likelihood); T3 (optional: regime-switching as mixture-like structure in series)  
-**Primary Teacher**: Prof. G. Krishna Kumari (Lead ISM)  
-**Lecture alignment**: ISM Contact Session **CS-15** (Gaussian mixture model & Expectation–Maximization — syllabus Module 6)
+**Syllabus module**: **M06** — Gaussian Mixture Models and Expectation–Maximization (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_8.mp4`  
+**Contact sessions** (reference only): Contact Session 15 (`ISM_CS-15` GMM/EM).
 
 > **Exam note (Lead Instructor)**: **Closed book** — GMM density form, responsibilities \(\gamma_{ik}\), EM E-step/M-step updates for univariate two-component GMM, link to soft clustering. **Open book** — interpret mixture weights, covariance shapes, convergence, and connection to \(k\)-means / hierarchical clustering.
 

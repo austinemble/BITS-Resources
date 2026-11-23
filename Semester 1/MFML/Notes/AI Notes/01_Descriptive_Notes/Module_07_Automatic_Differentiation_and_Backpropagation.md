@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 5.5–5.6)  
-**Primary Faculty**: Prof. Mandar Vijay Datar | **Companion**: Prof. Saurabh (`Lecture_11_Companion_Part1.pdf`), Prof. Upendar Mendu  
+**Syllabus module**: **M07** — Automatic Differentiation and Backpropagation (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261017_103001-Meeting Recording.mp4`  
+**Contact sessions** (reference only): Contact Session 11 (Prof. Mandar Vijay Datar). Companion: Prof. Saurabh (`Lecture_11_Companion_Part1.pdf`), Prof. Upendar Mendu.
 **Exam Weight**: High (Directly tested in Midterm EC-2 Q6; theoretical foundation of Deep Learning training)
 
 ---

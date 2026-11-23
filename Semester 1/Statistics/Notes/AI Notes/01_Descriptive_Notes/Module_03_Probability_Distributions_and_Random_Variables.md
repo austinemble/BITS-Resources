@@ -2,8 +2,9 @@
 
 **Course**: AIML ZC418 — Introduction to Statistical Methods  
 **Prescribed References**: T1 Kaptein et al. (*Statistics for Data Scientists*, Springer 2022); T2 Devore (*Probability and Statistics for Engineering and the Sciences*, 8th ed.); T3 Brockwell & Davis (time-series supplement where joint/moment ideas recur)  
-**Primary Teacher**: Prof. G. Krishna Kumari (Lead ISM)  
-**Lecture alignment**: ISM Contact Sessions **CS-5 & CS-6** (`ISM_CS-5`, `ISM_CS-6` PPTs — random variables, standard distributions, sampling-related laws)
+**Syllabus module**: **M03** — Probability Distributions and Random Variables (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_5.mp4`  
+**Contact sessions** (reference only): Contact Sessions 5–6 (`ISM_CS-5`, `ISM_CS-6` PPTs — random variables, standard distributions, sampling-related laws).
 
 > **Exam note (Lead Instructor)**: **Mid-semester (closed book)** — memorize PMF/PDF, means, variances, mgf identities, and transformation rules for standard families. **Comprehensive (open book)** — emphasize **model choice**, parameter interpretation, and when each distribution applies to data / ML pipelines.
 

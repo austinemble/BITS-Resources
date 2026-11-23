@@ -2,8 +2,9 @@
 
 **Course**: AIML ZC418 — Introduction to Statistical Methods  
 **Prescribed References**: Kaptein et al. (T1, Ch. 2–3); Devore (T2, Ch. 1–2)  
-**Primary Teacher**: Prof. G. Krishna Kumari — **Contact Session 1–2** (orientation + axioms)  
-**Slides**: `ISM_CS-1_PPT`, `ISM_CS-2` / `S1-26_ISM_CS-2`
+**Syllabus module**: **M01** — Basic Probability & Descriptive Statistics (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_1.mp4`  
+**Contact sessions** (reference only): Contact Sessions 1–2 (orientation + axioms). Annotated deck: `ISM_CS-1_PPT`, `ISM_CS-2`.
 
 > **Exam note (Prof. Krishna Kumari)**: Mid-semester (CS1–8) is **closed book** — memorise five-number summary, IQR outlier rule, and probability axioms. Comprehensive stresses **interpretation** of plots and business context.
 

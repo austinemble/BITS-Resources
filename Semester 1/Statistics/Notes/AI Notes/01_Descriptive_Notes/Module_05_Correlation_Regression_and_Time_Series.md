@@ -2,8 +2,9 @@
 
 **Course**: AIML ZC418 — Introduction to Statistical Methods  
 **Prescribed References**: T1 Kaptein et al.; T2 Devore (correlation & simple regression); **T3 Brockwell & Davis** (*Introduction to Time Series and Forecasting*, 2nd ed. — primary for CS-12–14)  
-**Primary Teacher**: Prof. G. Krishna Kumari (Lead ISM)  
-**Lecture alignment**: ISM Contact Sessions **CS-11 to CS-14** (`ISM_CS-11` correlation/regression; `ISM_CS-12` components & MA/WMA; `ISM_CS-13` AR/ARMA/ARIMA; `ISM_CS-14` SARIMA, VAR family, exponential smoothing)
+**Syllabus module**: **M05** — Correlation, Regression, and Time Series (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_8.mp4`  
+**Contact sessions** (reference only): Contact Sessions 11–14 (`ISM_CS-11` to `ISM_CS-14`).
 
 > **Exam note (Lead Instructor)**: **Closed book** — correlation formula, regression line coefficients, MA/WMA weights, AR(1) and ARIMA \((p,d,q)\) definitions, smoothing level \(\alpha\). **Open book** — diagnose series (trend/seasonality), interpret ACF/PACF, justify model order, evaluate forecasts.
 

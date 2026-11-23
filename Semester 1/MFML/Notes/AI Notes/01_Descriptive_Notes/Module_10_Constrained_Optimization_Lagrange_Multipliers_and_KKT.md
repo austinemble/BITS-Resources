@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 7.3); R2 Boyd & Vandenberghe (*Convex Optimization*, Ch 5)  
-**Primary Faculty**: Prof. Mandar Vijay Datar (`Problem-KKT.pdf`) | **Companion**: Prof. Saurabh (`Lagrange-KKT-Duality-Practice-Set.pdf`)  
+**Syllabus module**: **M10** — Constrained Optimization, Lagrange Multipliers, and KKT Conditions (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar - Webinar-20261013_193116-Meeting Recording.mp4`  
+**Contact sessions** (reference only): Contact Session 14 (Prof. Mandar Vijay Datar). Annotated deck: `constraint-optimization.pdf`, `Problem-KKT.pdf`.
 **Exam Weight**: Very High (Essential for Support Vector Machines, Regularization, and BITS Comprehensive Exams)
 
 ---

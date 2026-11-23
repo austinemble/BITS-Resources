@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 5.7–5.8)  
-**Primary Faculty**: Prof. Mandar Vijay Datar | **Companion**: Prof. Saurabh (`Lecture_11_Companion_Part2.pdf`), Prof. Michael Alphonse  
+**Syllabus module**: **M08** — Multivariate Taylor Series and Linearization (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261024_103206-Meeting Recording.mp4`  
+**Contact sessions** (reference only): Contact Session 12 (Prof. Mandar Vijay Datar). Companion: Prof. Saurabh (`Lecture_11_Companion_Part2.pdf`), Prof. Michael Alphonse.
 **Exam Weight**: Very High (Major 6-Marks Problem in Midterm Regular Q7, Midterm EC-2 Q7, and EC-2 Makeup Q6)
 
 ---

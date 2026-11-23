@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 2.1–2.3); R1 Boyd & Vandenberghe (*VMLS*, Ch 1–2)  
-**Primary Faculty**: Prof. Mandar Vijay Datar (Lead Instructor) | **Companion**: Prof. Saurabh (`Lecture_1_Companion.pdf`, `Lecture_2_Companion.pdf`)  
+**Syllabus module**: **M01** — Systems of Linear Equations and Gaussian Elimination (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_1.mp4`  
+**Contact sessions** (reference only): Contact Sessions 1–2 (Prof. Mandar Vijay Datar). Companion: Prof. Saurabh (`Lecture_1_Companion.pdf`, `Lecture_2_Companion.pdf`).
 **Exam Weight**: High (Appears in Mid-Semester Closed Book Q1 & Q2; fundamental prerequisite for all subsequent modules)
 
 ---

@@ -2,8 +2,9 @@
 
 **Course**: AIML ZC418 — Introduction to Statistical Methods  
 **Prescribed References**: Devore (T2, Ch. 3); Kaptein (T1, Bayesian chapters)  
-**Primary Teacher**: Prof. G. Krishna Kumari — **Contact Sessions 3–4** (`Stats_G.Krishna Kumari_3.md`, `_4.md`)  
-**Slides**: `ISM_CS-3_PPT`, `ISM_CS-4_PPT`
+**Syllabus module**: **M02** — Conditional Probability, Bayes Theorem & Naive Bayes (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_3.mp4`  
+**Contact sessions** (reference only): Contact Sessions 3–4. Annotated deck: `ISM_CS-3_PPT`, `ISM_CS-4_PPT`.
 
 ![Conditional probability — loan defaulter table](../assets/M02_conditional_probability_venn.jpg)
 

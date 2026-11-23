@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 2.4–2.6); R1 Boyd & Vandenberghe (*VMLS*, Ch 5–6)  
-**Primary Faculty**: Prof. Mandar Vijay Datar | **Companion**: Prof. Saurabh (`Lecture_3_Companion.pdf`, `Lecture_4_Companion.pdf`), Prof. Upendar Mendu  
+**Syllabus module**: **M02** — Vector Spaces, Subspaces, and Bases (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_3.mp4`  
+**Contact sessions** (reference only): Contact Sessions 3–4 (Prof. Mandar Vijay Datar). Companion: Prof. Saurabh (`Lecture_3_Companion.pdf`, `Lecture_4_Companion.pdf`), Prof. Upendar Mendu.
 **Exam Weight**: Very High (Appears in Mid-Semester Closed Book Q2 & Q3, and Comprehensive Exam Q1)
 
 ---

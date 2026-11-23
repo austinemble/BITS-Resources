@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 10.1–10.4); R1 Boyd & Vandenberghe (*VMLS*, Ch 10)  
-**Primary Faculty**: Prof. Mandar Vijay Datar | **Companion**: Prof. Saurabh (`PCA_Companion_Lecture13_AIMLCZC416_1.pdf`), Prof. Upendar Mendu  
+**Syllabus module**: **M12** — Principal Component Analysis (PCA) and Dimensionality Reduction (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261114_103156-Meeting Recording.mp4`  
+**Contact sessions** (reference only): Contact Session 15 (Prof. Mandar Vijay Datar). Companion: Prof. Saurabh (`PCA_Companion_Lecture13_AIMLCZC416_1.pdf`), Prof. Upendar Mendu.
 **Exam Weight**: Very High (Major 7-Marks Problem in Comprehensive Exam EC-3 Makeup Q5)
 
 ---

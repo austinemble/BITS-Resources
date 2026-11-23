@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 7.1–7.2); Goodfellow, Bengio & Courville (*Deep Learning*, Ch 8)  
-**Primary Faculty**: Prof. Mandar Vijay Datar | **Companion**: Prof. Saurabh (`Lecture_12_Companion_Part1.pdf`), Prof. Michael Alphonse  
+**Syllabus module**: **M11** — First- and Second-Order Optimizers: Momentum, RMSProp, and Adam (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261031_103140-Meeting Recording.mp4`  
+**Contact sessions** (reference only): Contact Session 13 (Prof. Mandar Vijay Datar). Companion: Prof. Saurabh (`Lecture_12_Companion_Part1.pdf`), Prof. Michael Alphonse.
 **Exam Weight**: High (Direct 4-Marks Step-by-Step Problem in Comprehensive Exam EC-3 Makeup Q4)
 
 ---

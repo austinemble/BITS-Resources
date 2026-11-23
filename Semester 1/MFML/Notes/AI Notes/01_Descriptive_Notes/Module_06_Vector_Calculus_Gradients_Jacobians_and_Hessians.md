@@ -2,7 +2,9 @@
 
 **Course**: AIML ZC416 — Mathematical Foundations for Machine Learning  
 **Prescribed Textbooks**: T1 Deisenroth, Faisal & Ong (*Mathematics for Machine Learning*, Ch 5.1–5.4); R1 Boyd & Vandenberghe (*VMLS*, Appendix A)  
-**Primary Faculty**: Prof. Mandar Vijay Datar | **Companion**: Prof. Saurabh (`Lecture_10_Companion.pdf`), Prof. Michael Alphonse  
+**Syllabus module**: **M06** — Vector Calculus, Gradients, Jacobians, and Hessians (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261010_103148-Meeting Recording.mp4`  
+**Contact sessions** (reference only): Contact Session 10 (Prof. Mandar Vijay Datar). Companion: Prof. Saurabh (`Lecture_10_Companion.pdf`), Prof. Michael Alphonse.
 **Exam Weight**: High (Direct question in Midterm Regular Q6 and EC-2 Makeup Q5; prerequisite for optimization, Taylor expansions, and backpropagation)
 
 ---

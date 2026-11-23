@@ -2,8 +2,9 @@
 
 **Course**: AIML ZC418 — Introduction to Statistical Methods  
 **Prescribed References**: T1 Kaptein et al.; T2 Devore (Chapters on sampling, CI, tests, ANOVA); T3 (secondary for forecast residuals used in model checks)  
-**Primary Teacher**: Prof. G. Krishna Kumari (Lead ISM)  
-**Lecture alignment**: ISM Contact Sessions **CS-7, CS-9, CS-10** (`ISM_CS-7` sampling & CLT; `ISM_CS-9` mean/proportion tests; `ISM_CS-10` MLE & one/two-way ANOVA)
+**Syllabus module**: **M04** — Hypothesis Testing, ANOVA, and Maximum Likelihood (see `Notes/AI Notes/module_map.yaml`)  
+**Canonical video**: `Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_7.mp4`  
+**Contact sessions** (reference only): Contact Sessions 7, 9, 10 (`ISM_CS-7` sampling & CLT; `ISM_CS-9` mean/proportion tests; `ISM_CS-10` MLE & one/two-way ANOVA).
 
 > **Exam note (Lead Instructor)**: **Closed-book mid** — test statistics, critical-value logic, Type I/II error definitions, CLT/CI formulas, ANOVA table template. **Open-book comprehensive** — state \(H_0,H_1\), assumptions, **practical significance**, and interpret \(p\)-values / confidence intervals in context.
 
@@ -128,6 +129,52 @@ Main effects for A and B plus interaction \(A\times B\) when replicated. **Inter
 | Treatment | \(k-1\) | \(SS_{\text{treat}}\) | \(MS_{\text{treat}}\) | \(MS_{\text{treat}}/MS_{\text{error}}\) |
 | Error | \(N-k\) | \(SS_{\text{error}}\) | \(MS_{\text{error}}\) | — |
 | Total | \(N-1\) | \(SS_{\text{total}}\) | — | — |
+
+### 4.4 Solved Worked Numerical Example: One-Way ANOVA Partition (BITS Exam Pattern, ~6 Marks)
+
+**Problem Statement**: Three production lines (Machines A, B, C) produce metal shafts. Independent random samples of \(n=4\) shaft diameters (in mm offset) are measured from each machine:
+- **Machine A**: 8, 10, 12, 10
+- **Machine B**: 12, 11, 14, 15
+- **Machine C**: 14, 16, 15, 15
+
+Test at \(\alpha = 0.05\) whether the mean shaft diameters across the three machines differ significantly. (Given: \(F_{0.05}(2, 9) = 4.26\)).
+
+#### Step 1: Hypotheses
+$$H_0: \mu_A = \mu_B = \mu_C \quad \text{vs.} \quad H_1: \text{At least two means differ}$$
+
+#### Step 2: Sample Totals, Means & Sum of Squares
+- Group counts: \(n_1 = n_2 = n_3 = 4\); Total sample size: \(N = 12\); Number of treatments: \(k = 3\).
+- Group totals:
+  $$T_A = 8+10+12+10 = 40 \implies \bar{x}_A = 10.0$$
+  $$T_B = 12+11+14+15 = 52 \implies \bar{x}_B = 13.0$$
+  $$T_C = 14+16+15+15 = 60 \implies \bar{x}_C = 15.0$$
+- Grand total: \(G = T_A + T_B + T_C = 40 + 52 + 60 = 152\).
+- Grand mean: \(\bar{x}_{\cdot\cdot} = \frac{152}{12} \approx 12.67\).
+- Correction Factor (\(CF\)):
+  $$CF = \frac{G^2}{N} = \frac{152^2}{12} = \frac{23104}{12} = 1925.33$$
+
+#### Step 3: Partitioning Sum of Squares
+1. **Total Sum of Squares (\(SS_{\text{total}}\))**:
+   $$\sum \sum x_{ij}^2 = (64+100+144+100) + (144+121+196+225) + (196+256+225+225) = 408 + 686 + 902 = 1996$$
+   $$SS_{\text{total}} = \sum \sum x_{ij}^2 - CF = 1996 - 1925.33 = 70.67$$
+
+2. **Treatment Sum of Squares (\(SS_{\text{treat}}\) / Between Groups)**:
+   $$SS_{\text{treat}} = \sum_{i=1}^k \frac{T_i^2}{n_i} - CF = \frac{40^2 + 52^2 + 60^2}{4} - 1925.33 = \frac{1600 + 2704 + 3600}{4} - 1925.33 = \frac{7904}{4} - 1925.33 = 1976 - 1925.33 = 50.67$$
+
+3. **Error Sum of Squares (\(SS_{\text{error}}\) / Within Groups)**:
+   $$SS_{\text{error}} = SS_{\text{total}} - SS_{\text{treat}} = 70.67 - 50.67 = 20.00$$
+
+#### Step 4: ANOVA Summary Table
+
+| Source of Variation | Sum of Squares (\(SS\)) | Degrees of Freedom (\(df\)) | Mean Square (\(MS\)) | Computed \(F\)-ratio | Critical Value \(F_{0.05}(2,9)\) |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Between Machines (Treatment)** | 50.67 | \(k - 1 = 2\) | \(MS_{\text{treat}} = \frac{50.67}{2} = 25.335\) | \(\mathbf{F = \frac{25.335}{2.222} = 11.40}\) | **4.26** |
+| **Within Machines (Error)** | 20.00 | \(N - k = 9\) | \(MS_{\text{error}} = \frac{20.00}{9} = 2.222\) | — | — |
+| **Total** | 70.67 | \(N - 1 = 11\) | — | — | — |
+
+#### Step 5: Decision & Statistical Conclusion
+Since \(F_{\text{calc}} = 11.40 > F_{\text{crit}} = 4.26\), we **reject the null hypothesis \(H_0\)** at \(\alpha = 0.05\).
+**Conclusion**: There is statistically significant evidence of a difference in mean shaft diameter among the three machines (Machine C produces significantly thicker shafts than Machine A).
 
 ---
 
