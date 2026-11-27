@@ -1,106 +1,154 @@
-# AIML ZC418 — 6 syllabus modules. Primary stream: Prof. G. Krishna Kumari.
-# Source: CURRICULUM_MAPPING.md. No Videos/ symlinks yet — use chronologically numbered Krishna recordings.
 course_id: stats
 modules:
-  - id: M01
-    title: "Basic Probability & Descriptive Statistics"
-    descriptive_note: "01_Descriptive_Notes/Module_01_Basic_Probability_and_Descriptive_Statistics.md"
-    contact_sessions: [1, 2]
-    lectures:
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_1.mp4"
-        transcript: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_1.md"
-        title: "Orientation, central tendency, probability axioms"
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_2.mp4"
-        transcript: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_2.md"
-        title: "Mutually exclusive vs independent, deck problems"
-    slides:
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-1_PPT.pdf"
-        label: "ISM CS-1"
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-2_PPT.pdf"
-        label: "ISM CS-2"
-
-  - id: M02
-    title: "Conditional Probability, Bayes Theorem & Naive Bayes"
-    descriptive_note: "01_Descriptive_Notes/Module_02_Conditional_Probability_Bayes_and_Naive_Bayes.md"
-    contact_sessions: [3, 4]
-    lectures:
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_3.mp4"
-        transcript: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_3.md"
-        title: "Conditional probability, multiplication rule"
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_4.mp4"
-        transcript: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_4.md"
-        title: "Total probability, Bayes, naive Bayes preview"
-    slides:
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-3_PPT.pdf"
-        label: "ISM CS-3"
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-4_PPT.pdf"
-        label: "ISM CS-4"
-
-  - id: M03
-    title: "Probability Distributions and Random Variables"
-    descriptive_note: "01_Descriptive_Notes/Module_03_Probability_Distributions_and_Random_Variables.md"
-    contact_sessions: [5, 6]
-    lectures:
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_5.mp4"
-        transcript: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_5.md"
-        title: "RV, expectation, discrete/continuous laws"
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_6.mp4"
-        transcript: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_6.md"
-        title: "Bernoulli through normal; sampling distributions"
-    slides:
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-5_PPT.pdf"
-        label: "ISM CS-5"
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-6_PPT.pdf"
-        label: "ISM CS-6"
-
-  - id: M04
-    title: "Hypothesis Testing, ANOVA, and Maximum Likelihood"
-    descriptive_note: "01_Descriptive_Notes/Module_04_Hypothesis_Testing_ANOVA_and_MLE.md"
-    contact_sessions: [7, 9, 10]
-    lectures:
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_7.mp4"
-        transcript: "Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_7.md"
-        title: "CLT, sampling, confidence intervals (CS7)"
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261004_103944-Meeting Recording.mp4"
-        title: "Hypothesis tests — means & proportions (CS9)"
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261011_104947-Meeting Recording.mp4"
-        title: "MLE, one-way / two-way ANOVA (CS10)"
-    slides:
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-7_PPT.pdf"
-        label: "ISM CS-7 — CLT & estimation"
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-9_PPT.pdf"
-        label: "ISM CS-9 — hypothesis testing"
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-10_PPT.pdf"
-        label: "ISM CS-10 — MLE & ANOVA"
-
-  - id: M05
-    title: "Correlation, Regression, and Time Series"
-    descriptive_note: "01_Descriptive_Notes/Module_05_Correlation_Regression_and_Time_Series.md"
-    contact_sessions: [11, 12, 13, 14]
-    lectures:
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261018_103134-Meeting Recording.mp4"
-        title: "Correlation & regression (CS11)"
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261025_103232-Meeting Recording.mp4"
-        title: "Time series components, moving averages (CS12)"
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261101_103141-Meeting Recording.mp4"
-        title: "ARIMA / smoothing (CS13–14 cluster)"
-    slides:
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-11_PPT.pdf"
-        label: "ISM CS-11"
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-12_PPT.pdf"
-        label: "ISM CS-12"
-      - path: "Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-14_PPT.pdf"
-        label: "ISM CS-14 (CS13 deck not exported as standalone PDF in repo)"
-
-  - id: M06
-    title: "Gaussian Mixture Models and Expectation–Maximization"
-    descriptive_note: "01_Descriptive_Notes/Module_06_Gaussian_Mixture_Models_and_EM.md"
-    contact_sessions: [15]
-    lectures:
-      - video: "Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261115_103629-Meeting Recording.mp4"
-        title: "GMM & EM algorithm (CS15)"
-    slides:
-      - path: "Inbox/Prof. Amit Sharma/ISM_CS-13.pdf"
-        label: "ISM CS-13 — GMM & EM"
-      - path: "Inbox/Prof. Mandar Datar/Annotated Slides/ISM_CS-13_PPT.pptx.cleaned.pdf"
-        label: "Annotated CS-13 (alternate export)"
+- id: M01
+  title: Basic Probability & Descriptive Statistics
+  descriptive_note: 01_Descriptive_Notes/Module_01_Basic_Probability_and_Descriptive_Statistics.md
+  contact_sessions:
+  - 1
+  - 2
+  lectures:
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_1.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/540330774c_Stats_G.Krishna_Kumari_1.md
+    title: Orientation, central tendency, probability axioms
+    transcript_inbox: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_1.md
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_2.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/c5b3de5c37_Stats_G.Krishna_Kumari_2.md
+    title: Mutually exclusive vs independent, deck problems
+    transcript_inbox: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_2.md
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/440079d4f7_ISM_CS-1_PPT.pdf
+    label: ISM CS-1
+    path_cloud: Notes/AI Notes/portal_mirror/slides/440079d4f7_ISM_CS-1_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-1_PPT.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/87e48abeac_ISM_CS-2_PPT.pdf
+    label: ISM CS-2
+    path_cloud: Notes/AI Notes/portal_mirror/slides/87e48abeac_ISM_CS-2_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-2_PPT.pdf
+- id: M02
+  title: Conditional Probability, Bayes Theorem & Naive Bayes
+  descriptive_note: 01_Descriptive_Notes/Module_02_Conditional_Probability_Bayes_and_Naive_Bayes.md
+  contact_sessions:
+  - 3
+  - 4
+  lectures:
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_3.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/051f76c1fc_Stats_G.Krishna_Kumari_3.md
+    title: Conditional probability, multiplication rule
+    transcript_inbox: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_3.md
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_4.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/579b41bf0b_Stats_G.Krishna_Kumari_4.md
+    title: Total probability, Bayes, naive Bayes preview
+    transcript_inbox: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_4.md
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/56cddc903d_ISM_CS-3_PPT.pdf
+    label: ISM CS-3
+    path_cloud: Notes/AI Notes/portal_mirror/slides/56cddc903d_ISM_CS-3_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-3_PPT.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/384966203b_ISM_CS-4_PPT.pdf
+    label: ISM CS-4
+    path_cloud: Notes/AI Notes/portal_mirror/slides/384966203b_ISM_CS-4_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-4_PPT.pdf
+- id: M03
+  title: Probability Distributions and Random Variables
+  descriptive_note: 01_Descriptive_Notes/Module_03_Probability_Distributions_and_Random_Variables.md
+  contact_sessions:
+  - 5
+  - 6
+  lectures:
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_5.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/e278dc638b_Stats_G.Krishna_Kumari_5.md
+    title: RV, expectation, discrete/continuous laws
+    transcript_inbox: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_5.md
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_6.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/95788f882a_Stats_G.Krishna_Kumari_6.md
+    title: Bernoulli through normal; sampling distributions
+    transcript_inbox: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_6.md
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/517ff3c36a_ISM_CS-5_PPT.pdf
+    label: ISM CS-5
+    path_cloud: Notes/AI Notes/portal_mirror/slides/517ff3c36a_ISM_CS-5_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-5_PPT.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/bac4179718_ISM_CS-6_PPT.pdf
+    label: ISM CS-6
+    path_cloud: Notes/AI Notes/portal_mirror/slides/bac4179718_ISM_CS-6_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-6_PPT.pdf
+- id: M04
+  title: Hypothesis Testing, ANOVA, and Maximum Likelihood
+  descriptive_note: 01_Descriptive_Notes/Module_04_Hypothesis_Testing_ANOVA_and_MLE.md
+  contact_sessions:
+  - 7
+  - 9
+  - 10
+  lectures:
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_7.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/d2fbb92b83_Stats_G.Krishna_Kumari_7.md
+    title: CLT, sampling, confidence intervals (CS7)
+    transcript_inbox: Inbox/Prof. G.Krishna Kumari/Recordings/Stats_G.Krishna Kumari_7.md
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods
+      (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261004_103944-Meeting Recording.mp4
+    title: Hypothesis tests — means & proportions (CS9)
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods
+      (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261011_104947-Meeting Recording.mp4
+    title: MLE, one-way / two-way ANOVA (CS10)
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/b89efbb82b_ISM_CS-7_PPT.pdf
+    label: ISM CS-7 — CLT & estimation
+    path_cloud: Notes/AI Notes/portal_mirror/slides/b89efbb82b_ISM_CS-7_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-7_PPT.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/9977f3ef2d_ISM_CS-9_PPT.pdf
+    label: ISM CS-9 — hypothesis testing
+    path_cloud: Notes/AI Notes/portal_mirror/slides/9977f3ef2d_ISM_CS-9_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-9_PPT.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/c815c7c177_ISM_CS-10_PPT.pdf
+    label: ISM CS-10 — MLE & ANOVA
+    path_cloud: Notes/AI Notes/portal_mirror/slides/c815c7c177_ISM_CS-10_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-10_PPT.pdf
+- id: M05
+  title: Correlation, Regression, and Time Series
+  descriptive_note: 01_Descriptive_Notes/Module_05_Correlation_Regression_and_Time_Series.md
+  contact_sessions:
+  - 11
+  - 12
+  - 13
+  - 14
+  lectures:
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods
+      (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261018_103134-Meeting Recording.mp4
+    title: Correlation & regression (CS11)
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods
+      (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261025_103232-Meeting Recording.mp4
+    title: Time series components, moving averages (CS12)
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods
+      (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261101_103141-Meeting Recording.mp4
+    title: ARIMA / smoothing (CS13–14 cluster)
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/8490e146ca_ISM_CS-11_PPT.pdf
+    label: ISM CS-11
+    path_cloud: Notes/AI Notes/portal_mirror/slides/8490e146ca_ISM_CS-11_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-11_PPT.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/fe315de74b_ISM_CS-12_PPT.pdf
+    label: ISM CS-12
+    path_cloud: Notes/AI Notes/portal_mirror/slides/fe315de74b_ISM_CS-12_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-12_PPT.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/feceda4a4d_ISM_CS-14_PPT.pdf
+    label: ISM CS-14 (CS13 deck not exported as standalone PDF in repo)
+    path_cloud: Notes/AI Notes/portal_mirror/slides/feceda4a4d_ISM_CS-14_PPT.pdf
+    path_inbox: Inbox/Prof. Tathe Kartik Vilasrao/lecture annotated slides/ISM_CS-14_PPT.pdf
+- id: M06
+  title: Gaussian Mixture Models and Expectation–Maximization
+  descriptive_note: 01_Descriptive_Notes/Module_06_Gaussian_Mixture_Models_and_EM.md
+  contact_sessions:
+  - 15
+  lectures:
+  - video: Inbox/Prof. G.Krishna Kumari/Recordings/Introduction to Statistical Methods
+      (S1-26_AIMLZC418) -  Prof. G.Krishna Kumari-20261115_103629-Meeting Recording.mp4
+    title: GMM & EM algorithm (CS15)
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/c194a42782_ISM_CS-13.pdf
+    label: ISM CS-13 — GMM & EM
+    path_cloud: Notes/AI Notes/portal_mirror/slides/c194a42782_ISM_CS-13.pdf
+    path_inbox: Inbox/Prof. Amit Sharma/ISM_CS-13.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/792506b3e2_ISM_CS-13_PPT.pptx.cleaned.pdf
+    label: Annotated CS-13 (alternate export)
+    path_cloud: Notes/AI Notes/portal_mirror/slides/792506b3e2_ISM_CS-13_PPT.pptx.cleaned.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Annotated Slides/ISM_CS-13_PPT.pptx.cleaned.pdf

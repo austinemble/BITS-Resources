@@ -1,238 +1,340 @@
-# AIML ZC416 — Mathematical Foundations for Machine Learning (14 modules)
-# Primary stream: Prof. Mandar Vijay Datar | Companion stream: Prof. Saurabh
 course_id: mfml
 course:
-  title: "Mathematical Foundations for Machine Learning"
-  code: "AIML ZC416"
-  semester: "Semester 1"
-  lead_instructor: "Prof. Mandar Vijay Datar"
-  companion_instructor: "Prof. Saurabh"
-
+  title: Mathematical Foundations for Machine Learning
+  code: AIML ZC416
+  semester: Semester 1
+  lead_instructor: Prof. Mandar Vijay Datar
+  companion_instructor: Prof. Saurabh
 modules:
-  - id: "M01"
-    title: "Systems of Linear Equations and Gaussian Elimination"
-    descriptive_note: "01_Descriptive_Notes/Module_01_Linear_Systems_and_Gaussian_Elimination.md"
-    contact_sessions: [1, 2]
-    textbook_refs: ["T1 Ch 2.1-2.3", "R1 Ch 1-2"]
-    exam_priority: "High (Midterm & Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_1.mp4"
-        transcript: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_1.md"
-        title: "Systems of Linear Equations, Augmented Matrix, Row Echelon Form"
-      - video: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_2.mp4"
-        transcript: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_2.md"
-        title: "Gaussian Elimination Algorithm, Rouché-Capelli Theorem"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/Annotated Slides/Session-1_new.pdf"
-        label: "Mandar Datar CS1 — Linear Systems & REF"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_1.pdf"
-        label: "Prof. Saurabh — Lecture 1 Deck"
-
-  - id: "M02"
-    title: "Vector Spaces, Subspaces, and Bases"
-    descriptive_note: "01_Descriptive_Notes/Module_02_Vector_Spaces_Subspaces_and_Bases.md"
-    contact_sessions: [3, 4]
-    textbook_refs: ["T1 Ch 2.4-2.6", "R1 Ch 5-6"]
-    exam_priority: "High (Midterm & Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_3.mp4"
-        transcript: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_3.md"
-        title: "Vector Space Axioms, Subspaces, Span, and Closure"
-      - video: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_4.mp4"
-        transcript: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_4.md"
-        title: "Linear Independence, Bases, Dimension, and Rank-Nullity"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/Annotated Slides/Notes-8-8-26.pdf"
-        label: "Mandar Datar CS3–4 — Vector Spaces & Subspaces"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_3.pdf"
-        label: "Prof. Saurabh — Lecture 3 Deck"
-
-  - id: "M03"
-    title: "Inner Products, Norms, and Analytic Geometry"
-    descriptive_note: "01_Descriptive_Notes/Module_03_Inner_Products_Norms_and_Analytic_Geometry.md"
-    contact_sessions: [5, 6]
-    textbook_refs: ["T1 Ch 3.1-3.8", "R1 Ch 3"]
-    exam_priority: "High (Midterm & Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_5.mp4"
-        transcript: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_5.md"
-        title: "Bilinear Forms, SPD Matrices, Matrix Inner Products"
-      - video: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_6.mp4"
-        transcript: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_6.md"
-        title: "Cauchy-Schwarz, Orthogonal Projections, Gram-Schmidt Algorithm"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/Annotated Slides/2026-08-18-Note_Gram-Schmidt.pdf"
-        label: "Mandar Datar CS5–6 — Gram-Schmidt & Inner Products"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_5.pdf"
-        label: "Prof. Saurabh — Lecture 5 Deck"
-
-  - id: "M04"
-    title: "Linear Mappings, Eigenvalues, and Diagonalization"
-    descriptive_note: "01_Descriptive_Notes/Module_04_Eigenvalues_Eigenvectors_and_Diagonalization.md"
-    contact_sessions: [7, 8]
-    textbook_refs: ["T1 Ch 4.1-4.4", "R1 Ch 7"]
-    exam_priority: "Very High (Midterm & Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_7.mp4"
-        transcript: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_7.md"
-        title: "Determinants, Characteristic Polynomial, Eigenvalues & Eigenspaces"
-      - video: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_8.mp4"
-        transcript: "Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_8.md"
-        title: "Diagonalization, Matrix Powers, and Spectral Theorem"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/Annotated Slides/Decomposition_annotated.pdf"
-        label: "Mandar Datar CS7–8 — Eigenvalues & Diagonalization"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_7.pdf"
-        label: "Prof. Saurabh — Lecture 7 Deck"
-
-  - id: "M05"
-    title: "Singular Value Decomposition (SVD) and Spectral Theory"
-    descriptive_note: "01_Descriptive_Notes/Module_05_Singular_Value_Decomposition_and_Spectral_Theory.md"
-    contact_sessions: [9]
-    textbook_refs: ["T1 Ch 4.5", "R1 Ch 10"]
-    exam_priority: "Very High (Midterm & Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261003_103042-Meeting Recording.mp4"
-        title: "SVD Formulation, Left/Right Singular Vectors, Moore-Penrose Inverse"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/Annotated Slides/Decomposition_annotated.pdf"
-        label: "Mandar Datar CS9 — SVD & Spectral Theory"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_8.pdf"
-        label: "Prof. Saurabh — SVD Companion Deck"
-
-  - id: "M06"
-    title: "Vector Calculus, Gradients, Jacobians, and Hessians"
-    descriptive_note: "01_Descriptive_Notes/Module_06_Vector_Calculus_Gradients_Jacobians_and_Hessians.md"
-    contact_sessions: [10]
-    textbook_refs: ["T1 Ch 5.1-5.4"]
-    exam_priority: "High (Midterm & Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261010_103148-Meeting Recording.mp4"
-        title: "Multivariate Differentiation, Gradients, Jacobians & Hessians"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/Module1_Calculus.pdf"
-        label: "Mandar Datar CS10 — Vector Calculus & Matrix Gradients"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_10.pdf"
-        label: "Prof. Saurabh — Vector Calculus Deck"
-
-  - id: "M07"
-    title: "Automatic Differentiation and Backpropagation"
-    descriptive_note: "01_Descriptive_Notes/Module_07_Automatic_Differentiation_and_Backpropagation.md"
-    contact_sessions: [11]
-    textbook_refs: ["T1 Ch 5.5-5.6"]
-    exam_priority: "High (Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261017_103001-Meeting Recording.mp4"
-        title: "Computational Graphs, Forward Mode & Reverse Mode Backprop"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/Module2_Calculus.pdf"
-        label: "Mandar Datar CS11 — Backpropagation & Autodiff"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_11.pdf"
-        label: "Prof. Saurabh — Computational Graphs Deck"
-
-  - id: "M08"
-    title: "Multivariate Taylor Series and Linearization"
-    descriptive_note: "01_Descriptive_Notes/Module_08_Multivariate_Taylor_Series_and_Linearization.md"
-    contact_sessions: [12]
-    textbook_refs: ["T1 Ch 5.7-5.8"]
-    exam_priority: "Medium-High (Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261024_103206-Meeting Recording.mp4"
-        title: "Multivariate Taylor Series, Hessian Curvature, Local Extrema"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/calculus_annotated_notes-II.pdf"
-        label: "Mandar Datar CS12 — Taylor Series & Hessians"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_11.pdf"
-        label: "Prof. Saurabh — Taylor Expansion Companion"
-
-  - id: "M09"
-    title: "Unconstrained Optimization and Gradient Descent"
-    descriptive_note: "01_Descriptive_Notes/Module_09_Unconstrained_Optimization_and_Gradient_Descent.md"
-    contact_sessions: [13]
-    textbook_refs: ["T1 Ch 7.1", "R2 Ch 9"]
-    exam_priority: "High (Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261031_103140-Meeting Recording.mp4"
-        title: "Gradient Descent, Learning Rates, Exact Line Search & Armijo"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/Annotated Slides/Gradient-Descent-Lecture-10.pdf"
-        label: "Mandar Datar CS13 — Gradient Descent & Line Search"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_12.pdf"
-        label: "Prof. Saurabh — Optimization Deck"
-
-  - id: "M10"
-    title: "Constrained Optimization, Lagrange Multipliers, and KKT Conditions"
-    descriptive_note: "01_Descriptive_Notes/Module_10_Constrained_Optimization_Lagrange_Multipliers_and_KKT.md"
-    contact_sessions: [14]
-    textbook_refs: ["T1 Ch 7.2-7.3", "R2 Ch 5"]
-    exam_priority: "Very High (Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar - Webinar-20261013_193116-Meeting Recording.mp4"
-        title: "Constrained Optimization, Lagrange Multipliers, KKT 4-Case Systems"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/Annotated Slides/constraint-optimization.pdf"
-        label: "Mandar Datar CS14 — Constrained Optimization"
-      - path: "Inbox/Prof. Mandar Datar/Read and Practice/Problem-KKT.pdf"
-        label: "Mandar Datar — Official KKT Practice Problem Set"
-
-  - id: "M11"
-    title: "Modern First- and Second-Order Optimizers (Momentum, RMSProp, Adam)"
-    descriptive_note: "01_Descriptive_Notes/Module_11_First_and_Second_Order_Optimizers_Momentum_RMSProp_Adam.md"
-    contact_sessions: [13]
-    textbook_refs: ["T1 Ch 7.1"]
-    exam_priority: "High (Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261031_103140-Meeting Recording.mp4"
-        title: "Momentum, NAG, AdaGrad, RMSProp, and Adam Optimizers"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/Annotated Slides/Lecture-11_Notes.pdf"
-        label: "Mandar Datar CS13 — Modern Optimizers (Adam/Momentum)"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_13.pdf"
-        label: "Prof. Saurabh — Advanced Optimizers Deck"
-
-  - id: "M12"
-    title: "Principal Component Analysis (PCA) and Dimensionality Reduction"
-    descriptive_note: "01_Descriptive_Notes/Module_12_Principal_Component_Analysis_and_Dimensionality_Reduction.md"
-    contact_sessions: [15]
-    textbook_refs: ["T1 Ch 10.1-10.4"]
-    exam_priority: "Very High (Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261114_103156-Meeting Recording.mp4"
-        title: "Principal Component Analysis, Covariance Eigenvalues, PVE"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/PCA_annotated1.pdf"
-        label: "Mandar Datar CS15 — PCA Annotated Derivation"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_13.pdf"
-        label: "Prof. Saurabh — PCA Deck"
-
-  - id: "M13"
-    title: "Low-Rank Matrix Approximations and Eckart-Young-Mirsky Theorem"
-    descriptive_note: "01_Descriptive_Notes/Module_13_Low_Rank_Matrix_Approximations.md"
-    contact_sessions: [15]
-    textbook_refs: ["T1 Ch 10.3", "R1 Ch 10"]
-    exam_priority: "High (Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261114_103156-Meeting Recording.mp4"
-        title: "Truncated SVD, Frobenius Error, Low-Rank Data Compression"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/linear-algebra-optimization-notes.pdf"
-        label: "Mandar Datar CS15 — Low-Rank Matrix Notes"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_14.pdf"
-        label: "Prof. Saurabh — Low-Rank Approximation Deck"
-
-  - id: "M14"
-    title: "Support Vector Machines: Primal, Dual, and Kernel Theory"
-    descriptive_note: "01_Descriptive_Notes/Module_14_Support_Vector_Machines_Primal_Dual_and_Kernels.md"
-    contact_sessions: [16]
-    textbook_refs: ["T1 Ch 12.1-12.4", "R2 Ch 8"]
-    exam_priority: "Very High (Comprehensive)"
-    lectures:
-      - video: "Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261121_103646-Meeting Recording.mp4"
-        title: "Support Vector Machines, Primal/Dual KKT, Slack, Kernel Trick"
-    slides:
-      - path: "Inbox/Prof. Mandar Datar/Annotated Slides/SVM_annotated.pdf"
-        label: "Mandar Datar CS16 — SVM Annotated Theory Deck"
-      - path: "Inbox/Prof. Mandar Datar/Annotated Slides/Lecture_14.pdf"
-        label: "Mandar Datar — Lecture 14 Slides"
-      - path: "Inbox/Prof. Saurabh/Lecture_Slides/Lecture_15.pdf"
-        label: "Prof. Saurabh — Support Vector Machines Deck"
+- id: M01
+  title: Systems of Linear Equations and Gaussian Elimination
+  descriptive_note: 01_Descriptive_Notes/Module_01_Linear_Systems_and_Gaussian_Elimination.md
+  contact_sessions:
+  - 1
+  - 2
+  textbook_refs:
+  - T1 Ch 2.1-2.3
+  - R1 Ch 1-2
+  exam_priority: High (Midterm & Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_1.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/b975ce062d_MFML_Mandar_Datar_1.md
+    title: Systems of Linear Equations, Augmented Matrix, Row Echelon Form
+    transcript_inbox: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_1.md
+  - video: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_2.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/dad29e1be2_MFML_Mandar_Datar_2.md
+    title: Gaussian Elimination Algorithm, Rouché-Capelli Theorem
+    transcript_inbox: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_2.md
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/e26e09aa3b_Session-1_new.pdf
+    label: Mandar Datar CS1 — Linear Systems & REF
+    path_cloud: Notes/AI Notes/portal_mirror/slides/e26e09aa3b_Session-1_new.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Annotated Slides/Session-1_new.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/8d9d37d068_Lecture_1.pdf
+    label: Prof. Saurabh — Lecture 1 Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/8d9d37d068_Lecture_1.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_1.pdf
+- id: M02
+  title: Vector Spaces, Subspaces, and Bases
+  descriptive_note: 01_Descriptive_Notes/Module_02_Vector_Spaces_Subspaces_and_Bases.md
+  contact_sessions:
+  - 3
+  - 4
+  textbook_refs:
+  - T1 Ch 2.4-2.6
+  - R1 Ch 5-6
+  exam_priority: High (Midterm & Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_3.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/ba94fcd6f1_MFML_Mandar_Datar_3.md
+    title: Vector Space Axioms, Subspaces, Span, and Closure
+    transcript_inbox: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_3.md
+  - video: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_4.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/6a82da884f_MFML_Mandar_Datar_4.md
+    title: Linear Independence, Bases, Dimension, and Rank-Nullity
+    transcript_inbox: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_4.md
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/99e2f32d1f_Notes-8-8-26.pdf
+    label: Mandar Datar CS3–4 — Vector Spaces & Subspaces
+    path_cloud: Notes/AI Notes/portal_mirror/slides/99e2f32d1f_Notes-8-8-26.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Annotated Slides/Notes-8-8-26.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/c0b1a4b788_Lecture_3.pdf
+    label: Prof. Saurabh — Lecture 3 Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/c0b1a4b788_Lecture_3.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_3.pdf
+- id: M03
+  title: Inner Products, Norms, and Analytic Geometry
+  descriptive_note: 01_Descriptive_Notes/Module_03_Inner_Products_Norms_and_Analytic_Geometry.md
+  contact_sessions:
+  - 5
+  - 6
+  textbook_refs:
+  - T1 Ch 3.1-3.8
+  - R1 Ch 3
+  exam_priority: High (Midterm & Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_5.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/77b7bc70a9_MFML_Mandar_Datar_5.md
+    title: Bilinear Forms, SPD Matrices, Matrix Inner Products
+    transcript_inbox: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_5.md
+  - video: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_6.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/c2499c9b55_MFML_Mandar_Datar_6.md
+    title: Cauchy-Schwarz, Orthogonal Projections, Gram-Schmidt Algorithm
+    transcript_inbox: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_6.md
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/29f0258145_2026-08-18-Note_Gram-Schmidt.pdf
+    label: Mandar Datar CS5–6 — Gram-Schmidt & Inner Products
+    path_cloud: Notes/AI Notes/portal_mirror/slides/29f0258145_2026-08-18-Note_Gram-Schmidt.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Annotated Slides/2026-08-18-Note_Gram-Schmidt.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/e0e532957a_Lecture_5.pdf
+    label: Prof. Saurabh — Lecture 5 Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/e0e532957a_Lecture_5.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_5.pdf
+- id: M04
+  title: Linear Mappings, Eigenvalues, and Diagonalization
+  descriptive_note: 01_Descriptive_Notes/Module_04_Eigenvalues_Eigenvectors_and_Diagonalization.md
+  contact_sessions:
+  - 7
+  - 8
+  textbook_refs:
+  - T1 Ch 4.1-4.4
+  - R1 Ch 7
+  exam_priority: Very High (Midterm & Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_7.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/804eb03fe8_MFML_Mandar_Datar_7.md
+    title: Determinants, Characteristic Polynomial, Eigenvalues & Eigenspaces
+    transcript_inbox: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_7.md
+  - video: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_8.mp4
+    transcript: Notes/AI Notes/portal_mirror/transcripts/febd55d43a_MFML_Mandar_Datar_8.md
+    title: Diagonalization, Matrix Powers, and Spectral Theorem
+    transcript_inbox: Inbox/Prof. Mandar Datar/Recordings/MFML_Mandar Datar_8.md
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/4d83d0e7f5_Decomposition_annotated.pdf
+    label: Mandar Datar CS7–8 — Eigenvalues & Diagonalization
+    path_cloud: Notes/AI Notes/portal_mirror/slides/4d83d0e7f5_Decomposition_annotated.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Annotated Slides/Decomposition_annotated.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/c9083e9029_Lecture_7.pdf
+    label: Prof. Saurabh — Lecture 7 Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/c9083e9029_Lecture_7.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_7.pdf
+- id: M05
+  title: Singular Value Decomposition (SVD) and Spectral Theory
+  descriptive_note: 01_Descriptive_Notes/Module_05_Singular_Value_Decomposition_and_Spectral_Theory.md
+  contact_sessions:
+  - 9
+  textbook_refs:
+  - T1 Ch 4.5
+  - R1 Ch 10
+  exam_priority: Very High (Midterm & Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine
+      Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261003_103042-Meeting Recording.mp4
+    title: SVD Formulation, Left/Right Singular Vectors, Moore-Penrose Inverse
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/4d83d0e7f5_Decomposition_annotated.pdf
+    label: Mandar Datar CS9 — SVD & Spectral Theory
+    path_cloud: Notes/AI Notes/portal_mirror/slides/4d83d0e7f5_Decomposition_annotated.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Annotated Slides/Decomposition_annotated.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/ffdb8543e7_Lecture_8.pdf
+    label: Prof. Saurabh — SVD Companion Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/ffdb8543e7_Lecture_8.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_8.pdf
+- id: M06
+  title: Vector Calculus, Gradients, Jacobians, and Hessians
+  descriptive_note: 01_Descriptive_Notes/Module_06_Vector_Calculus_Gradients_Jacobians_and_Hessians.md
+  contact_sessions:
+  - 10
+  textbook_refs:
+  - T1 Ch 5.1-5.4
+  exam_priority: High (Midterm & Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine
+      Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261010_103148-Meeting Recording.mp4
+    title: Multivariate Differentiation, Gradients, Jacobians & Hessians
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/c3191f397b_Module1_Calculus.pdf
+    label: Mandar Datar CS10 — Vector Calculus & Matrix Gradients
+    path_cloud: Notes/AI Notes/portal_mirror/slides/c3191f397b_Module1_Calculus.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Module1_Calculus.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/29b53755ae_Lecture_10.pdf
+    label: Prof. Saurabh — Vector Calculus Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/29b53755ae_Lecture_10.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_10.pdf
+- id: M07
+  title: Automatic Differentiation and Backpropagation
+  descriptive_note: 01_Descriptive_Notes/Module_07_Automatic_Differentiation_and_Backpropagation.md
+  contact_sessions:
+  - 11
+  textbook_refs:
+  - T1 Ch 5.5-5.6
+  exam_priority: High (Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine
+      Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261017_103001-Meeting Recording.mp4
+    title: Computational Graphs, Forward Mode & Reverse Mode Backprop
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/d869d1aefe_Module2_Calculus.pdf
+    label: Mandar Datar CS11 — Backpropagation & Autodiff
+    path_cloud: Notes/AI Notes/portal_mirror/slides/d869d1aefe_Module2_Calculus.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Module2_Calculus.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/bff96b3a6b_Lecture_11.pdf
+    label: Prof. Saurabh — Computational Graphs Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/bff96b3a6b_Lecture_11.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_11.pdf
+- id: M08
+  title: Multivariate Taylor Series and Linearization
+  descriptive_note: 01_Descriptive_Notes/Module_08_Multivariate_Taylor_Series_and_Linearization.md
+  contact_sessions:
+  - 12
+  textbook_refs:
+  - T1 Ch 5.7-5.8
+  exam_priority: Medium-High (Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine
+      Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261024_103206-Meeting Recording.mp4
+    title: Multivariate Taylor Series, Hessian Curvature, Local Extrema
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/27bd4724e7_calculus_annotated_notes-II.pdf
+    label: Mandar Datar CS12 — Taylor Series & Hessians
+    path_cloud: Notes/AI Notes/portal_mirror/slides/27bd4724e7_calculus_annotated_notes-II.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/calculus_annotated_notes-II.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/bff96b3a6b_Lecture_11.pdf
+    label: Prof. Saurabh — Taylor Expansion Companion
+    path_cloud: Notes/AI Notes/portal_mirror/slides/bff96b3a6b_Lecture_11.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_11.pdf
+- id: M09
+  title: Unconstrained Optimization and Gradient Descent
+  descriptive_note: 01_Descriptive_Notes/Module_09_Unconstrained_Optimization_and_Gradient_Descent.md
+  contact_sessions:
+  - 13
+  textbook_refs:
+  - T1 Ch 7.1
+  - R2 Ch 9
+  exam_priority: High (Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine
+      Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261031_103140-Meeting Recording.mp4
+    title: Gradient Descent, Learning Rates, Exact Line Search & Armijo
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/6cfdb5733e_Gradient-Descent-Lecture-10.pdf
+    label: Mandar Datar CS13 — Gradient Descent & Line Search
+    path_cloud: Notes/AI Notes/portal_mirror/slides/6cfdb5733e_Gradient-Descent-Lecture-10.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Annotated Slides/Gradient-Descent-Lecture-10.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/7d53deae6f_Lecture_12.pdf
+    label: Prof. Saurabh — Optimization Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/7d53deae6f_Lecture_12.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_12.pdf
+- id: M10
+  title: Constrained Optimization, Lagrange Multipliers, and KKT Conditions
+  descriptive_note: 01_Descriptive_Notes/Module_10_Constrained_Optimization_Lagrange_Multipliers_and_KKT.md
+  contact_sessions:
+  - 14
+  textbook_refs:
+  - T1 Ch 7.2-7.3
+  - R2 Ch 5
+  exam_priority: Very High (Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine
+      Learning (S1-26_AIMLZC416) - Prof. Mandar Datar - Webinar-20261013_193116-Meeting
+      Recording.mp4
+    title: Constrained Optimization, Lagrange Multipliers, KKT 4-Case Systems
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/a5b1378d9b_constraint-optimization.pdf
+    label: Mandar Datar CS14 — Constrained Optimization
+    path_cloud: Notes/AI Notes/portal_mirror/slides/a5b1378d9b_constraint-optimization.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Annotated Slides/constraint-optimization.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/0d62230fd2_Problem-KKT.pdf
+    label: Mandar Datar — Official KKT Practice Problem Set
+    path_cloud: Notes/AI Notes/portal_mirror/slides/0d62230fd2_Problem-KKT.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Read and Practice/Problem-KKT.pdf
+- id: M11
+  title: Modern First- and Second-Order Optimizers (Momentum, RMSProp, Adam)
+  descriptive_note: 01_Descriptive_Notes/Module_11_First_and_Second_Order_Optimizers_Momentum_RMSProp_Adam.md
+  contact_sessions:
+  - 13
+  textbook_refs:
+  - T1 Ch 7.1
+  exam_priority: High (Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine
+      Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261031_103140-Meeting Recording.mp4
+    title: Momentum, NAG, AdaGrad, RMSProp, and Adam Optimizers
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/1d18d11abd_Lecture-11_Notes.pdf
+    label: Mandar Datar CS13 — Modern Optimizers (Adam/Momentum)
+    path_cloud: Notes/AI Notes/portal_mirror/slides/1d18d11abd_Lecture-11_Notes.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Annotated Slides/Lecture-11_Notes.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/acf1c50f46_Lecture_13.pdf
+    label: Prof. Saurabh — Advanced Optimizers Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/acf1c50f46_Lecture_13.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_13.pdf
+- id: M12
+  title: Principal Component Analysis (PCA) and Dimensionality Reduction
+  descriptive_note: 01_Descriptive_Notes/Module_12_Principal_Component_Analysis_and_Dimensionality_Reduction.md
+  contact_sessions:
+  - 15
+  textbook_refs:
+  - T1 Ch 10.1-10.4
+  exam_priority: Very High (Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine
+      Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261114_103156-Meeting Recording.mp4
+    title: Principal Component Analysis, Covariance Eigenvalues, PVE
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/c2d690aca3_PCA_annotated1.pdf
+    label: Mandar Datar CS15 — PCA Annotated Derivation
+    path_cloud: Notes/AI Notes/portal_mirror/slides/c2d690aca3_PCA_annotated1.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/PCA_annotated1.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/acf1c50f46_Lecture_13.pdf
+    label: Prof. Saurabh — PCA Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/acf1c50f46_Lecture_13.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_13.pdf
+- id: M13
+  title: Low-Rank Matrix Approximations and Eckart-Young-Mirsky Theorem
+  descriptive_note: 01_Descriptive_Notes/Module_13_Low_Rank_Matrix_Approximations.md
+  contact_sessions:
+  - 15
+  textbook_refs:
+  - T1 Ch 10.3
+  - R1 Ch 10
+  exam_priority: High (Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine
+      Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261114_103156-Meeting Recording.mp4
+    title: Truncated SVD, Frobenius Error, Low-Rank Data Compression
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/7c05e2f59d_linear-algebra-optimization-notes.pdf
+    label: Mandar Datar CS15 — Low-Rank Matrix Notes
+    path_cloud: Notes/AI Notes/portal_mirror/slides/7c05e2f59d_linear-algebra-optimization-notes.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/linear-algebra-optimization-notes.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/df97a40298_Lecture_14.pdf
+    label: Prof. Saurabh — Low-Rank Approximation Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/df97a40298_Lecture_14.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_14.pdf
+- id: M14
+  title: 'Support Vector Machines: Primal, Dual, and Kernel Theory'
+  descriptive_note: 01_Descriptive_Notes/Module_14_Support_Vector_Machines_Primal_Dual_and_Kernels.md
+  contact_sessions:
+  - 16
+  textbook_refs:
+  - T1 Ch 12.1-12.4
+  - R2 Ch 8
+  exam_priority: Very High (Comprehensive)
+  lectures:
+  - video: Inbox/Prof. Mandar Datar/Recordings/Mathematical Foundations for Machine
+      Learning (S1-26_AIMLZC416) - Prof. Mandar Datar-20261121_103646-Meeting Recording.mp4
+    title: Support Vector Machines, Primal/Dual KKT, Slack, Kernel Trick
+  slides:
+  - path: Notes/AI Notes/portal_mirror/slides/f54acef3ee_SVM_annotated.pdf
+    label: Mandar Datar CS16 — SVM Annotated Theory Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/f54acef3ee_SVM_annotated.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Annotated Slides/SVM_annotated.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/c16880fc86_Lecture_14.pdf
+    label: Mandar Datar — Lecture 14 Slides
+    path_cloud: Notes/AI Notes/portal_mirror/slides/c16880fc86_Lecture_14.pdf
+    path_inbox: Inbox/Prof. Mandar Datar/Annotated Slides/Lecture_14.pdf
+  - path: Notes/AI Notes/portal_mirror/slides/caf89c4600_Lecture_15.pdf
+    label: Prof. Saurabh — Support Vector Machines Deck
+    path_cloud: Notes/AI Notes/portal_mirror/slides/caf89c4600_Lecture_15.pdf
+    path_inbox: Inbox/Prof. Saurabh/Lecture_Slides/Lecture_15.pdf

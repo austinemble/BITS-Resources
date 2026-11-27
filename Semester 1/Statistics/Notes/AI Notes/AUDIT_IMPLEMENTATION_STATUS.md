@@ -1,6 +1,6 @@
 # Audit Implementation Status — AIML ZC418 AI Notes
 
-**Last updated**: 2026-11-19 (pass 1 re-audit)  
+**Last updated**: 2026-11-27 (pass 2 re-audit)  
 **Workflow**: `course-notes-generator` Phases 1–6 (Phase 8 portal deferred)
 
 ## Phases completed
@@ -24,6 +24,11 @@
 | M4 | `Module_04_Hypothesis_Testing_ANOVA_and_MLE.md` | CS7,9–10 |
 | M5 | `Module_05_Correlation_Regression_and_Time_Series.md` | CS11–14, T3 |
 | M6 | `Module_06_Gaussian_Mixture_Models_and_EM.md` | CS15 |
+
+## Pass 2 (2026-11-27)
+
+- `audit_Stats_pass2.md` — headers, ANOVA §4.4, Holt–Winters, Kaptein real PDF.
+- Cross-course: `AUDIT_REPASS_2026-11-27.md`.
 
 ## Pass 1 fixes (2026-11-19)
 
