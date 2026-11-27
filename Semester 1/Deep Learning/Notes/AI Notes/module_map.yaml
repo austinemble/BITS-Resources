@@ -170,3 +170,5 @@ modules:
         label: "DNN M10 — optimizers"
       - path: "Notes/Lecture Slides & Companions/DNN_M11_Regularisation (1)_261010_111237.pdf"
         label: "DNN M11 — regularization"
+      - path: "Inbox/Prof. Shakshi Sharma/Shakshi Sharma_annotated ppts/DNN_M11_Regularisation (1)_annotated.pdf"
+        label: "DNN M11 — regularization (Prof. Shakshi annotated)"

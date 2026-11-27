@@ -115,6 +115,28 @@ Given an activation vector $\mathbf{x} \in \mathbb{R}^D$ for a single sample:
 3. **Scale and Shift (Learnable Parameters $\boldsymbol{\gamma}, \boldsymbol{\beta} \in \mathbb{R}^D$)**:
    $$\mathbf{y} = \boldsymbol{\gamma} \odot \hat{\mathbf{x}} + \boldsymbol{\beta}$$
 
+### 5.3 Regularization Taxonomy & Parameter Initialization (`DNN_M11_Regularisation`)
+From Prof. Shakshi Sharma's annotated deck (`DNN_M11_Regularisation (1)_annotated.pdf`):
+- **Explicit Regularization**:
+  - *Parameter Penalties*: $L_2$ Weight Decay ($\lambda \|\mathbf{W}\|_F^2$, smooth shrinkage) vs $L_1$ Lasso ($\lambda \|\mathbf{W}\|_1$, induces sparsity).
+  - *Structural*: Dropout, SpatialDropout, DropBlock.
+- **Implicit Regularization**: Early Stopping (monitoring validation loss minimum), Data Augmentation, Batch/Layer Normalization.
+- **Weight Initialization (Combating Vanishing/Exploding Gradients)**:
+  - *Xavier / Glorot* ($\mathrm{Var}(W) = \frac{2}{n_{\text{in}} + n_{\text{out}}}$): Optimal for symmetric activations ($\tanh$, sigmoid).
+  - *He / Kaiming* ($\mathrm{Var}(W) = \frac{2}{n_{\text{in}}}$): Compensates for zeroing half the activations in ReLU.
+
+### 5.4 Architecture-Specific Regularization
+| Architecture | Specialized Regularization Techniques | Key Mechanism |
+| :--- | :--- | :--- |
+| **CNNs** | **DropBlock**, **SpatialDropout**, **Cutout**, **Mixup / CutMix** | Standard pixel-wise Dropout fails due to high spatial correlation in feature maps; DropBlock drops contiguous spatial regions. |
+| **RNNs** | **Variational Dropout**, **Gradient Clipping** | Variational Dropout applies the **exact same** dropout mask across all time steps $t=1\dots T$; gradient clipping caps $\|\mathbf{g}\|_2 \le \tau$ to stop exploding gradients. |
+| **Transformers** | **Attention Dropout**, **Positional Dropout**, **Path / Layer Dropout** | Randomly drops attention weights after Softmax or skips entire residual blocks (Stochastic Depth). |
+
+### 5.5 Regularization Interactions & Common Implementation Pitfalls
+- **Positive Synergies**: BatchNorm + Weight Decay; Data Augmentation + Dropout; $L_2$ + Early Stopping.
+- **Potential Conflicts**: Combining **BatchNorm + Dropout** in the same block can cause *variance shift* between training and inference (if used together, place Dropout *after* BatchNorm and activation, or rely on BN + Weight Decay alone).
+- **Canonical Layer Ordering**: Always use `Linear/Conv -> BatchNorm -> Activation` (never `BN -> Conv -> Activation`). Always call `model.eval()` at inference to disable Dropout and freeze BN running statistics.
+
 ---
 
 ## 6. Summary Checklist for Examination
@@ -128,3 +150,4 @@ Given an activation vector $\mathbf{x} \in \mathbb{R}^D$ for a single sample:
 - [x] Inverted Dropout scaling by $\frac{1}{1-p}$ and ensemble interpretation.
 - [x] Five-point comparative analysis between Batch Normalization and Layer Normalization (Exam Q53).
 - [x] Mathematical equations for LayerNorm: mean, variance, normalization, and affine parameters $(\boldsymbol{\gamma}, \boldsymbol{\beta})$.
+- [x] Regularization taxonomy, Xavier vs He initialization, architecture-specific regularization (DropBlock, Variational Dropout, Attention Dropout), and BN+Dropout pitfalls (`DNN_M11_Regularisation`).
